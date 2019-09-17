@@ -1,5 +1,5 @@
 {
-  "name": "@arrows/multimethod",
+  "name": "@arrows/dispatch",
   "version": "0.1.0",
   "main": "lib/index.js",
   "license": "ISC",
@@ -13,9 +13,5 @@
     "jest": "^24.9.0",
     "ts-jest": "^24.1.0",
     "typescript": "^3.6.3"
-  },
-  "dependencies": {
-    "@arrows/composition": "^0.1.0",
-    "deep-strict-equal": "^0.2.0"
   }
 }

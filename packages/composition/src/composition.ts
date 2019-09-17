@@ -1,4 +1,4 @@
-import { reduce, reduceRight } from '../array'
+import { reduce, reduceRight } from '@arrows/array'
 import { ChainFactory, ChainFunctions } from './types'
 
 const wrapSync = (fn) => (input) => {

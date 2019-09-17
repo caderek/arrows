@@ -1,5 +1,5 @@
 import * as equal from 'deep-strict-equal'
-import { pipe } from '../composition'
+import { pipe } from '@arrows/composition'
 
 const multimethodKey = Symbol ? Symbol('multimethod') : 'multimethod'
 

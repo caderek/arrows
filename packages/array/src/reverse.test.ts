@@ -1,0 +1,12 @@
+import reverse from './reverse'
+
+describe('Array reverse', () => {
+  it('provides functional wrapper for Array.prototype.reverse', () => {
+    const arr = [1, 2, 3]
+
+    const result = reverse(arr)
+    const expected = arr.reverse()
+
+    expect(result).toEqual(expected)
+  })
+})

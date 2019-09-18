@@ -1,6 +1,6 @@
 {
   "name": "@arrows/array",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "main": "lib/index.js",
   "license": "ISC",
   "scripts": {
@@ -10,6 +10,7 @@
   },
   "devDependencies": {
     "@types/jest": "^24.0.18",
+    "core-js": "^3.2.1",
     "jest": "^24.9.0",
     "ts-jest": "^24.1.0",
     "typescript": "^3.6.3"

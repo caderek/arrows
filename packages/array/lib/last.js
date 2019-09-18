@@ -1,4 +1,4 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const sort = (fn) => (arr) => arr.map(fn);
-exports.default = sort;
+const last = (arr) => arr[arr.length - 1];
+exports.default = last;

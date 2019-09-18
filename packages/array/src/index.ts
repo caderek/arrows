@@ -1,3 +1,4 @@
+import butLast from './butLast'
 import clear from './clear'
 import concat from './concat'
 import filter from './filter'
@@ -32,6 +33,7 @@ import zipAll from './zipAll'
 import zipWith from './zipWith'
 
 export {
+  butLast,
   clear,
   concat,
   filter,
@@ -67,6 +69,7 @@ export {
 }
 
 export default {
+  butLast,
   clear,
   concat,
   filter,

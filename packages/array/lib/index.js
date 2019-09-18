@@ -1,5 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const butLast_1 = require("./butLast");
+exports.butLast = butLast_1.default;
 const clear_1 = require("./clear");
 exports.clear = clear_1.default;
 const concat_1 = require("./concat");
@@ -65,6 +67,7 @@ exports.zipAll = zipAll_1.default;
 const zipWith_1 = require("./zipWith");
 exports.zipWith = zipWith_1.default;
 exports.default = {
+    butLast: butLast_1.default,
     clear: clear_1.default,
     concat: concat_1.default,
     filter: filter_1.default,

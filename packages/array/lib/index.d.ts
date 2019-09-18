@@ -1,3 +1,4 @@
+import butLast from './butLast';
 import clear from './clear';
 import concat from './concat';
 import filter from './filter';
@@ -30,8 +31,9 @@ import update from './update';
 import zip from './zip';
 import zipAll from './zipAll';
 import zipWith from './zipWith';
-export { clear, concat, filter, filterNot, first, flat, flatMap, get, groupBy, has, includes, insert, last, map, pop, push, reduce, reduceRight, remove, rest, reverse, set, setSize, shift, size, sort, sortBy, unshift, update, zip, zipAll, zipWith, };
+export { butLast, clear, concat, filter, filterNot, first, flat, flatMap, get, groupBy, has, includes, insert, last, map, pop, push, reduce, reduceRight, remove, rest, reverse, set, setSize, shift, size, sort, sortBy, unshift, update, zip, zipAll, zipWith, };
 declare const _default: {
+    butLast: (arr: any[]) => any[];
     clear: (arr: any) => any[];
     concat: (value: any) => (arr: any[]) => any[];
     filter: (fn: (element: any, index: number, array: any[]) => boolean) => (arr: any[]) => any[];

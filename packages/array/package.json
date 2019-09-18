@@ -1,8 +1,19 @@
 {
   "name": "@arrows/array",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "main": "lib/index.js",
   "license": "ISC",
+  "repository": "https://github.com/caderek/arrows/tree/master/packages/array",
+  "homepage": "https://github.com/caderek/arrows/tree/master/packages/array",
+  "description": "Functional tools for JS arrays",
+  "keywords": [
+    "arrows",
+    "functional",
+    "fp",
+    "array",
+    "utils"
+  ],
+  "author": "Maciej Cąderek",
   "scripts": {
     "build": "tsc",
     "test": "jest",

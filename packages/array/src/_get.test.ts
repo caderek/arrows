@@ -1,0 +1,13 @@
+import _get from './_get'
+
+describe('Array getX', () => {
+  it('returns element on provided index', () => {
+    const arr = [1, 2, 3, 4]
+    const index = 2
+
+    const result = _get(index)(arr)
+    const expected = arr[index]
+
+    expect(result).toEqual(expected)
+  })
+})

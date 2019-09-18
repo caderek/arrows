@@ -1,105 +1,105 @@
-import butLast from './butLast'
-import clear from './clear'
+import _butLast from './_butLast'
+import _clear from './_clear'
+import _filterNot from './_filterNot'
+import _first from './_first'
+import _get from './_get'
+import _groupBy from './_groupBy'
+import _has from './_has'
+import _insert from './_insert'
+import _last from './_last'
+import _remove from './_remove'
+import _rest from './_rest'
+import _set from './_set'
+import _setSize from './_setSize'
+import _size from './_size'
+import _sortBy from './_sortBy'
+import _update from './_update'
+import _zip from './_zip'
+import _zipAll from './_zipAll'
+import _zipWith from './_zipWith'
 import concat from './concat'
 import filter from './filter'
-import filterNot from './filterNot'
-import first from './first'
 import flat from './flat'
 import flatMap from './flatMap'
-import get from './get'
-import groupBy from './groupBy'
-import has from './has'
 import includes from './includes'
-import insert from './insert'
-import last from './last'
 import map from './map'
 import pop from './pop'
 import push from './push'
 import reduce from './reduce'
 import reduceRight from './reduceRight'
-import remove from './remove'
-import rest from './rest'
 import reverse from './reverse'
-import set from './set'
-import setSize from './setSize'
 import shift from './shift'
-import size from './size'
 import sort from './sort'
-import sortBy from './sortBy'
 import unshift from './unshift'
-import update from './update'
-import zip from './zip'
-import zipAll from './zipAll'
-import zipWith from './zipWith'
 
 export {
-  butLast,
-  clear,
+  _butLast,
+  _clear,
+  _filterNot,
+  _first,
+  _get,
+  _groupBy,
+  _has,
+  _insert,
+  _last,
+  _remove,
+  _rest,
+  _set,
+  _setSize,
+  _size,
+  _sortBy,
+  _update,
+  _zip,
+  _zipAll,
+  _zipWith,
   concat,
   filter,
-  filterNot,
-  first,
   flat,
   flatMap,
-  get,
-  groupBy,
-  has,
   includes,
-  insert,
-  last,
   map,
   pop,
   push,
   reduce,
   reduceRight,
-  remove,
-  rest,
   reverse,
-  set,
-  setSize,
   shift,
-  size,
   sort,
-  sortBy,
   unshift,
-  update,
-  zip,
-  zipAll,
-  zipWith,
 }
 
 export default {
-  butLast,
-  clear,
+  _butLast,
+  _clear,
+  _filterNot,
+  _first,
+  _get,
+  _groupBy,
+  _has,
+  _insert,
+  _last,
+  _remove,
+  _rest,
+  _set,
+  _setSize,
+  _size,
+  _sortBy,
+  _update,
+  _zip,
+  _zipAll,
+  _zipWith,
   concat,
   filter,
-  filterNot,
-  first,
   flat,
   flatMap,
-  get,
-  groupBy,
-  has,
   includes,
-  insert,
-  last,
   map,
   pop,
   push,
   reduce,
   reduceRight,
-  remove,
-  rest,
   reverse,
-  set,
-  setSize,
   shift,
-  size,
   sort,
-  sortBy,
   unshift,
-  update,
-  zip,
-  zipAll,
-  zipWith,
 }

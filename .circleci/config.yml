@@ -18,7 +18,11 @@ jobs:
 
     steps:
       - checkout
-
+      # Run a step to setup an environment variable.
+      - run:
+          name: "Setup custom environment variables"
+          command: |
+            echo 'export CODECOV_TOKEN="ddabdc1f-efec-4177-975f-555f2024549e"' >> $BASH_ENV # Redirect MY_ENV_VAR into $BASH_ENV
       # Download and cache dependencies
       - restore_cache:
           keys:
@@ -36,3 +40,4 @@ jobs:
 
       # run tests!
       - run: yarn test
+      - run: yarn coverage

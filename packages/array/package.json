@@ -17,10 +17,12 @@
   "scripts": {
     "build": "tsc",
     "test": "jest",
+    "coverage": "jest --coverage && codecov -F array",
     "prepublish": "yarn build"
   },
   "devDependencies": {
     "@types/jest": "^24.0.18",
+    "codecov": "^3.6.0",
     "core-js": "^3.2.1",
     "jest": "^24.9.0",
     "ts-jest": "^24.1.0",

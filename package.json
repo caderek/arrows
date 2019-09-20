@@ -3,7 +3,8 @@
   "private": true,
   "scripts": {
     "boot": "lerna bootstrap",
-    "test": "lerna run test"
+    "test": "lerna run test",
+    "coverage": "lerna run coverage"
   },
   "devDependencies": {
     "@types/jest": "^24.0.18",

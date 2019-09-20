@@ -2,6 +2,7 @@
   "name": "root",
   "private": true,
   "scripts": {
+    "boot": "lerna bootstrap",
     "test": "lerna run test"
   },
   "devDependencies": {

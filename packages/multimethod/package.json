@@ -1,8 +1,20 @@
 {
   "name": "@arrows/multimethod",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "main": "lib/index.js",
   "license": "ISC",
+  "repository": "https://github.com/caderek/arrows/tree/master/packages/multimethod",
+  "homepage": "https://github.com/caderek/arrows/tree/master/packages/multimethod",
+  "description": "Functional multimethod library",
+  "keywords": [
+    "arrows",
+    "functional",
+    "fp",
+    "multimethod",
+    "multimethods",
+    "multiple dispatch"
+  ],
+  "author": "Maciej Cąderek",
   "scripts": {
     "build": "tsc",
     "test": "jest",
@@ -11,6 +23,7 @@
   "devDependencies": {
     "@types/jest": "^24.0.18",
     "jest": "^24.9.0",
+    "ramda.curry": "^0.26.1",
     "ts-jest": "^24.1.0",
     "typescript": "^3.6.3"
   },

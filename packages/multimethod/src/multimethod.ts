@@ -1,9 +1,28 @@
 import * as equal from 'deep-strict-equal'
 import { pipe } from '@arrows/composition'
 
-const multimethodKey = Symbol ? Symbol('multimethod') : 'multimethod'
+const multimethodKey = Symbol('multimethod')
 
-const countSegments = (dispatch) => {
+type Dispatch = (...args: any[]) => any
+type MethodEntries = [any, any][]
+type DefaultMethod = (arg0: any, arg1?: any) => any
+type Internals = {
+  methodEntries: MethodEntries
+  defaultMethod: DefaultMethod
+  dispatch: Dispatch
+}
+type Multimethod = {
+  (...args: any[]): any
+  [multimethodKey]: Internals
+}
+type Method = (
+  arg0: any,
+  arg1?: any,
+) => (multimethod: Multimethod) => Multimethod
+
+type CountSegments = (dispatch: Dispatch) => number
+
+const countSegments: CountSegments = (dispatch) => {
   let count = 1
   let current = dispatch
 
@@ -22,8 +41,18 @@ const countSegments = (dispatch) => {
   return count
 }
 
-const createSimpleTarget = (methodEntries, defaultMethod, dispatch) => {
-  return (...args) => {
+type CreateSimpleTarget = (
+  methodEntries: MethodEntries,
+  defaultMethod: DefaultMethod,
+  dispatch: Dispatch,
+) => Dispatch
+
+const createSimpleTarget: CreateSimpleTarget = (
+  methodEntries,
+  defaultMethod,
+  dispatch,
+) => {
+  const fn = (...args) => {
     let currentDispatchValue = dispatch(...args)
 
     const entry = methodEntries.find(([dispatchValue]) =>
@@ -42,9 +71,20 @@ const createSimpleTarget = (methodEntries, defaultMethod, dispatch) => {
 
     return target(...args)
   }
+
+  Object.defineProperty(fn, 'length', { value: dispatch.length })
+
+  return fn
 }
 
-const createSegmentedTarget = (
+type CreateSegmentedTarget = (
+  methodEntries: MethodEntries,
+  defaultMethod: DefaultMethod,
+  dispatch: Dispatch,
+  segmentsCount: number,
+) => Dispatch
+
+const createSegmentedTarget: CreateSegmentedTarget = (
   methodEntries,
   defaultMethod,
   dispatch,
@@ -86,18 +126,27 @@ const createSegmentedTarget = (
       }
     }
 
-    return (...args) => {
+    const fn = (...args) => {
       return recur(counter - 1, [...previousSegmentsArgs, args])
     }
+
+    Object.defineProperty(fn, 'length', { value: dispatch.length })
+
+    return fn
   }
 
   return recur(segmentsCount)
 }
 
-const createMultimethod = (methodEntries = []) => (defaultMethod = null) => (
-  dispatch,
-  ...methods
-) => {
+type CreateMultimethod = (
+  methodEntries?: MethodEntries,
+) => (
+  defaultMethod?: DefaultMethod,
+) => (dispatch: Dispatch, ...methods: Method[]) => Multimethod
+
+const createMultimethod: CreateMultimethod = (methodEntries = []) => (
+  defaultMethod = null,
+) => (dispatch, ...methods) => {
   const segmentsCount = countSegments(dispatch)
 
   const resultFn =
@@ -123,9 +172,10 @@ const createMultimethod = (methodEntries = []) => (defaultMethod = null) => (
   return resultFn
 }
 
-const multi = createMultimethod()()
+type Multi = (dispatch: Dispatch, ...methods: Method[]) => Multimethod
+const multi: Multi = createMultimethod()()
 
-const method = (...args) => (multimethod) => {
+const method: Method = (...args) => (multimethod) => {
   if (!multimethod[multimethodKey]) {
     throw new Error('Function is not a multimethod')
   }
@@ -138,11 +188,14 @@ const method = (...args) => (multimethod) => {
   const { methodEntries, defaultMethod, dispatch } = multimethod[multimethodKey]
 
   if (isNotDefault) {
-    const newMethodEntries = [[dispatchValues, fn], ...methodEntries]
+    const newMethodEntries: MethodEntries = [
+      [dispatchValues, fn],
+      ...methodEntries,
+    ]
     return createMultimethod(newMethodEntries)(defaultMethod)(dispatch)
   }
 
   return createMultimethod(methodEntries)(fn)(dispatch)
 }
 
-export { multi, method }
+export { multi, method, multimethodKey }

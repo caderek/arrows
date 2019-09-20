@@ -37,6 +37,9 @@ const chain: ChainFactory = (reducingFn, wrappingFn = null) => (...fns) => (
     : reducingFn((arg: any, fn: Function) => fn(arg), initialArg)(fns)
 }
 
+// @todo Implement this
+const gather = (...fns) => (initialArg) => {}
+
 const compose: ChainFunctions = chain(reduceRight)
 const pipe: ChainFunctions = chain(reduce)
 const rail: ChainFunctions = chain(reduce, wrap)

@@ -27,7 +27,7 @@ jobs:
             - v1-dependencies-
 
       - run: yarn install
-      - run: yarn run boot
+      - run: yarn boot
 
       - save_cache:
           paths:

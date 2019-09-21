@@ -7,7 +7,7 @@ jobs:
   build:
     docker:
       - image: circleci/node:10.16.0
-    working_directory: ~/repo/packages/array
+    working_directory: ~/repo
     steps:
       - checkout:
           path: ~/repo
@@ -16,6 +16,8 @@ jobs:
           name: "Setup custom environment variables"
           command: |
             echo 'export CODECOV_TOKEN="ddabdc1f-efec-4177-975f-555f2024549e"' >> $BASH_ENV # Redirect MY_ENV_VAR into $BASH_ENV
+
+      - run: cd ./packages/array
 
       - restore_cache:
           keys:

@@ -17,7 +17,8 @@ jobs:
     working_directory: ~/repo/packages/array
 
     steps:
-      - checkout
+      - checkout:
+          path: ~/repo
       # Run a step to setup an environment variable.
       - run:
           name: "Setup custom environment variables"

@@ -10,14 +10,12 @@ jobs:
     working_directory: ~/repo
     steps:
       - checkout:
-          path: ~/repo
+          path: ~/repo/packages/array
 
       - run:
           name: "Setup custom environment variables"
           command: |
             echo 'export CODECOV_TOKEN="ddabdc1f-efec-4177-975f-555f2024549e"' >> $BASH_ENV # Redirect MY_ENV_VAR into $BASH_ENV
-
-      - run: cd ./packages/array
 
       - restore_cache:
           keys:

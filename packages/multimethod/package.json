@@ -1,6 +1,6 @@
 {
   "name": "@arrows/multimethod",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "main": "lib/index.js",
   "license": "ISC",
   "repository": "https://github.com/caderek/arrows/tree/master/packages/multimethod",
@@ -12,7 +12,10 @@
     "fp",
     "multimethod",
     "multimethods",
-    "multiple dispatch"
+    "multiple dispatch",
+    "dynamic dispatch",
+    "polymorphic",
+    "function"
   ],
   "author": "Maciej Cąderek",
   "scripts": {

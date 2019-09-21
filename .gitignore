@@ -4,3 +4,5 @@ coverage
 .history
 */**/*.temp.*
 *.temp.*
+*.log.*
+*.log

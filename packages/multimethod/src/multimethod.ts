@@ -2,9 +2,11 @@ import * as equal from 'deep-strict-equal'
 import { pipe } from '@arrows/composition'
 
 const multimethodKey = Symbol('multimethod')
+const methodKey = Symbol('method')
 
 type Dispatch = (...args: any[]) => any
-type MethodEntries = [any, any][]
+type MethodEntry = [any, any]
+type MethodEntries = MethodEntry[]
 type DefaultMethod = (arg0: any, arg1?: any) => any
 type Internals = {
   methodEntries: MethodEntries
@@ -19,6 +21,7 @@ type Method = (
   arg0: any,
   arg1?: any,
 ) => (multimethod: Multimethod) => Multimethod
+type Multi = (arg0?: Dispatch | Method, ...methods: Method[]) => Multimethod
 
 type CountSegments = (dispatch: Dispatch) => number
 
@@ -55,12 +58,20 @@ const createSimpleTarget: CreateSimpleTarget = (
   const fn = (...args) => {
     let currentDispatchValue = dispatch(...args)
 
-    const entry = methodEntries.find(([dispatchValue]) =>
-      equal(dispatchValue, currentDispatchValue),
-    )
+    const entry = methodEntries.find(([dispatchValue]) => {
+      // @todo optimize this by preselecting if this check if needed,
+      // when multimethod is created
+      // @todo use dep strict equal only when needed
+      return typeof dispatchValue === 'function'
+        ? dispatchValue(currentDispatchValue)
+        : equal(dispatchValue, currentDispatchValue)
+    })
 
     const target = entry ? entry[1] : defaultMethod
 
+    // @todo optimize this by preselecting if this check if needed,
+    // when multimethod is created
+    // @todo refactor into function
     if (!entry && target === null) {
       throw new Error('No method specified for provided arguments')
     }
@@ -138,15 +149,45 @@ const createSegmentedTarget: CreateSegmentedTarget = (
   return recur(segmentsCount)
 }
 
+const validateFirstArg = (arg) => {
+  if (typeof arg !== 'function' && arg !== undefined) {
+    throw new Error(
+      'First argument of multi must be either dispatch function or partially applied method',
+    )
+  }
+}
+
+const validateOtherArgs = (args) => {
+  args.forEach((item) => {
+    if (typeof item !== 'function' || item[methodKey] !== true) {
+      throw new Error(
+        'Second or further argument of multi must be a partially applied method',
+      )
+    }
+  })
+}
+
+type IsDispatchProvided = (fn: Function) => boolean
+
+const isDispatchProvided: IsDispatchProvided = (item) =>
+  typeof item === 'function' && !item[methodKey] === true
+
 type CreateMultimethod = (
   methodEntries?: MethodEntries,
-) => (
-  defaultMethod?: DefaultMethod,
-) => (dispatch: Dispatch, ...methods: Method[]) => Multimethod
+) => (defaultMethod?: DefaultMethod) => Multi
 
 const createMultimethod: CreateMultimethod = (methodEntries = []) => (
   defaultMethod = null,
-) => (dispatch, ...methods) => {
+) => (...args) => {
+  const [first, ...rest] = args
+
+  validateFirstArg(first)
+  validateOtherArgs(rest)
+
+  const haveDispatchFn = isDispatchProvided(first)
+  const dispatch = haveDispatchFn ? first : (x) => x
+  const methods = haveDispatchFn ? rest : args
+
   const segmentsCount = countSegments(dispatch)
 
   const resultFn =
@@ -172,30 +213,58 @@ const createMultimethod: CreateMultimethod = (methodEntries = []) => (
   return resultFn
 }
 
-type Multi = (dispatch: Dispatch, ...methods: Method[]) => Multimethod
+type AddEntry = (
+  methodEntries: MethodEntries,
+  newMethodEntry: MethodEntry,
+) => MethodEntries
+
+const addEntry: AddEntry = (methodEntries, newMethodEntry) => {
+  const index = methodEntries.findIndex((entry) =>
+    equal(entry[0], newMethodEntry[0]),
+  )
+
+  if (index === -1) {
+    return [...methodEntries, newMethodEntry]
+  }
+
+  const newMethodEntries = [...methodEntries]
+  newMethodEntries[index] = newMethodEntry
+
+  return newMethodEntries
+}
+
 const multi: Multi = createMultimethod()()
 
-const method: Method = (...args) => (multimethod) => {
-  if (!multimethod[multimethodKey]) {
-    throw new Error('Function is not a multimethod')
-  }
+const method: Method = (...args) => {
+  const partialMethod = (multimethod) => {
+    if (!multimethod[multimethodKey]) {
+      throw new Error('Function is not a multimethod')
+    }
 
-  const [first, second] = args
-  const isNotDefault = second !== undefined
-  const fn = isNotDefault ? second : first
-  const dispatchValues = isNotDefault ? first : null
+    const [first, second] = args
+    const isNotDefault = second !== undefined
+    const fn = isNotDefault ? second : first
+    const dispatchValues = isNotDefault ? first : null
 
-  const { methodEntries, defaultMethod, dispatch } = multimethod[multimethodKey]
-
-  if (isNotDefault) {
-    const newMethodEntries: MethodEntries = [
-      [dispatchValues, fn],
-      ...methodEntries,
+    const { methodEntries, defaultMethod, dispatch } = multimethod[
+      multimethodKey
     ]
-    return createMultimethod(newMethodEntries)(defaultMethod)(dispatch)
+
+    if (isNotDefault) {
+      const newMethodEntries: MethodEntries = addEntry(methodEntries, [
+        dispatchValues,
+        fn,
+      ])
+
+      return createMultimethod(newMethodEntries)(defaultMethod)(dispatch)
+    }
+
+    return createMultimethod(methodEntries)(fn)(dispatch)
   }
 
-  return createMultimethod(methodEntries)(fn)(dispatch)
+  partialMethod[methodKey] = true
+
+  return partialMethod
 }
 
 export { multi, method, multimethodKey }

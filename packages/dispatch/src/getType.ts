@@ -1,17 +1,3 @@
-const getType = (val) => {
-  if (Array.isArray(val)) {
-    return 'array'
-  }
-
-  if (val === null) {
-    return 'null'
-  }
-
-  if (val instanceof RegExp) {
-    return 'regexp'
-  }
-
-  return typeof val
-}
+const getType = (val) => Object.prototype.toString.call(val).slice(8, -1)
 
 export default getType

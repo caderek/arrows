@@ -1,11 +1,12 @@
 {
   "name": "@arrows/dispatch",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "main": "lib/index.js",
   "license": "ISC",
   "scripts": {
     "build": "tsc",
     "test": "jest",
+    "coverage": "jest --coverage && codecov -F dispatch",
     "prepublish": "yarn build"
   },
   "devDependencies": {

@@ -1,10 +1,15 @@
-import { compose, pipe, rail, railSync } from './composition'
+import chain from './chain'
+import compose from './compose'
+import pipe from './pipe'
+import rail from './rail'
+import railSync from './railSync'
 
-export { compose, pipe, rail, railSync }
+export { chain, compose, pipe, rail, railSync }
 
 export default {
+  chain,
   compose,
   pipe,
-  rail,
+  rail: rail,
   railSync,
 }

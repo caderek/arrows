@@ -1,15 +1,17 @@
 const types = {
-  array: 'array',
-  object: 'object',
-  function: 'function',
-  string: 'string',
-  number: 'number',
-  bigint: 'bigint',
-  symbol: 'symbol',
-  regexp: 'regexp',
-  null: 'null',
-  undefined: 'undefined',
-  boolean: 'boolean',
+  Array: 'Array',
+  BigInt: 'BigInt',
+  Boolean: 'Boolean',
+  Error: 'Error',
+  Function: 'Function',
+  Null: 'Null',
+  Number: 'Number',
+  Object: 'Object',
+  Promise: 'Promise',
+  RegExp: 'RegExp',
+  String: 'String',
+  Symbol: 'Symbol',
+  Undefined: 'Undefined',
 }
 
 export default types

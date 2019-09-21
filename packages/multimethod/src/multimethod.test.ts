@@ -2,6 +2,19 @@ import { multi, method } from './multimethod'
 import * as curry from 'ramda.curry'
 
 describe('multi', () => {
+  describe('executed without any arguments', () => {
+    it('creates multimethod that throws error: no matching method', () => {
+      const fn = multi()
+      expect(fn).toThrowError('No method specified for provided arguments')
+    })
+
+    it('sets default dispatcher as identity function', () => {
+      const fn = multi()
+      const fnWithMethod = method('hello', 'world')(fn)
+      expect(fnWithMethod('hello')).toEqual('world')
+    })
+  })
+
   describe('executed with dispatch function only', () => {
     it('creates multimethod that throws error: no matching method', () => {
       const fn = multi(() => true)
@@ -35,6 +48,48 @@ describe('multi', () => {
 
       expect(results).toEqual(expected)
     })
+  })
+
+  describe('executed with list of methods only', () => {
+    it('creates multimethod that executes matching method using identity', () => {
+      const spellNumber = multi(
+        method(0, (x) => 'zero'),
+        method(1, (x) => 'one'),
+        method(2, (x) => 'two'),
+        method((x) => 'other number'),
+      )
+
+      const results = [
+        spellNumber(0),
+        spellNumber(1),
+        spellNumber(2),
+        spellNumber(7),
+      ]
+
+      const expected = ['zero', 'one', 'two', 'other number']
+
+      expect(results).toEqual(expected)
+    })
+  })
+
+  describe('throws readable error when first argument is nether dispatch function nor partial method', () => {
+    const createIncorrectMultimethod = () => {
+      // @ts-ignore
+      multi('oops')
+    }
+    expect(createIncorrectMultimethod).toThrowError(
+      'First argument of multi must be either dispatch function or partially applied method',
+    )
+  })
+
+  describe('throws readable error when other arguments are not partial methods', () => {
+    const createIncorrectMultimethod = () => {
+      // @ts-ignore
+      multi((x) => x, 'oops')
+    }
+    expect(createIncorrectMultimethod).toThrowError(
+      'Second or further argument of multi must be a partially applied method',
+    )
   })
 })
 
@@ -170,5 +225,15 @@ describe('multimethod', () => {
 
     expect(multimethod({ foo: 1, bar: '2' })).toEqual('first')
     expect(multimethod({ foo: 1, bar: 2 })).toEqual('second')
+  })
+
+  it('is dispatch value is a function, executes that function with the return of dispatch function', () => {
+    const multimethod = multi(
+      method((x) => x === 1, 'one'),
+      method((x) => x === 2, 'two'),
+    )
+
+    expect(multimethod(1)).toEqual('one')
+    expect(multimethod(2)).toEqual('two')
   })
 })

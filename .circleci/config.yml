@@ -4,10 +4,10 @@
 #
 version: 2
 jobs:
-  build:
+  build-array:
     docker:
       - image: circleci/node:10.16.0
-    working_directory: ~/repo
+    working_directory: ~/repo/packages/array
     steps:
       - checkout:
           path: ~/repo
@@ -32,3 +32,8 @@ jobs:
 
       - run: yarn test
       - run: yarn coverage
+workflows:
+  version: 2
+  build:
+    jobs:
+      - build-array

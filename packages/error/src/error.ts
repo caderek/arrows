@@ -11,13 +11,13 @@ const create = ({ name, defaultMessage = '' }) => {
 }
 
 const toJSON = (error) => {
-  return {
+  return JSON.stringify({
     error: {
       name: error.name,
       message: error.message,
       stacktrace: error.stack,
     },
-  }
+  })
 }
 
 export default {

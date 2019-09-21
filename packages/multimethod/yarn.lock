@@ -2,17 +2,17 @@
 # yarn lockfile v1
 
 
-"@arrows/array@^0.4.0":
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@arrows/array/-/array-0.4.0.tgz#cb36726ca796141443fc5b3a2c5739fabdb3ff60"
-  integrity sha512-HenraE92X12+7Q4oNXcA0DAD8D3zliJNRMfQQMvQc5Btl4RxjWfHTe/vsyLBDNJjBveDb8v2ESaQqnfh0Az7fA==
+"@arrows/array@^0.4.1":
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/@arrows/array/-/array-0.4.1.tgz#e78e28cc63cb68d6a17ffeaf949ab9e52a7566ac"
+  integrity sha512-LGVazf37ohDhLy74+ZQK3rDe+rIe1osXuLq6raE3kXWtTIWoG6ZypYVgPuKFB2ZCobemRhFQVbmnr1tNcf1Ukg==
 
-"@arrows/composition@^0.2.0":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@arrows/composition/-/composition-0.2.0.tgz#11c4fc6ab204c97fe6c79d1d8394831eca411ea3"
-  integrity sha512-RheDym2PPY5WBVgbKjeEv0MSBgq4RZQJzK0smikBcREwT2uFjQ8jlTqa9LDwQJ/u5vjFXYd/UkFuBueNqZb4KQ==
+"@arrows/composition@^0.2.1":
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/@arrows/composition/-/composition-0.2.1.tgz#4693333c01c7bf0f6bb507e590547ee7ecf0763d"
+  integrity sha512-43FsRcesON9d+tLQsvM5Ac5ZIhqjsIaj1/1tXnPbQqf7X7est7vlKA7+pGSdxIZdmO/X0WJWtpHutzRH769xxw==
   dependencies:
-    "@arrows/array" "^0.4.0"
+    "@arrows/array" "^0.4.1"
 
 "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.5.5":
   version "7.5.5"
@@ -776,10 +776,10 @@ code-point-at@^1.0.0:
   resolved "https://registry.yarnpkg.com/code-point-at/-/code-point-at-1.1.0.tgz#0d070b4d043a5bea33a2f1a40e2edb3d9a4ccf77"
   integrity sha1-DQcLTQQ6W+ozovGkDi7bPZpMz3c=
 
-codecov@^3.6.0:
-  version "3.6.0"
-  resolved "https://registry.yarnpkg.com/codecov/-/codecov-3.6.0.tgz#6915561b7064c064e30a588ea23c1384b14d744b"
-  integrity sha512-d9SEDdgEZ1PDXLY52itsk5pMmxVbqmT4+8OCzmZOHUUOxWpmnPK2Fgz35yYUipT8QqkrDRihIvIJKjRynUdk4g==
+codecov@^3.6.1:
+  version "3.6.1"
+  resolved "https://registry.yarnpkg.com/codecov/-/codecov-3.6.1.tgz#f39fc49413445555f81f8e3ca5730992843b4517"
+  integrity sha512-IUJB6WG47nWK7o50etF8jBadxdMw7DmoQg05yIljstXFBGB6clOZsIj6iD4P82T2YaIU3qq+FFu8K9pxgkCJDQ==
   dependencies:
     argv "^0.0.2"
     ignore-walk "^3.0.1"
@@ -1356,9 +1356,9 @@ growly@^1.3.0:
   integrity sha1-8QdIy+dq+WS3yWyTxrzCivEgwIE=
 
 handlebars@^4.1.2:
-  version "4.2.0"
-  resolved "https://registry.yarnpkg.com/handlebars/-/handlebars-4.2.0.tgz#57ce8d2175b9bbb3d8b3cf3e4217b1aec8ddcb2e"
-  integrity sha512-Kb4xn5Qh1cxAKvQnzNWZ512DhABzyFNmsaJf3OAkWNa4NkaqWcNI8Tao8Tasi0/F4JD9oyG0YxuFyvyR57d+Gw==
+  version "4.2.1"
+  resolved "https://registry.yarnpkg.com/handlebars/-/handlebars-4.2.1.tgz#dc69c0e61604224f0c23b38b5b6741db210b57da"
+  integrity sha512-bqPIlDk06UWbVEIFoYj+LVo42WhK96J+b25l7hbFDpxrOXMphFM3fNIm+cluwg4Pk2jiLjWU5nHQY7igGE75NQ==
   dependencies:
     neo-async "^2.6.0"
     optimist "^0.6.1"

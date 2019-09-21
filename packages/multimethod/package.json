@@ -1,6 +1,6 @@
 {
   "name": "@arrows/multimethod",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "main": "lib/index.js",
   "license": "ISC",
   "repository": "https://github.com/caderek/arrows/tree/master/packages/multimethod",
@@ -28,14 +28,14 @@
   },
   "devDependencies": {
     "@types/jest": "^24.0.18",
-    "codecov": "^3.6.0",
+    "codecov": "^3.6.1",
     "jest": "^24.9.0",
     "ramda.curry": "^0.26.1",
     "ts-jest": "^24.1.0",
     "typescript": "^3.6.3"
   },
   "dependencies": {
-    "@arrows/composition": "^0.2.0",
+    "@arrows/composition": "^0.2.1",
     "deep-strict-equal": "^0.2.0"
   }
 }

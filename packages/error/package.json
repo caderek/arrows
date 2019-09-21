@@ -1,11 +1,12 @@
 {
   "name": "@arrows/error",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "main": "lib/index.js",
   "license": "ISC",
   "scripts": {
     "build": "tsc",
     "test": "jest",
+    "coverage": "jest --coverage && codecov -F error",
     "prepublish": "yarn build"
   },
   "devDependencies": {
@@ -13,5 +14,8 @@
     "jest": "^24.9.0",
     "ts-jest": "^24.1.0",
     "typescript": "^3.6.3"
+  },
+  "dependencies": {
+    "codecov": "^3.6.1"
   }
 }

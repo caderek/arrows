@@ -1,9 +1,6 @@
 const fs = require('fs')
 const exec = require('child_process').exec
 
-console.log(__dirname)
-console.log(process.cwd())
-
 const ALL = 'all'
 const INSTALL = 'install'
 let status = 0
@@ -14,7 +11,7 @@ const scope = process.argv[3] || ALL
 const executeCommand = (package) => {
   return new Promise((resolve) => {
     exec(
-      `yarn --cwd packages/${package} ${command}`,
+      `yarn --cwd ${process.cwd()}/packages/${package} ${command}`,
       (error, stdout, stderr) => {
         if (error) {
           status = 1
@@ -24,19 +21,10 @@ const executeCommand = (package) => {
       },
     )
   })
-
-  // exec(`yarn --cwd packages/${package} ${command}`, (error, stdout, stderr) => {
-  //   if (error) {
-  //     status = 1
-  //     console.error(`exec error: ${error}`)
-  //   }
-
-  //   console.log(stdout)
-  //   console.log(stderr)
-  // })
 }
 
-const packages = scope === ALL ? fs.readdirSync('packages') : [scope]
+const packages =
+  scope === ALL ? fs.readdirSync(`${process.cwd()}/packages`) : [scope]
 
 Promise.all(packages.map(executeCommand))
   .then((results) => {

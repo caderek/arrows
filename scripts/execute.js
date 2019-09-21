@@ -1,6 +1,8 @@
 const fs = require('fs')
 const exec = require('child_process').exec
 
+console.log(fs.readdirSync(process.cwd()))
+
 const ALL = 'all'
 const INSTALL = 'install'
 let status = 0

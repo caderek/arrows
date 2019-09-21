@@ -16,4 +16,5 @@ const _zip: Zip = (otherArr) => (arr) => {
   return newArr
 }
 
+export { _zip }
 export default _zip

@@ -4,4 +4,5 @@ const _set = (index, value) => (arr) => {
   return newArr
 }
 
+export { _set }
 export default _set

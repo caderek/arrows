@@ -4,4 +4,5 @@ const _setSize = (size) => (arr) => {
     : arr.slice(0).concat(Array.from({ length: size - arr.length }))
 }
 
+export { _setSize }
 export default _setSize

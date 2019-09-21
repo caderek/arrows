@@ -9,4 +9,5 @@ const _insert: Insert = (index, value) => (arr) => {
         .concat(arr.slice(index))
 }
 
+export { _insert }
 export default _insert

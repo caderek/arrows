@@ -10,4 +10,5 @@ const wrap = (fn) => (input) => {
   return wrapSync(fn)(input)
 }
 
+export { wrap }
 export default wrap

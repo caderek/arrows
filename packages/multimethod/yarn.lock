@@ -2,17 +2,17 @@
 # yarn lockfile v1
 
 
-"@arrows/array@^0.4.1":
-  version "0.4.1"
-  resolved "https://registry.yarnpkg.com/@arrows/array/-/array-0.4.1.tgz#e78e28cc63cb68d6a17ffeaf949ab9e52a7566ac"
-  integrity sha512-LGVazf37ohDhLy74+ZQK3rDe+rIe1osXuLq6raE3kXWtTIWoG6ZypYVgPuKFB2ZCobemRhFQVbmnr1tNcf1Ukg==
+"@arrows/array@^0.4.6":
+  version "0.4.6"
+  resolved "https://registry.yarnpkg.com/@arrows/array/-/array-0.4.6.tgz#2a06255a42aec73bc38c4f07a966ebd064059800"
+  integrity sha512-4KcywbIdfRcd+gDBCwYq7wvr6TyGV44h53Il9/jzxU51oWI0LWRUL4M15Vsb7o3mxExmlgAjcXxCvrGvivNyXg==
 
-"@arrows/composition@^0.2.1":
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/@arrows/composition/-/composition-0.2.1.tgz#4693333c01c7bf0f6bb507e590547ee7ecf0763d"
-  integrity sha512-43FsRcesON9d+tLQsvM5Ac5ZIhqjsIaj1/1tXnPbQqf7X7est7vlKA7+pGSdxIZdmO/X0WJWtpHutzRH769xxw==
+"@arrows/composition@^0.2.2":
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/@arrows/composition/-/composition-0.2.2.tgz#51f3dd32f0dd0f104151a13b070a98dae7fced40"
+  integrity sha512-K076R6Y4esho+vPwYIUKCOTZr052IvBwazNcwYljqDMlqfWH1GwSeKGnbmHSfEHIHasonvK1y+23P8mBHR/XZw==
   dependencies:
-    "@arrows/array" "^0.4.1"
+    "@arrows/array" "^0.4.6"
 
 "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.5.5":
   version "7.5.5"

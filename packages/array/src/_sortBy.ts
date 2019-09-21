@@ -12,4 +12,5 @@ const _sortBy: SortBy = (valueMapper) => (comparator = defaultComparator) => (
   return [...arr].sort((a, b) => comparator(valueMapper(a), valueMapper(b)))
 }
 
+export { _sortBy }
 export default _sortBy

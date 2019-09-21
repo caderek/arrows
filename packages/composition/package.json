@@ -1,6 +1,6 @@
 {
   "name": "@arrows/composition",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "main": "lib/index.js",
   "license": "ISC",
   "scripts": {
@@ -17,6 +17,6 @@
     "typescript": "^3.6.3"
   },
   "dependencies": {
-    "@arrows/array": "^0.4.1"
+    "@arrows/array": "^0.4.6"
   }
 }

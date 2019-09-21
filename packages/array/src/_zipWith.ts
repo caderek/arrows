@@ -18,4 +18,5 @@ const _zipWith: ZipWith = (fn) => (otherArr) => (arr) => {
   return newArr
 }
 
+export { _zipWith }
 export default _zipWith

@@ -3,4 +3,5 @@ type Sort = (fn?: Comparator) => (arr: any[]) => any[]
 
 const sort: Sort = (fn) => (arr) => [...arr].sort(fn)
 
+export { sort }
 export default sort

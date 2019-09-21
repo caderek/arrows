@@ -1,6 +1,6 @@
 {
   "name": "@arrows/array",
-  "version": "0.4.1",
+  "version": "0.4.5",
   "main": "lib/index.js",
   "license": "ISC",
   "repository": "https://github.com/caderek/arrows/tree/master/packages/array",

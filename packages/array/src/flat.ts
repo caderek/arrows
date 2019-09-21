@@ -5,4 +5,5 @@ type Flat = (depth?: number) => (arr: any[]) => any[]
  */
 const flat: Flat = (depth = 1) => (arr) => arr.flat(depth)
 
+export { flat }
 export default flat

@@ -6,4 +6,5 @@ type FlatMap = (callback: Callback) => (arr: any[]) => any[]
  */
 const flatMap: FlatMap = (callback) => (arr) => arr.flatMap(callback)
 
+export { flatMap }
 export default flatMap

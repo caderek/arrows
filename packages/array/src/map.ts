@@ -1,3 +1,4 @@
-const sort = (fn) => (arr) => arr.map(fn)
+const map = (fn) => (arr) => arr.map(fn)
 
-export default sort
+export { map }
+export default map

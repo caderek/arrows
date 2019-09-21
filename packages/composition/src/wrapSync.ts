@@ -14,4 +14,5 @@ const wrapSync = (fn) => (input) => {
   return typeof result === 'undefined' ? input : result
 }
 
+export { wrapSync }
 export default wrapSync

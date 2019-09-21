@@ -10,4 +10,5 @@ const chain: ChainFactory = (reducingFn, wrappingFn = null) => (...fns) => (
     : reducingFn((arg: any, fn: Function) => fn(arg), initialArg)(fns)
 }
 
+export { chain }
 export default chain

@@ -17,4 +17,5 @@ const _groupBy: GroupBy = (groupingFn) => (arr) => {
   return groups
 }
 
+export { _groupBy }
 export default _groupBy

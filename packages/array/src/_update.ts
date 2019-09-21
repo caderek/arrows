@@ -12,4 +12,5 @@ const _update: Update = (updater) => (index, valueIdNotExists) => (arr) => {
   return newArr
 }
 
+export { _update }
 export default _update

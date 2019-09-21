@@ -1,7 +1,7 @@
 {
   "name": "@arrows/array",
-  "version": "0.4.5",
-  "main": "lib/index.js",
+  "version": "0.4.9",
+  "main": "index.js",
   "license": "ISC",
   "repository": "https://github.com/caderek/arrows/tree/master/packages/array",
   "homepage": "https://github.com/caderek/arrows/tree/master/packages/array",
@@ -17,8 +17,7 @@
   "scripts": {
     "build": "tsc",
     "test": "jest",
-    "coverage": "jest --coverage && codecov -F array",
-    "prepublish": "yarn build"
+    "coverage": "jest --coverage && codecov -F array"
   },
   "devDependencies": {
     "@types/jest": "^24.0.18",

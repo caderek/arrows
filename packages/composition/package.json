@@ -1,13 +1,12 @@
 {
   "name": "@arrows/composition",
-  "version": "0.2.2",
-  "main": "lib/index.js",
+  "version": "0.2.4",
+  "main": "index.js",
   "license": "ISC",
   "scripts": {
     "build": "tsc",
     "test": "jest",
-    "coverage": "jest --coverage && codecov -F composition",
-    "prepublish": "yarn build"
+    "coverage": "jest --coverage && codecov -F composition"
   },
   "devDependencies": {
     "@types/jest": "^24.0.18",
@@ -17,6 +16,6 @@
     "typescript": "^3.6.3"
   },
   "dependencies": {
-    "@arrows/array": "^0.4.6"
+    "@arrows/array": "^0.4.9"
   }
 }

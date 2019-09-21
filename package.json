@@ -1,14 +1,12 @@
 {
   "name": "root",
-  "private": true,
   "scripts": {
-    "boot": "lerna bootstrap",
-    "test": "lerna run test",
-    "coverage": "lerna run coverage"
+    "boot": "node scripts/execute install",
+    "build": "node scripts/execute build",
+    "test": "node scripts/execute test",
+    "coverage": "node scripts/execute coverage"
   },
   "devDependencies": {
-    "@types/jest": "^24.0.18",
-    "lerna": "^3.16.4"
-  },
-  "dependencies": {}
+    "@types/jest": "^24.0.18"
+  }
 }

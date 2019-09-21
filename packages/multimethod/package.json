@@ -1,6 +1,6 @@
 {
   "name": "@arrows/multimethod",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "main": "lib/index.js",
   "license": "ISC",
   "repository": "https://github.com/caderek/arrows/tree/master/packages/multimethod",
@@ -15,7 +15,9 @@
     "multiple dispatch",
     "dynamic dispatch",
     "polymorphic",
-    "function"
+    "function",
+    "functions",
+    "generic"
   ],
   "author": "Maciej Cąderek",
   "scripts": {
@@ -33,7 +35,7 @@
     "typescript": "^3.6.3"
   },
   "dependencies": {
-    "@arrows/composition": "^0.1.0",
+    "@arrows/composition": "^0.2.0",
     "deep-strict-equal": "^0.2.0"
   }
 }

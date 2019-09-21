@@ -4,31 +4,22 @@
 #
 version: 2
 jobs:
-  build:
+  build array:
     docker:
-      # specify the version you desire here
       - image: circleci/node:10.16.0
-
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/mongo:3.4.4
-
     working_directory: ~/repo/packages/array
-
     steps:
       - checkout:
           path: ~/repo
-      # Run a step to setup an environment variable.
+
       - run:
           name: "Setup custom environment variables"
           command: |
             echo 'export CODECOV_TOKEN="ddabdc1f-efec-4177-975f-555f2024549e"' >> $BASH_ENV # Redirect MY_ENV_VAR into $BASH_ENV
-      # Download and cache dependencies
+
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "package.json" }}
-            # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
       - run: yarn install
@@ -38,6 +29,33 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
 
-      # run tests!
+      - run: yarn test
+      - run: yarn coverage
+
+  build dispatch:
+    docker:
+      - image: circleci/node:10.16.0
+    working_directory: ~/repo/packages/dispatch
+    steps:
+      - checkout:
+          path: ~/repo
+
+      - run:
+          name: "Setup custom environment variables"
+          command: |
+            echo 'export CODECOV_TOKEN="ddabdc1f-efec-4177-975f-555f2024549e"' >> $BASH_ENV # Redirect MY_ENV_VAR into $BASH_ENV
+
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+            - v1-dependencies-
+
+      - run: yarn install
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+
       - run: yarn test
       - run: yarn coverage

@@ -1,8 +1,11 @@
-import { multi, method, multimethodKey } from './multimethod'
+import multi from './multi'
+import method from './method'
+import fromMulti from './fromMulti'
 
-export { multi, method, multimethodKey }
+export { multi, method, fromMulti }
 
 export default {
   multi,
   method,
+  fromMulti,
 }

@@ -1,27 +1,16 @@
 import * as equal from 'deep-strict-equal'
 import pipe from '@arrows/composition/pipe'
+import {
+  Dispatch,
+  Multi,
+  Method,
+  MethodEntry,
+  MethodEntries,
+  DefaultMethod,
+} from './types'
 
 const multimethodKey = Symbol('multimethod')
 const methodKey = Symbol('method')
-
-type Dispatch = (...args: any[]) => any
-type MethodEntry = [any, any]
-type MethodEntries = MethodEntry[]
-type DefaultMethod = (arg0: any, arg1?: any) => any
-type Internals = {
-  methodEntries: MethodEntries
-  defaultMethod: DefaultMethod
-  dispatch: Dispatch
-}
-type Multimethod = {
-  (...args: any[]): any
-  [multimethodKey]: Internals
-}
-type Method = (
-  arg0: any,
-  arg1?: any,
-) => (multimethod: Multimethod) => Multimethod
-type Multi = (arg0?: Dispatch | Method, ...methods: Method[]) => Multimethod
 
 type CountSegments = (dispatch: Dispatch) => number
 
@@ -233,38 +222,4 @@ const addEntry: AddEntry = (methodEntries, newMethodEntry) => {
   return newMethodEntries
 }
 
-const multi: Multi = createMultimethod()()
-
-const method: Method = (...args) => {
-  const partialMethod = (multimethod) => {
-    if (!multimethod[multimethodKey]) {
-      throw new Error('Function is not a multimethod')
-    }
-
-    const [first, second] = args
-    const isNotDefault = second !== undefined
-    const fn = isNotDefault ? second : first
-    const dispatchValues = isNotDefault ? first : null
-
-    const { methodEntries, defaultMethod, dispatch } = multimethod[
-      multimethodKey
-    ]
-
-    if (isNotDefault) {
-      const newMethodEntries: MethodEntries = addEntry(methodEntries, [
-        dispatchValues,
-        fn,
-      ])
-
-      return createMultimethod(newMethodEntries)(defaultMethod)(dispatch)
-    }
-
-    return createMultimethod(methodEntries)(fn)(dispatch)
-  }
-
-  partialMethod[methodKey] = true
-
-  return partialMethod
-}
-
-export { multi, method, multimethodKey }
+export { createMultimethod, addEntry, multimethodKey, methodKey }

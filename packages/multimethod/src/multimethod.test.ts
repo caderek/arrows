@@ -1,4 +1,5 @@
-import { multi, method } from './multimethod'
+import multi from './multi'
+import method from './method'
 import * as curry from 'ramda.curry'
 
 describe('multi', () => {

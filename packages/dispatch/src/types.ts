@@ -14,4 +14,5 @@ const types = {
   Undefined: 'Undefined',
 }
 
+export { types }
 export default types

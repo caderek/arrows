@@ -7,6 +7,7 @@
     "coverage": "node scripts/execute coverage"
   },
   "devDependencies": {
-    "@types/jest": "^24.0.18"
+    "@types/jest": "^24.0.18",
+    "fs-extra": "^8.1.0"
   }
 }

@@ -1,7 +1,13 @@
-const fs = require('fs')
-const exec = require('child_process').exec
+const fs = require('fs-extra')
+const { exec } = require('child_process')
 
-console.log(fs.readdirSync(process.cwd()))
+const execAsync = (command) => {
+  return new Promise((resolve) => {
+    exec(command, (error, stdout, stderr) => {
+      resolve({ error, stdout, stderr })
+    })
+  })
+}
 
 const ALL = 'all'
 const INSTALL = 'install'
@@ -10,41 +16,62 @@ let status = 0
 const command = process.argv[2] || INSTALL
 const scope = process.argv[3] || ALL
 
-const executeCommand = (package) => {
-  return new Promise((resolve) => {
-    exec(
-      `yarn --cwd ${process.cwd()}/packages/${package} ${command}`,
-      (error, stdout, stderr) => {
-        if (error) {
-          status = 1
-        }
+const executeStandardCommand = async (package) => {
+  const result = await execAsync(`yarn --cwd packages/${package} ${command}`)
 
-        resolve({ package, error, stdout, stderr })
-      },
-    )
-  })
+  console.log('--------------------------')
+  console.log(`Package: ${package}`)
+  console.log('--------------------------')
+
+  console.log(result.error)
+  console.log(result.stdout)
+  console.log(result.stderr)
 }
 
-const packages =
-  scope === ALL ? fs.readdirSync(`${process.cwd()}/packages`) : [scope]
+const executePublishCommand = async (package) => {
+  let prepResult
+  let publishResult
 
-Promise.all(packages.map(executeCommand))
-  .then((results) => {
-    results.forEach(({ package, error, stdout, stderr }) => {
-      console.log('--------------------------')
-      console.log(`Package: ${package}`)
-      console.log('--------------------------')
+  fs.removeSync(`packages/${package}/lib`)
 
-      if (error) {
-        console.log('Script error:')
-        console.log(error)
-      }
+  const buildResult = await execAsync(`yarn --cwd packages/${package} build`)
 
-      console.log('Output:')
-      console.log(stdout)
-      console.log(stderr)
-    })
-  })
-  .then(() => {
-    process.exit(status)
-  })
+  if (buildResult.error === null) {
+    prepResult = await execAsync(`yarn --cwd packages/${package} prep`)
+  }
+
+  if (prepResult && prepResult.error === null) {
+    publishResult = await execAsync(
+      `yarn --cwd packages/${package}/lib publish`,
+    )
+  }
+
+  console.log('--------------------------')
+  console.log(`Package: ${package}`)
+  console.log('--------------------------')
+
+  console.log(buildResult.error)
+  console.log(buildResult.stdout)
+  console.log(buildResult.stderr)
+
+  if (prepResult) {
+    console.log(prepResult.error)
+    console.log(prepResult.stdout)
+    console.log(prepResult.stderr)
+  }
+
+  if (publishResult) {
+    console.log(publishResult.error)
+    console.log(publishResult.stdout)
+    console.log(publishResult.stderr)
+  }
+}
+
+const executeCommand = (package) =>
+  command === 'publish'
+    ? executePublishCommand(package)
+    : executeStandardCommand(package)
+
+const packages = scope === ALL ? fs.readdirSync('packages') : [scope]
+
+packages.forEach(executeCommand)

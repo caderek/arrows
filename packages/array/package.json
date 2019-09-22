@@ -17,6 +17,7 @@
   "scripts": {
     "build": "tsc",
     "test": "jest",
+    "prep": "node ../../scripts/prepare-lib.js",
     "coverage": "jest --coverage && codecov -F array"
   },
   "devDependencies": {

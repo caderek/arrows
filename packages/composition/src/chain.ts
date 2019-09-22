@@ -1,4 +1,4 @@
-import { ChainFactory } from './types'
+import { ChainFactory } from './internal/types'
 
 const chain: ChainFactory = (reducingFn, wrappingFn = null) => (...fns) => (
   initialArg,

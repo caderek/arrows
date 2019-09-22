@@ -7,10 +7,10 @@
   resolved "https://registry.yarnpkg.com/@arrows/array/-/array-0.4.9.tgz#20b6bf8b1314ac01801102cc809f5e24780f9a8a"
   integrity sha512-xuDbkXMpoeRJVIgljbUFaMAGIaOrMeu8RddxmLHnM9z3YCWNkGxcoA6EvKRwxoRg0VuaMlLbC7ztZD7I2lcCfA==
 
-"@arrows/composition@^0.2.4":
-  version "0.2.4"
-  resolved "https://registry.yarnpkg.com/@arrows/composition/-/composition-0.2.4.tgz#329aeae54454cc52184fadaf9802b1073dda3c7a"
-  integrity sha512-ObEDbuR0c8UF/92qMawhAREU+AG83GTSCEerQHVKF+HJ/jd9PlqanHymAwuTVebMfcstI6EwTjnmfYk0s5XdXg==
+"@arrows/composition@^0.2.5":
+  version "0.2.5"
+  resolved "https://registry.yarnpkg.com/@arrows/composition/-/composition-0.2.5.tgz#246679fe2f23f144fa62452920642d46ce84392a"
+  integrity sha512-ZJ2w5HPe+yIi0gx8qUKRPMYjoEf1TM0cY0eo073D12LnUuyRBGnfcsPOhIxa2sMcszP5iLr2vi865yO1gi646Q==
   dependencies:
     "@arrows/array" "^0.4.9"
 

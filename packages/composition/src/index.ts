@@ -10,6 +10,6 @@ export default {
   chain,
   compose,
   pipe,
-  rail: rail,
+  rail,
   railSync,
 }

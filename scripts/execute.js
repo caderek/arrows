@@ -23,7 +23,9 @@ const executeStandardCommand = async (package) => {
   console.log(`Package: ${package}`)
   console.log('--------------------------')
 
-  console.log(result.error)
+  if (result.error) {
+    console.log(result.error)
+  }
   console.log(result.stdout)
   console.log(result.stderr)
 }
@@ -50,18 +52,24 @@ const executePublishCommand = async (package) => {
   console.log(`Package: ${package}`)
   console.log('--------------------------')
 
-  console.log(buildResult.error)
+  if (buildResult.error) {
+    console.log(buildResult.error)
+  }
   console.log(buildResult.stdout)
   console.log(buildResult.stderr)
 
   if (prepResult) {
-    console.log(prepResult.error)
+    if (prepResult.error) {
+      console.log(prepResult.error)
+    }
     console.log(prepResult.stdout)
     console.log(prepResult.stderr)
   }
 
   if (publishResult) {
-    console.log(publishResult.error)
+    if (publishResult.error) {
+      console.log(publishResult.error)
+    }
     console.log(publishResult.stdout)
     console.log(publishResult.stderr)
   }

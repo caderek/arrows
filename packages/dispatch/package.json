@@ -1,13 +1,13 @@
 {
   "name": "@arrows/dispatch",
-  "version": "0.2.1",
-  "main": "lib/index.js",
+  "version": "0.2.3",
+  "main": "index.js",
   "license": "ISC",
   "scripts": {
     "build": "tsc",
     "test": "jest",
-    "coverage": "jest --coverage && codecov -F dispatch",
-    "prepublish": "yarn build"
+    "prep": "node ../../scripts/prepare-lib.js",
+    "coverage": "jest --coverage && codecov -F dispatch"
   },
   "devDependencies": {
     "@types/jest": "^24.0.18",

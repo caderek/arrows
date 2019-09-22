@@ -1,7 +1,7 @@
 import reduce from '@arrows/array/reduce'
-import { ChainFunctions } from './types'
+import { ChainFunctions } from './internal/types'
 import chain from './chain'
-import wrapSync from './wrapSync'
+import wrapSync from './internal/wrapSync'
 
 const railSync: ChainFunctions = chain(reduce, wrapSync)
 

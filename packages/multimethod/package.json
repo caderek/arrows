@@ -1,6 +1,6 @@
 {
   "name": "@arrows/multimethod",
-  "version": "0.3.4",
+  "version": "0.3.5",
   "main": "lib/index.js",
   "license": "ISC",
   "repository": "https://github.com/caderek/arrows/tree/master/packages/multimethod",
@@ -23,8 +23,8 @@
   "scripts": {
     "build": "tsc",
     "test": "jest",
-    "coverage": "jest --coverage && codecov -F multimethod",
-    "prepublishOnly": "yarn build"
+    "prep": "node ../../scripts/prepare-lib.js",
+    "coverage": "jest --coverage && codecov -F multimethod"
   },
   "devDependencies": {
     "@types/jest": "^24.0.18",
@@ -35,7 +35,7 @@
     "typescript": "^3.6.3"
   },
   "dependencies": {
-    "@arrows/composition": "^0.2.4",
+    "@arrows/composition": "^0.2.5",
     "deep-strict-equal": "^0.2.0"
   }
 }

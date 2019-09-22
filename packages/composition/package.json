@@ -1,11 +1,12 @@
 {
   "name": "@arrows/composition",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "main": "index.js",
   "license": "ISC",
   "scripts": {
     "build": "tsc",
     "test": "jest",
+    "prep": "node ../../scripts/prepare-lib.js",
     "coverage": "jest --coverage && codecov -F composition"
   },
   "devDependencies": {

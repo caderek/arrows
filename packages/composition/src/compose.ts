@@ -1,5 +1,5 @@
 import reduceRight from '@arrows/array/reduceRight'
-import { ChainFunctions } from './types'
+import { ChainFunctions } from './internal/types'
 import chain from './chain'
 
 const compose: ChainFunctions = chain(reduceRight)

@@ -3,7 +3,10 @@
 # Check https://circleci.com/docs/2.0/language-javascript/ for more details
 #
 version: 2
-common: &common_steps
+common_docker: &common_docker_anchor
+  - image: circleci/node:10.16.0
+
+common_steps: &common_steps_anchor
   - checkout:
       path: ~/repo
 
@@ -29,15 +32,30 @@ common: &common_steps
 
 jobs:
   build-array:
-    docker:
-      - image: circleci/node:10.16.0
+    docker: *common_docker_anchor
     working_directory: ~/repo/packages/array
-    steps: *common_steps
+    steps: *common_steps_anchor
+
   build-composition:
-    docker:
-      - image: circleci/node:10.16.0
+    docker: *common_docker_anchor
     working_directory: ~/repo/packages/composition
-    steps: *common_steps
+    steps: *common_steps_anchor
+
+  build-dispatch:
+    docker: *common_docker_anchor
+    working_directory: ~/repo/packages/dispatch
+    steps: *common_steps_anchor
+
+  build-error:
+    docker: *common_docker_anchor
+    working_directory: ~/repo/packages/error
+    steps: *common_steps_anchor
+
+  build-multimethod:
+    docker: *common_docker_anchor
+    working_directory: ~/repo/packages/multimethod
+    steps: *common_steps_anchor
+
 workflows:
   version: 2
   build:

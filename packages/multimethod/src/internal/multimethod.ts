@@ -1,4 +1,4 @@
-import * as equal from 'deep-strict-equal'
+import * as equal from 'fast-deep-equal'
 import pipe from '@arrows/composition/pipe'
 import {
   Dispatch,

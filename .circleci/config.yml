@@ -62,3 +62,6 @@ workflows:
     jobs:
       - build-array
       - build-composition
+      - build-dispatch
+      - build-error
+      - build-multimethod

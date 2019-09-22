@@ -3,61 +3,41 @@
 # Check https://circleci.com/docs/2.0/language-javascript/ for more details
 #
 version: 2
+common: &common_steps
+  - checkout:
+      path: ~/repo
+
+  - run:
+      name: "Setup custom environment variables"
+      command: |
+        echo 'export CODECOV_TOKEN="ddabdc1f-efec-4177-975f-555f2024549e"' >> $BASH_ENV # Redirect MY_ENV_VAR into $BASH_ENV
+
+  - restore_cache:
+      keys:
+        - v1-dependencies-{{ checksum "package.json" }}
+        - v1-dependencies-
+
+  - run: yarn install
+
+  - save_cache:
+      paths:
+        - node_modules
+      key: v1-dependencies-{{ checksum "package.json" }}
+
+  - run: yarn test
+  - run: yarn coverage
+
 jobs:
   build-array:
     docker:
       - image: circleci/node:10.16.0
     working_directory: ~/repo/packages/array
-    steps:
-      - checkout:
-          path: ~/repo
-
-      - run:
-          name: "Setup custom environment variables"
-          command: |
-            echo 'export CODECOV_TOKEN="ddabdc1f-efec-4177-975f-555f2024549e"' >> $BASH_ENV # Redirect MY_ENV_VAR into $BASH_ENV
-
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "package.json" }}
-            - v1-dependencies-
-
-      - run: yarn install
-
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
-
-      - run: yarn test
-      - run: yarn coverage
+    steps: *common_steps
   build-composition:
     docker:
       - image: circleci/node:10.16.0
     working_directory: ~/repo/packages/composition
-    steps:
-      - checkout:
-          path: ~/repo
-
-      - run:
-          name: "Setup custom environment variables"
-          command: |
-            echo 'export CODECOV_TOKEN="ddabdc1f-efec-4177-975f-555f2024549e"' >> $BASH_ENV # Redirect MY_ENV_VAR into $BASH_ENV
-
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "package.json" }}
-            - v1-dependencies-
-
-      - run: yarn install
-
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
-
-      - run: yarn test
-      - run: yarn coverage
+    steps: *common_steps
 workflows:
   version: 2
   build:

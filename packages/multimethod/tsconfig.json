@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "es2015",
     "module": "commonjs",
-    "removeComments": true,
+    "removeComments": false,
     "declaration": true,
     "outDir": "./lib",
     "preserveConstEnums": true

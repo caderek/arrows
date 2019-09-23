@@ -1,0 +1,454 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset='utf-8'>
+  <title>root  | Documentation</title>
+  <meta name='viewport' content='width=device-width,initial-scale=1'>
+  <link href='assets/bass.css' rel='stylesheet'>
+  <link href='assets/style.css' rel='stylesheet'>
+  <link href='assets/github.css' rel='stylesheet'>
+  <link href='assets/split.css' rel='stylesheet'>
+</head>
+<body class='documentation m0'>
+    <div class='flex'>
+      <div id='split-left' class='overflow-auto fs0 height-viewport-100'>
+        <div class='py1 px2'>
+          <h3 class='mb0 no-anchor'>root</h3>
+          <div class='mb1'><code></code></div>
+          <input
+            placeholder='Filter'
+            id='filter-input'
+            class='col12 block input'
+            type='text' />
+          <div id='toc'>
+            <ul class='list-reset h5 py1-ul'>
+              
+                
+                <li><a
+                  href='#multi'
+                  class="">
+                  multi
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#method'
+                  class="">
+                  method
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#frommulti'
+                  class="">
+                  fromMulti
+                  
+                </a>
+                
+                </li>
+              
+            </ul>
+          </div>
+          <div class='mt1 h6 quiet'>
+            <a href='https://documentation.js.org/reading-documentation.html'>Need help reading this?</a>
+          </div>
+        </div>
+      </div>
+      <div id='split-right' class='relative overflow-auto height-viewport-100'>
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='multi'>
+      multi
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Creates multimethod - a function that can dynamically choose proper implementation,
+based on arbitrary dispatch of its arguments</p>
+
+    <div class='pre p1 fill-light mt0'>multi</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>dispatch</span> <code class='quiet'>(Dispatch?)</code>
+	    The function that calculates values for matching
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>methods</span> <code class='quiet'>(...Method?)</code>
+	    Arbitrary number of partially applied methods
+
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>Multimethod</code>:
+        Returns an immutable multimethod that can be used as ordinary function
+
+      
+    
+  
+
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Example</div>
+    
+      <p><p>Interface:</p>
+</p>
+      <pre class='p1 overflow-auto round fill-light'>(dispatch?, method1?, method2?, ..., methodN?) =&gt; multimethod</pre>
+    
+      <p><p>Create multimethod with the default dispatch (identity function) and no methods:</p>
+</p>
+      <pre class='p1 overflow-auto round fill-light'><span class="hljs-keyword">const</span> fn = multi()
+fn(<span class="hljs-string">'foo'</span>) <span class="hljs-comment">// -&gt; throws an Error (because of no matching methods), but useful as a base for extensions</span></pre>
+    
+      <p><p>Create multimethod with a custom dispatch and no methods:</p>
+</p>
+      <pre class='p1 overflow-auto round fill-light'><span class="hljs-keyword">const</span> fn = multi(<span class="hljs-function"><span class="hljs-params">x</span> =&gt;</span> <span class="hljs-keyword">typeof</span> x)
+fn(<span class="hljs-string">'foo'</span>) <span class="hljs-comment">// -&gt; throws an Error (because of no matching methods), but useful as a base for extensions</span></pre>
+    
+      <p><p>Create multimethod with the default dispatch (identity function) and some methods:</p>
+</p>
+      <pre class='p1 overflow-auto round fill-light'><span class="hljs-keyword">const</span> makeSound = multi(
+  method(<span class="hljs-string">'cat'</span>, () =&gt; <span class="hljs-string">'Meow!'</span>),
+  method(<span class="hljs-string">'dog'</span>, () =&gt; <span class="hljs-string">'Woof!'</span>),
+  method(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> <span class="hljs-string">'Hello!'</span>), <span class="hljs-comment">// default method</span>
+)
+
+makeSound(<span class="hljs-string">'cat'</span>) <span class="hljs-comment">// -&gt; 'Meow!'</span>
+makeSound(<span class="hljs-string">'dog'</span>) <span class="hljs-comment">// -&gt; 'Woof!'</span>
+makeSound(<span class="hljs-string">'cow'</span>) <span class="hljs-comment">// -&gt; 'Hello!' (that's a rather unusual cow)</span></pre>
+    
+      <p><p>Create multimethod with a custom dispatch and some methods:</p>
+</p>
+      <pre class='p1 overflow-auto round fill-light'><span class="hljs-keyword">const</span> multiply = multi(
+  <span class="hljs-function">(<span class="hljs-params">multiplier, x</span>) =&gt;</span> [(<span class="hljs-keyword">typeof</span> multiplier), (<span class="hljs-keyword">typeof</span> x)],
+  method([<span class="hljs-string">'number'</span>, <span class="hljs-string">'number'</span>], (multiplier, x) =&gt; x * multiplier),
+  method([<span class="hljs-string">'number'</span>, <span class="hljs-string">'string'</span>], (multiplier, x) =&gt; x.repeat(multiplier)),
+)
+
+multiply(<span class="hljs-number">2</span>, <span class="hljs-number">5</span>) <span class="hljs-comment">// -&gt; 10</span>
+multiply(<span class="hljs-number">3</span>, <span class="hljs-string">'Beetlejuice! '</span>) <span class="hljs-comment">// -&gt; 'Beetlejuice! Beetlejuice! Beetlejuice! ' (do not read it out loud)</span>
+multiply(<span class="hljs-number">2</span>, [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>]) <span class="hljs-comment">// -&gt; throws an Error (no match and no default method for these arguments)</span></pre>
+    
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='method'>
+      method
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Adds method to a multimethod</p>
+
+    <div class='pre p1 fill-light mt0'>method</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>caseValue</span> <code class='quiet'>(any?)</code>
+	    The value to which the result of dispatch function is matched (if function, then is executed with output of dispatch function)
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>correspondingValue</span> <code class='quiet'>(any)</code>
+	    The value that function should return on matching case (if function, then is executed with input arguments)
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>multimethod</span> <code class='quiet'>(Multimethod)</code>
+	    Multimethod on which you want to base new multimethod
+
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>Multimethod</code>:
+        New multimethod (the base one is unchanged)
+
+      
+    
+  
+
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Example</div>
+    
+      <p><p>Interface:</p>
+</p>
+      <pre class='p1 overflow-auto round fill-light'>(caseValue?, correspondingValue) =&gt; <span class="hljs-function">(<span class="hljs-params">multimethod</span>) =&gt;</span> new_multimethod</pre>
+    
+      <p><p>Default method as function:</p>
+</p>
+      <pre class='p1 overflow-auto round fill-light'><span class="hljs-keyword">const</span> sayHello = multi(<span class="hljs-function">(<span class="hljs-params">user</span>) =&gt;</span> user.lang)
+
+<span class="hljs-keyword">const</span> sayHelloWithDefault = method(<span class="hljs-function">(<span class="hljs-params">user</span>) =&gt;</span> <span class="hljs-string">`Hello <span class="hljs-subst">${usr.name}</span>!`</span>)(sayHello)
+
+sayHelloWithDefault({ <span class="hljs-attr">name</span>: <span class="hljs-string">'Alejandro'</span>, <span class="hljs-attr">lang</span>: <span class="hljs-string">'es'</span> }) <span class="hljs-comment">// -&gt; 'Hello Alejandro!'</span></pre>
+    
+      <p><p>Default method as other value:</p>
+</p>
+      <pre class='p1 overflow-auto round fill-light'><span class="hljs-keyword">const</span> sayHello = multi(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> user.lang)
+
+<span class="hljs-keyword">const</span> sayHelloWithDefault = method(<span class="hljs-string">'Hello!'</span>)(sayHello)
+
+sayHelloWithDefault({ <span class="hljs-attr">name</span>: <span class="hljs-string">'Alejandro'</span>, <span class="hljs-attr">lang</span>: <span class="hljs-string">'es'</span> }) <span class="hljs-comment">// -&gt; 'Hello!'</span></pre>
+    
+      <p><p>Case method with caseValue as ordinary value and correspondingValue as a function:</p>
+</p>
+      <pre class='p1 overflow-auto round fill-light'><span class="hljs-keyword">const</span> add = multi(<span class="hljs-function">(<span class="hljs-params">a, b</span>) =&gt;</span> [(<span class="hljs-keyword">typeof</span> a), (<span class="hljs-keyword">typeof</span> b)])
+
+<span class="hljs-keyword">const</span> extendedAdd = method([<span class="hljs-string">'number'</span>, <span class="hljs-string">'number'</span>], (a, b) =&gt; a + b)(add)
+
+extendedAdd(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>) <span class="hljs-comment">// -&gt; 3</span></pre>
+    
+      <p><p>Case method with caseValue and correspondingValue as ordinary values:</p>
+</p>
+      <pre class='p1 overflow-auto round fill-light'><span class="hljs-keyword">const</span> getHexColor = multi() <span class="hljs-comment">// Uses identity function (x =&gt; x) as default dispatch</span>
+
+<span class="hljs-keyword">const</span> extendedGetHexColor = method(<span class="hljs-string">'red'</span>, <span class="hljs-string">'#FF0000'</span>)(getHexColor)
+
+extendedGetHexColor(<span class="hljs-string">'red'</span>) <span class="hljs-comment">// -&gt; '#FF0000'</span></pre>
+    
+      <p><p>Case method with caseValue as a function and correspondingValue as ordinary value:</p>
+</p>
+      <pre class='p1 overflow-auto round fill-light'><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Enemy</span> </span>{}
+<span class="hljs-keyword">const</span> is = <span class="hljs-function">(<span class="hljs-params">prototype</span>) =&gt;</span> <span class="hljs-function">(<span class="hljs-params">value</span>) =&gt;</span> value <span class="hljs-keyword">instanceof</span> prototype
+
+<span class="hljs-keyword">const</span> greet = multi() <span class="hljs-comment">// Uses identity function (x =&gt; x) as default dispatch</span>
+
+<span class="hljs-comment">// Matches, when case function executed with dispatch value returns truthy value</span>
+<span class="hljs-keyword">const</span> extendedGreet = method(is(Enemy), <span class="hljs-string">'Goodbye!'</span>)(greet)
+
+extendedGreet(<span class="hljs-keyword">new</span> Enemy()) <span class="hljs-comment">// -&gt; 'Goodbye!'</span></pre>
+    
+      <p><p>Case method with caseValue and correspondingValue as functions:</p>
+</p>
+      <pre class='p1 overflow-auto round fill-light'><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Car</span> </span>{ drive() { <span class="hljs-keyword">return</span> <span class="hljs-string">'driving...'</span> } }
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Human</span> </span>{ walk() { <span class="hljs-keyword">return</span> <span class="hljs-string">'walking...'</span> } }
+<span class="hljs-keyword">const</span> is = <span class="hljs-function">(<span class="hljs-params">prototype</span>) =&gt;</span> <span class="hljs-function">(<span class="hljs-params">value</span>) =&gt;</span> value <span class="hljs-keyword">instanceof</span> prototype
+
+<span class="hljs-keyword">const</span> go = multi( <span class="hljs-comment">// Uses identity function (x =&gt; x) as default dispatch</span>
+  method(is(Car), (entity) =&gt; entity.drive()) <span class="hljs-comment">// lets add one case to original multimethod</span>
+)
+
+<span class="hljs-keyword">const</span> extendedGo = method(is(Human), (entity) =&gt; entity.walk())(go)
+
+extendedGo(<span class="hljs-keyword">new</span> Car()) <span class="hljs-comment">// -&gt; 'driving...'</span>
+extendedGo(<span class="hljs-keyword">new</span> Human()) <span class="hljs-comment">// -&gt; 'walking...'</span></pre>
+    
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='frommulti'>
+      fromMulti
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Allows to create new multimethods from existing ones in a simple way.</p>
+<p>It works like functional <code>pipe</code>, but with additional checks,
+specialized error messages and type checking.</p>
+
+    <div class='pre p1 fill-light mt0'>fromMulti</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>methods</span> <code class='quiet'>(...Method?)</code>
+	    Arbitrary number of partially applied methods
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>multimethod</span> <code class='quiet'>(Multimethod)</code>
+	    Multimethod on which you want to base new multimethod
+
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>Multimethod</code>:
+        New multimethod (the base one is unchanged)
+
+      
+    
+  
+
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Example</div>
+    
+      <p><p>Interface:</p>
+</p>
+      <pre class='p1 overflow-auto round fill-light'>(method1, method2?, ..., methodN?) =&gt; <span class="hljs-function">(<span class="hljs-params">multimethod</span>) =&gt;</span> new_multimethod</pre>
+    
+      <p><p>Create new multimethod using existing one as a base:</p>
+</p>
+      <pre class='p1 overflow-auto round fill-light'><span class="hljs-keyword">const</span> add = multi(
+  <span class="hljs-function">(<span class="hljs-params">a, b</span>) =&gt;</span> [(<span class="hljs-keyword">typeof</span> a), (<span class="hljs-keyword">typeof</span> b)],
+  method([<span class="hljs-string">'number'</span>, <span class="hljs-string">'number'</span>], (a, b) =&gt; a + b),
+  method([<span class="hljs-string">'string'</span>, <span class="hljs-string">'string'</span>], (a, b) =&gt; <span class="hljs-string">`<span class="hljs-subst">${a}</span><span class="hljs-subst">${b}</span>`</span>),
+)
+
+<span class="hljs-keyword">const</span> extendedAdd = fromMulti(
+  method([<span class="hljs-string">'bigint'</span>, <span class="hljs-string">'bigint'</span>], (a, b) =&gt; a + b),
+  method([<span class="hljs-string">'number'</span>, <span class="hljs-string">'bigint'</span>], (a, b) =&gt; BigInt(a) + b),
+  method([<span class="hljs-string">'bigint'</span>, <span class="hljs-string">'number'</span>], (a, b) =&gt; a + BigInt(b)),
+)(add)
+
+extendedAdd(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>) <span class="hljs-comment">// -&gt; 3</span>
+extendedAdd(<span class="hljs-string">'foo'</span>, <span class="hljs-string">'bar'</span>) <span class="hljs-comment">// -&gt; 'foobar'</span>
+extendedAdd(<span class="hljs-number">2</span>n, <span class="hljs-number">3</span>n) <span class="hljs-comment">// -&gt; 5n</span>
+extendedAdd(<span class="hljs-number">5</span>, <span class="hljs-number">5</span>n) <span class="hljs-comment">// -&gt; 10n</span>
+extendedAdd(<span class="hljs-number">9</span>n, <span class="hljs-number">2</span>) <span class="hljs-comment">// -&gt; 11n</span></pre>
+    
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+      </div>
+    </div>
+  <script src='assets/anchor.js'></script>
+  <script src='assets/split.js'></script>
+  <script src='assets/site.js'></script>
+</body>
+</html>

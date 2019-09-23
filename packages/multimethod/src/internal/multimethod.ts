@@ -12,6 +12,8 @@ import {
 const multimethodKey = Symbol('multimethod')
 const methodKey = Symbol('method')
 
+const implicitDispatch = (x: any) => x
+
 type CountSegments = (dispatch: Dispatch) => number
 
 const countSegments: CountSegments = (dispatch) => {
@@ -52,7 +54,9 @@ const createSimpleTarget: CreateSimpleTarget = (
       // when multimethod is created
       // @todo use dep strict equal only when needed
       return typeof dispatchValue === 'function'
-        ? dispatchValue(currentDispatchValue)
+        ? dispatch === implicitDispatch
+          ? dispatchValue(...args)
+          : dispatchValue(currentDispatchValue)
         : equal(dispatchValue, currentDispatchValue)
     })
 
@@ -102,9 +106,11 @@ const createSegmentedTarget: CreateSegmentedTarget = (
           currentDispatchValue = currentDispatchValue(...segmentsArgs[i])
         }
 
-        const entry = methodEntries.find(([dispatchValue]) =>
-          equal(dispatchValue, currentDispatchValue),
-        )
+        const entry = methodEntries.find(([dispatchValue]) => {
+          return typeof dispatchValue === 'function'
+            ? dispatchValue(currentDispatchValue)
+            : equal(dispatchValue, currentDispatchValue)
+        })
 
         const target = entry ? entry[1] : defaultMethod
 
@@ -174,7 +180,7 @@ const createMultimethod: CreateMultimethod = (methodEntries = []) => (
   validateOtherArgs(rest)
 
   const haveDispatchFn = isDispatchProvided(first)
-  const dispatch = haveDispatchFn ? first : (x) => x
+  const dispatch = haveDispatchFn ? first : implicitDispatch
   const methods = haveDispatchFn ? rest : args
 
   const segmentsCount = countSegments(dispatch)

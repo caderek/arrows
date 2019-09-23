@@ -228,13 +228,37 @@ describe('multimethod', () => {
     expect(multimethod({ foo: 1, bar: 2 })).toEqual('second')
   })
 
-  it('is dispatch value is a function, executes that function with the return of dispatch function', () => {
-    const multimethod = multi(
-      method((x) => x === 1, 'one'),
-      method((x) => x === 2, 'two'),
-    )
+  describe('when dispatch method is a function', () => {
+    it('if dispatch is provided, executes that function with the return of dispatch function', () => {
+      const multimethod = multi(
+        (a, b) => b,
+        method((b) => b === 1, 'one'),
+        method((b) => b === 2, 'two'),
+      )
 
-    expect(multimethod(1)).toEqual('one')
-    expect(multimethod(2)).toEqual('two')
+      expect(multimethod(0, 1)).toEqual('one')
+      expect(multimethod(0, 2)).toEqual('two')
+    })
+
+    it('if dispatch is provided, executes that function with the return of dispatch function - chunked version', () => {
+      const multimethod = multi(
+        (a) => (b) => b,
+        method((b) => b === 1, 'one'),
+        method((b) => b === 2, 'two'),
+      )
+
+      expect(multimethod(0)(1)).toEqual('one')
+      expect(multimethod(0)(2)).toEqual('two')
+    })
+
+    it('if dispatch is not provided, executes that function with initial arguments', () => {
+      const multimethod = multi(
+        method((a, b) => b === 1, 'one'),
+        method((a, b) => b === 2, 'two'),
+      )
+
+      expect(multimethod(0, 1)).toEqual('one')
+      expect(multimethod(0, 2)).toEqual('two')
+    })
   })
 })

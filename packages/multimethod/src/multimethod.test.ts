@@ -228,30 +228,8 @@ describe('multimethod', () => {
     expect(multimethod({ foo: 1, bar: 2 })).toEqual('second')
   })
 
-  describe('when dispatch method is a function', () => {
-    it('if dispatch is provided, executes that function with the return of dispatch function', () => {
-      const multimethod = multi(
-        (a, b) => b,
-        method((b) => b === 1, 'one'),
-        method((b) => b === 2, 'two'),
-      )
-
-      expect(multimethod(0, 1)).toEqual('one')
-      expect(multimethod(0, 2)).toEqual('two')
-    })
-
-    it('if dispatch is provided, executes that function with the return of dispatch function - chunked version', () => {
-      const multimethod = multi(
-        (a) => (b) => b,
-        method((b) => b === 1, 'one'),
-        method((b) => b === 2, 'two'),
-      )
-
-      expect(multimethod(0)(1)).toEqual('one')
-      expect(multimethod(0)(2)).toEqual('two')
-    })
-
-    it('if dispatch is not provided, executes that function with initial arguments', () => {
+  describe('when case value is a function and dispatch is not chunked', () => {
+    it('executes that function with initial arguments', () => {
       const multimethod = multi(
         method((a, b) => b === 1, 'one'),
         method((a, b) => b === 2, 'two'),
@@ -259,6 +237,19 @@ describe('multimethod', () => {
 
       expect(multimethod(0, 1)).toEqual('one')
       expect(multimethod(0, 2)).toEqual('two')
+    })
+  })
+
+  describe('when case value is a function and dispatch is chunked', () => {
+    it('executes that function with all arguments that would be otherwise passed to dispatch (dechunked)', () => {
+      const multimethod = multi(
+        (a) => (b) => {},
+        method((a, b) => b === 1, 'one'),
+        method((a, b) => b === 2, 'two'),
+      )
+
+      expect(multimethod(0)(1)).toEqual('one')
+      expect(multimethod(0)(2)).toEqual('two')
     })
   })
 })

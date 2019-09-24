@@ -54,9 +54,7 @@ const createSimpleTarget: CreateSimpleTarget = (
       // when multimethod is created
       // @todo use dep strict equal only when needed
       return typeof dispatchValue === 'function'
-        ? dispatch === implicitDispatch
-          ? dispatchValue(...args)
-          : dispatchValue(currentDispatchValue)
+        ? dispatchValue(...args)
         : equal(dispatchValue, currentDispatchValue)
     })
 
@@ -108,7 +106,7 @@ const createSegmentedTarget: CreateSegmentedTarget = (
 
         const entry = methodEntries.find(([dispatchValue]) => {
           return typeof dispatchValue === 'function'
-            ? dispatchValue(currentDispatchValue)
+            ? dispatchValue(...[].concat(...segmentsArgs))
             : equal(dispatchValue, currentDispatchValue)
         })
 

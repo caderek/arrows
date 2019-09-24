@@ -7,9 +7,9 @@
 
 ## Introduction
 
-Multimethod is a special kind of higher-order function, that helps you to control the flow of your program in a readable and extensible way.
+Multimethod library provides special a tiny set of higher-order functions, that help you to control the flow of your program in a readable and extensible way.
 
-This implementation allows you to create immutable multimethods in a functional way.
+This implementation allows you to create powerful, immutable multimethods in a functional way.
 
 ## Notes
 

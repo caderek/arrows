@@ -43,6 +43,8 @@ based on arbitrary dispatch of its arguments
 - `dispatch` The function that calculates values for matching
 - `methods` Arbitrary number of partially applied methods
 
+Returns an immutable multimethod that can be used as ordinary function
+
 #### Interface:
 
 ```
@@ -93,8 +95,6 @@ multiply(3, 'Beetlejuice! ') // -> 'Beetlejuice! Beetlejuice! Beetlejuice! ' (do
 multiply(2, [1, 2, 3]) // -> throws an Error (no match and no default method for these arguments)
 ```
 
-Returns **Multimethod** Returns an immutable multimethod that can be used as ordinary function
-
 ### method
 
 Adds method to a multimethod
@@ -104,6 +104,8 @@ Adds method to a multimethod
 - `caseValue` The value to which the result of dispatch function is matched (if function, then is executed with output of dispatch function)
 - `correspondingValue` The value that function should return on matching case (if function, then is executed with input arguments)
 - `multimethod` Multimethod on which you want to base new multimethod
+
+Returns a new multimethod (the base one is unchanged)
 
 #### Interface:
 
@@ -193,8 +195,6 @@ extendedGo(new Car()) // -> 'driving...'
 extendedGo(new Human()) // -> 'walking...'
 ```
 
-Returns **Multimethod** New multimethod (the base one is unchanged)
-
 ### fromMulti
 
 Allows to create new multimethods from existing ones in a simple way.
@@ -206,6 +206,8 @@ specialized error messages and type checking.
 
 - `methods` Arbitrary number of partially applied methods
 - `multimethod` Multimethod on which you want to base new multimethod
+
+Returns a new multimethod (the base one is unchanged)
 
 #### Interface:
 
@@ -236,7 +238,5 @@ extendedAdd(2n, 3n) // -> 5n
 extendedAdd(5, 5n) // -> 10n
 extendedAdd(9n, 2) // -> 11n
 ```
-
-Returns **Multimethod** New multimethod (the base one is unchanged)
 
 ---

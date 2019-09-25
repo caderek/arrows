@@ -1,11 +1,11 @@
-import multi from './multi'
-import method from './method'
 import fromMulti from './fromMulti'
+import method from './method'
+import multi from './multi'
 
 export { multi, method, fromMulti }
 
 export default {
-  multi,
-  method,
   fromMulti,
+  method,
+  multi,
 }

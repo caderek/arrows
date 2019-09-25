@@ -1,6 +1,6 @@
-import multi from './multi'
-import method from './method'
 import * as curry from 'ramda.curry'
+import method from './method'
+import multi from './multi'
 
 describe('multi', () => {
   describe('executed without any arguments', () => {
@@ -127,7 +127,7 @@ describe('method', () => {
     })
 
     it('throws error if function that you try to extend is not multimethod', () => {
-      const notMultimethod = () => {}
+      const notMultimethod = () => {} // tslint:disable-line
       const execute = () => {
         // @ts-ignore
         method('default')(notMultimethod)
@@ -243,7 +243,7 @@ describe('multimethod', () => {
   describe('when case value is a function and dispatch is chunked', () => {
     it('executes that function with all arguments that would be otherwise passed to dispatch (dechunked)', () => {
       const multimethod = multi(
-        (a) => (b) => {},
+        (a) => (b) => {}, // tslint:disable-line
         method((a, b) => b === 1, 'one'),
         method((a, b) => b === 2, 'two'),
       )

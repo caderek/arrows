@@ -1,8 +1,8 @@
 import {
-  createMultimethod,
   addEntry,
-  multimethodKey,
+  createMultimethod,
   methodKey,
+  multimethodKey,
 } from './internal/multimethod'
 import { Method, MethodEntries } from './internal/types'
 

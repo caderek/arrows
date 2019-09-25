@@ -1,12 +1,12 @@
-import * as equal from 'fast-deep-equal'
 import pipe from '@arrows/composition/pipe'
+import * as equal from 'fast-deep-equal'
 import {
-  Dispatch,
-  Multi,
-  Method,
-  MethodEntry,
-  MethodEntries,
   DefaultMethod,
+  Dispatch,
+  Method,
+  MethodEntries,
+  MethodEntry,
+  Multi,
 } from './types'
 
 const multimethodKey = Symbol('multimethod')
@@ -30,7 +30,7 @@ const countSegments: CountSegments = (dispatch) => {
         return count
       }
     }
-  } catch {}
+  } catch {} // tslint:disable-line
 
   return count
 }
@@ -47,7 +47,7 @@ const createSimpleTarget: CreateSimpleTarget = (
   dispatch,
 ) => {
   const fn = (...args) => {
-    let currentDispatchValue = dispatch(...args)
+    const currentDispatchValue = dispatch(...args)
 
     const entry = methodEntries.find(([dispatchValue]) => {
       // @todo optimize this by preselecting if this check if needed,
@@ -96,7 +96,7 @@ const createSegmentedTarget: CreateSegmentedTarget = (
     if (counter === 1) {
       return (...args) => {
         const segmentsArgs = [...previousSegmentsArgs, args]
-        let count = segmentsArgs.length
+        const count = segmentsArgs.length
 
         let currentDispatchValue = dispatch
 
@@ -160,7 +160,7 @@ const validateOtherArgs = (args) => {
   })
 }
 
-type IsDispatchProvided = (fn: Function) => boolean
+type IsDispatchProvided = (item: any) => boolean
 
 const isDispatchProvided: IsDispatchProvided = (item) =>
   typeof item === 'function' && !item[methodKey] === true
@@ -194,9 +194,9 @@ const createMultimethod: CreateMultimethod = (methodEntries = []) => (
         )
 
   resultFn[multimethodKey] = {
-    methodEntries,
     defaultMethod,
     dispatch,
+    methodEntries,
   }
 
   if (methods.length !== 0) {

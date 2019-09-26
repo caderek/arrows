@@ -25,10 +25,12 @@
     "test": "jest",
     "prep": "node ../../scripts/prepare-lib.js",
     "coverage": "jest --coverage && codecov -F multimethod",
-    "lint": "tslint -c tslint.json 'src/**/*.ts'"
+    "lint": "tslint -c tslint.json 'src/**/*.ts'",
+    "benchmark": "ts-node benchmark/index.ts"
   },
   "devDependencies": {
     "@types/jest": "^24.0.18",
+    "benchmark": "^2.1.4",
     "codecov": "^3.6.1",
     "jest": "^24.9.0",
     "ramda.curry": "^0.26.1",

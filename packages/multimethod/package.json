@@ -1,10 +1,10 @@
 {
   "name": "@arrows/multimethod",
-  "version": "0.6.2",
+  "version": "0.6.3",
   "main": "lib/index.js",
   "license": "ISC",
   "repository": "https://github.com/caderek/arrows/tree/master/packages/multimethod",
-  "homepage": "https://github.com/caderek/arrows/tree/master/packages/multimethod",
+  "homepage": "https://caderek.github.io/arrows",
   "description": "Functional multimethod library",
   "keywords": [
     "arrows",
@@ -12,6 +12,9 @@
     "fp",
     "multimethod",
     "multimethods",
+    "multi",
+    "method",
+    "immutable",
     "multiple dispatch",
     "dynamic dispatch",
     "polymorphic",
@@ -26,11 +29,12 @@
     "prep": "node ../../scripts/prepare-lib.js",
     "coverage": "jest --coverage && codecov -F multimethod",
     "lint": "tslint -c tslint.json 'src/**/*.ts'",
-    "benchmark": "ts-node benchmark/index.ts"
+    "benchmark": "ts-node benchmark"
   },
   "devDependencies": {
     "@types/jest": "^24.0.18",
     "benchmark": "^2.1.4",
+    "benny": "^2.0.1",
     "codecov": "^3.6.1",
     "jest": "^24.9.0",
     "ramda.curry": "^0.26.1",

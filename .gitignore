@@ -2,6 +2,9 @@ node_modules
 lib
 coverage
 .history
+.vscode
+.idea
+*/**/benchmark/results
 */**/*.temp.*
 *.temp.*
 *.log.*

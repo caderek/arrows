@@ -1,5 +1,6 @@
 const types = {
   Array: 'Array',
+  AsyncFunction: 'AsyncFunction',
   BigInt: 'BigInt',
   Boolean: 'Boolean',
   Error: 'Error',

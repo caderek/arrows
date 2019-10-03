@@ -11,7 +11,7 @@ const { version } = require('../../package.json')
 export default suite(
   'Multimethod execution',
 
-  add('Execute identity function for reference', () => {
+  add.skip('Execute identity function for reference', () => {
     const fn = (x) => x
 
     return () => fn('foo')

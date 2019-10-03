@@ -34,7 +34,7 @@
   "devDependencies": {
     "@types/jest": "^24.0.18",
     "benchmark": "^2.1.4",
-    "benny": "^2.0.1",
+    "benny": "^3.3.0",
     "codecov": "^3.6.1",
     "jest": "^24.9.0",
     "ramda.curry": "^0.26.1",

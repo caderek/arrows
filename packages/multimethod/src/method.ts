@@ -102,10 +102,11 @@ const method: Method = (caseValue, correspondingValue) => {
     ]
 
     if (isNotDefault) {
-      const newMethodEntries: MethodEntries = addEntry(methodEntries, [
+      const newMethodEntries: MethodEntries = addEntry(
+        methodEntries,
         dispatchValues,
         fn,
-      ])
+      )
 
       return createMultimethod(newMethodEntries)(defaultMethod)(dispatch)
     }

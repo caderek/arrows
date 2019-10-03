@@ -1,13 +1,6 @@
 import pipe from '@arrows/composition/pipe'
 import * as equal from 'fast-deep-equal'
-import {
-  DefaultMethod,
-  Dispatch,
-  Method,
-  MethodEntries,
-  MethodEntry,
-  Multi,
-} from './types'
+import { DefaultMethod, Dispatch, MethodEntries, Multi } from './types'
 
 const multimethodKey = Symbol('multimethod')
 const methodKey = Symbol('method')
@@ -49,13 +42,18 @@ const createSimpleTarget: CreateSimpleTarget = (
   const fn = (...args) => {
     const currentDispatchValue = dispatch(...args)
 
-    const entry = methodEntries.find(([dispatchValue]) => {
+    const entry = methodEntries.find(([dispatchEntry]) => {
       // @todo optimize this by preselecting if this check if needed,
       // when multimethod is created
       // @todo use dep strict equal only when needed
-      return typeof dispatchValue === 'function'
-        ? dispatchValue(...args)
-        : equal(dispatchValue, currentDispatchValue)
+      switch (dispatchEntry.type) {
+        case 'value':
+          return equal(dispatchEntry.value, currentDispatchValue)
+        case 'function':
+          return dispatchEntry.value(...args)
+        case 'constructor':
+          return currentDispatchValue instanceof dispatchEntry.value
+      }
     })
 
     const target = entry ? entry[1] : defaultMethod
@@ -104,10 +102,15 @@ const createSegmentedTarget: CreateSegmentedTarget = (
           currentDispatchValue = currentDispatchValue(...segmentsArgs[i])
         }
 
-        const entry = methodEntries.find(([dispatchValue]) => {
-          return typeof dispatchValue === 'function'
-            ? dispatchValue(...[].concat(...segmentsArgs))
-            : equal(dispatchValue, currentDispatchValue)
+        const entry = methodEntries.find(([dispatchEntry]) => {
+          switch (dispatchEntry.type) {
+            case 'value':
+              return equal(dispatchEntry.value, currentDispatchValue)
+            case 'function':
+              return dispatchEntry.value(...[].concat(...segmentsArgs))
+            case 'constructor':
+              return currentDispatchValue instanceof dispatchEntry.value
+          }
         })
 
         const target = entry ? entry[1] : defaultMethod
@@ -206,15 +209,45 @@ const createMultimethod: CreateMultimethod = (methodEntries = []) => (
   return resultFn
 }
 
+const isConstructor = (value) => {
+  return (
+    typeof value === 'function' &&
+    value.name &&
+    value.name[0] === value.name[0].toUpperCase()
+  )
+}
+
+const createCaseEntry = (caseValue) => {
+  if (isConstructor(caseValue)) {
+    return { type: 'constructor', value: caseValue }
+  }
+
+  if (typeof caseValue === 'function') {
+    return { type: 'function', value: caseValue }
+  }
+
+  return {
+    type: 'value',
+    value: caseValue,
+  }
+}
+
 type AddEntry = (
   methodEntries: MethodEntries,
-  newMethodEntry: MethodEntry,
+  caseValue: any,
+  caseCorrespondingValue: any,
 ) => MethodEntries
 
-const addEntry: AddEntry = (methodEntries, newMethodEntry) => {
-  const index = methodEntries.findIndex((entry) =>
-    equal(entry[0], newMethodEntry[0]),
-  )
+const addEntry: AddEntry = (
+  methodEntries,
+  caseValue,
+  caseCorrespondingValue,
+) => {
+  const caseEntry = createCaseEntry(caseValue)
+
+  const index = methodEntries.findIndex((entry) => equal(entry[0], caseEntry))
+
+  const newMethodEntry: [any, any] = [caseEntry, caseCorrespondingValue]
 
   if (index === -1) {
     return [...methodEntries, newMethodEntry]

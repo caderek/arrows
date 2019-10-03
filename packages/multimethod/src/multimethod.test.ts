@@ -252,4 +252,32 @@ describe('multimethod', () => {
       expect(multimethod(0)(2)).toEqual('two')
     })
   })
+
+  describe('when case value is a constructor and dispatch is not chunked', () => {
+    it('matches the dispatch value with instanceof operator', () => {
+      class Cat {}
+      class Dog {}
+
+      const multimethod = multi(method(Cat, 'cat'), method(Dog, 'dog'))
+
+      expect(multimethod(new Cat())).toEqual('cat')
+      expect(multimethod(new Dog())).toEqual('dog')
+    })
+  })
+
+  describe('when case value is a constructor and dispatch is chunked', () => {
+    it('matches the dispatch value with instanceof operator', () => {
+      class Cat {}
+      class Dog {}
+
+      const multimethod = multi(
+        () => () => (animal) => animal,
+        method(Cat, 'cat'),
+        method(Dog, 'dog'),
+      )
+
+      expect(multimethod()()(new Cat())).toEqual('cat')
+      expect(multimethod()()(new Dog())).toEqual('dog')
+    })
+  })
 })

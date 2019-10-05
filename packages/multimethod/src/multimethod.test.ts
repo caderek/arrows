@@ -52,24 +52,46 @@ describe('multi', () => {
   })
 
   describe('executed with list of methods only', () => {
-    it('creates multimethod that executes matching method using identity', () => {
-      const spellNumber = multi(
-        method(0, (x) => 'zero'),
-        method(1, (x) => 'one'),
-        method(2, (x) => 'two'),
-        method((x) => 'other number'),
-      )
+    describe('creates multimethod that executes matching method using implicit dispatch', () => {
+      it('that works like identity function for single argument', () => {
+        const spellNumber = multi(
+          method(0, (x) => 'zero'),
+          method(1, (x) => 'one'),
+          method(2, (x) => 'two'),
+          method((x) => 'other number'),
+        )
 
-      const results = [
-        spellNumber(0),
-        spellNumber(1),
-        spellNumber(2),
-        spellNumber(7),
-      ]
+        const results = [
+          spellNumber(0),
+          spellNumber(1),
+          spellNumber(2),
+          spellNumber(7),
+        ]
 
-      const expected = ['zero', 'one', 'two', 'other number']
+        const expected = ['zero', 'one', 'two', 'other number']
 
-      expect(results).toEqual(expected)
+        expect(results).toEqual(expected)
+      })
+
+      it('that returns an array of arguments if there is more than one argument', () => {
+        const spellNumber = multi(
+          method([0, 0], () => 'zero'),
+          method([1, 1], () => 'one'),
+          method([2, 2], () => 'two'),
+          method(() => 'other numbers'),
+        )
+
+        const results = [
+          spellNumber(0, 0),
+          spellNumber(1, 1),
+          spellNumber(2, 2),
+          spellNumber(7, 7),
+        ]
+
+        const expected = ['zero', 'one', 'two', 'other numbers']
+
+        expect(results).toEqual(expected)
+      })
     })
   })
 
@@ -278,6 +300,80 @@ describe('multimethod', () => {
 
       expect(multimethod()()(new Cat())).toEqual('cat')
       expect(multimethod()()(new Dog())).toEqual('dog')
+    })
+  })
+
+  describe('when case value is an array of constructor | value and dispatch is not chunked', () => {
+    it('matches the dispatch value with instanceof operator', () => {
+      class Cat {}
+      class Dog {}
+      class Mouse {}
+
+      const fn = multi(
+        (animal1, animal2, action) => [animal1, animal2, action],
+        method([Cat, Mouse, 'eat'], 'The cat ate the mouse!'),
+        method([Dog, Mouse, 'eat'], 'The dog did not eat the mouse.'),
+        method([Dog, Cat, 'eat'], 'The dog did not eat the cat.'),
+      )
+
+      expect(fn(new Cat(), new Mouse(), 'eat')).toEqual(
+        'The cat ate the mouse!',
+      )
+      expect(fn(new Dog(), new Mouse(), 'eat')).toEqual(
+        'The dog did not eat the mouse.',
+      )
+      expect(fn(new Dog(), new Cat(), 'eat')).toEqual(
+        'The dog did not eat the cat.',
+      )
+    })
+  })
+
+  describe('when case value is an array of constructor | value and default dispatch', () => {
+    it('matches the dispatch value with instanceof operator', () => {
+      class Cat {}
+      class Dog {}
+      class Mouse {}
+
+      const fn = multi(
+        method([Cat, Mouse, 'eat'], 'The cat ate the mouse!'),
+        method([Dog, Mouse, 'eat'], 'The dog did not eat the mouse.'),
+        method([Dog, Cat, 'eat'], 'The dog did not eat the cat.'),
+      )
+
+      expect(fn(new Cat(), new Mouse(), 'eat')).toEqual(
+        'The cat ate the mouse!',
+      )
+      expect(fn(new Dog(), new Mouse(), 'eat')).toEqual(
+        'The dog did not eat the mouse.',
+      )
+      expect(fn(new Dog(), new Cat(), 'eat')).toEqual(
+        'The dog did not eat the cat.',
+      )
+    })
+  })
+
+  describe('when case value is an array of constructor | value and dispatch is chunked', () => {
+    it('matches the dispatch value with instanceof operator', () => {
+      class Cat {}
+      class Dog {}
+      class Mouse {}
+
+      const fn = multi(
+        (animal1) => (animal2) => (action) => [animal1, animal2, action],
+        method([Cat, Mouse, 'eat'], 'The cat ate the mouse!'),
+        method([Dog, Mouse, 'eat'], 'The dog did not eat the mouse.'),
+        method([Dog, Cat, 'eat'], 'The dog did not eat the cat.'),
+      )
+
+      expect(fn(new Cat())(new Mouse())('eat')).toEqual(
+        'The cat ate the mouse!',
+      )
+      expect(fn(new Dog())(new Mouse())('eat')).toEqual(
+        'The dog did not eat the mouse.',
+      )
+      expect(fn(new Dog())(new Cat())('eat')).toEqual(
+        'The dog did not eat the cat.',
+      )
     })
   })
 })

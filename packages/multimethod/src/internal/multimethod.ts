@@ -5,7 +5,7 @@ import { DefaultMethod, Dispatch, MethodEntries, Multi } from './types'
 const multimethodKey = Symbol('multimethod')
 const methodKey = Symbol('method')
 
-const implicitDispatch = (x: any) => x
+const implicitDispatch = (...args) => (args.length > 1 ? [...args] : args[0])
 
 type CountSegments = (dispatch: Dispatch) => number
 
@@ -53,6 +53,14 @@ const createSimpleTarget: CreateSimpleTarget = (
           return dispatchEntry.value(...args)
         case 'constructor':
           return currentDispatchValue instanceof dispatchEntry.value
+        case 'mixed':
+          return dispatchEntry.values
+            .map((item, index) =>
+              item.type === 'constructor'
+                ? currentDispatchValue[index] instanceof item.value
+                : equal(currentDispatchValue[index], item.value),
+            )
+            .every((matching) => matching === true)
       }
     })
 
@@ -110,6 +118,14 @@ const createSegmentedTarget: CreateSegmentedTarget = (
               return dispatchEntry.value(...[].concat(...segmentsArgs))
             case 'constructor':
               return currentDispatchValue instanceof dispatchEntry.value
+            case 'mixed':
+              return dispatchEntry.values
+                .map((item, index) =>
+                  item.type === 'constructor'
+                    ? currentDispatchValue[index] instanceof item.value
+                    : equal(currentDispatchValue[index], item.value),
+                )
+                .every((matching) => matching === true)
           }
         })
 
@@ -224,6 +240,21 @@ const createCaseEntry = (caseValue) => {
 
   if (typeof caseValue === 'function') {
     return { type: 'function', value: caseValue }
+  }
+
+  if (
+    Array.isArray(caseValue) &&
+    caseValue.some((item) => isConstructor(item))
+  ) {
+    return {
+      type: 'mixed',
+      values: caseValue.map((item) => {
+        return {
+          type: isConstructor(item) ? 'constructor' : 'value',
+          value: item,
+        }
+      }),
+    }
   }
 
   return {

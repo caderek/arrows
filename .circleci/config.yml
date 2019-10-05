@@ -10,11 +10,6 @@ common_steps: &common_steps_anchor
   - checkout:
       path: ~/repo
 
-  - run:
-      name: "Setup custom environment variables"
-      command: |
-        echo 'export CODECOV_TOKEN="ddabdc1f-efec-4177-975f-555f2024549e"' >> $BASH_ENV # Redirect MY_ENV_VAR into $BASH_ENV
-
   - restore_cache:
       keys:
         - v1-dependencies-{{ checksum "package.json" }}

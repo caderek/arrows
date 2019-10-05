@@ -5,6 +5,7 @@
     "build": "node scripts/execute build",
     "push": "node scripts/execute publish",
     "test": "node scripts/execute test",
+    "lint": "node scripts/execute lint",
     "coverage": "node scripts/execute coverage"
   },
   "devDependencies": {

@@ -1,6 +1,6 @@
 {
   "name": "@arrows/multimethod",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "main": "lib/index.js",
   "license": "ISC",
   "repository": "https://github.com/caderek/arrows/tree/master/packages/multimethod",

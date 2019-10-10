@@ -3,6 +3,7 @@
   "api_key": "",
   "dictionary": [
     "Multimethod",
+    "fromMulti",
     "json",
     "tslint",
     "typings"

@@ -220,7 +220,9 @@ const createMultimethod: CreateMultimethod = (methodEntries = []) => (
 
   const haveDispatchFn = isDispatchProvided(first)
   const dispatch = (haveDispatchFn ? first : implicitDispatch) as Dispatch
-  const methods = (haveDispatchFn ? rest : args) as Method[]
+  // Reverse, so methods have natural order (because by default, `method`
+  // adds to the front of the methods list)
+  const methods = (haveDispatchFn ? rest : args).reverse() as Method[]
 
   const segmentsCount = countSegments(dispatch)
 

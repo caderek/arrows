@@ -38,7 +38,10 @@ import { Method, Multimethod } from './internal/types'
  * @see multi, method
  */
 const fromMulti = (...methods: Method[]) => (multimethod: Multimethod) => {
-  return pipe(...methods)(multimethod)
+  // Reverse, so while new methods have higher priority than the old ones
+  // (because they are added to dhe front),
+  // they still have natural order inside this function
+  return pipe(...methods.reverse())(multimethod)
 }
 
 export { fromMulti }

@@ -1,4 +1,5 @@
 import * as curry from 'ramda.curry'
+import fromMulti from './fromMulti'
 import method from './method'
 import multi from './multi'
 
@@ -374,6 +375,47 @@ describe('multimethod', () => {
       expect(fn(new Dog())(new Cat())('eat')).toEqual(
         'The dog did not eat the cat.',
       )
+    })
+  })
+
+  describe('when methods are added they have natural priority order', () => {
+    it('when added by `multi` - top to bottom', () => {
+      const fn = multi(
+        method((x) => x > 5, 'higher than 5'),
+        method((x) => x > 3, 'higher than 3'),
+      )
+
+      expect(fn(9)).toEqual('higher than 5')
+      expect(fn(4)).toEqual('higher than 3')
+    })
+
+    it('when added by `fromMulti` - top to bottom, but all above old methods', () => {
+      const baseFn = multi(
+        method((x) => x > 5, 'higher than 5'),
+        method((x) => x > 1, 'higher than 1'),
+      )
+
+      const fn = fromMulti(
+        method((x) => x > 7, 'higher than 7'),
+        method((x) => x > 3, 'higher than 3'),
+      )(baseFn)
+
+      expect(fn(9)).toEqual('higher than 7')
+      expect(fn(4)).toEqual('higher than 3')
+      expect(fn(2)).toEqual('higher than 1')
+    })
+
+    it('when added by `method` - above old methods', () => {
+      const baseFn = multi(
+        method((x) => x > 5, 'higher than 5'),
+        method((x) => x > 1, 'higher than 1'),
+      )
+
+      const fn = method((x) => x > 7, 'higher than 7')(baseFn)
+
+      expect(fn(9)).toEqual('higher than 7')
+      expect(fn(6)).toEqual('higher than 5')
+      expect(fn(2)).toEqual('higher than 1')
     })
   })
 })

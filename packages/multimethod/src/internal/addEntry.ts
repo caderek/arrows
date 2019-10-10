@@ -20,7 +20,7 @@ const addEntry: AddEntry = (
   const newMethodEntry: [any, any] = [caseEntry, caseCorrespondingValue]
 
   if (index === -1) {
-    return [...methodEntries, newMethodEntry]
+    return [newMethodEntry, ...methodEntries]
   }
 
   const newMethodEntries = [...methodEntries]

@@ -3,6 +3,7 @@
   "api_key": "",
   "dictionary": [
     "instanceof",
+    "multimethod",
     "typings"
   ],
   "language": "en-US",

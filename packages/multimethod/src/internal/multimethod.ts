@@ -41,6 +41,43 @@ const countSegments: CountSegments = (dispatch) => {
   return count
 }
 
+const findTarget = (
+  methodEntries,
+  currentDispatchValue,
+  args,
+  defaultMethod,
+) => {
+  const entry = methodEntries.find(([dispatchEntry]) => {
+    switch (dispatchEntry.type) {
+      case 'value':
+        return equal(dispatchEntry.value, currentDispatchValue)
+      case 'function':
+        return dispatchEntry.value(...args)
+      case 'constructor':
+        return (
+          currentDispatchValue === dispatchEntry.value ||
+          currentDispatchValue instanceof dispatchEntry.value
+        )
+      case 'mixed':
+        return dispatchEntry.values
+          .map((item: ConstructorCaseEntry | ValueCaseEntry, index: number) =>
+            item.type === 'constructor'
+              ? currentDispatchValue[index] instanceof item.value
+              : equal(currentDispatchValue[index], item.value),
+          )
+          .every((matching: boolean) => matching === true)
+    }
+  })
+
+  const target = entry ? entry[1] : defaultMethod
+
+  if (!entry && target === null) {
+    throw new Error('No method specified for provided arguments')
+  }
+
+  return target
+}
+
 type CreateSimpleTarget = (
   methodEntries: MethodEntries,
   defaultMethod: DefaultMethod,
@@ -55,36 +92,12 @@ const createSimpleTarget: CreateSimpleTarget = (
   const fn: Dispatch = (...args) => {
     const currentDispatchValue = dispatch(...args)
 
-    const entry = methodEntries.find(([dispatchEntry]) => {
-      // @todo optimize this by preselecting if this check if needed,
-      // when multimethod is created
-      // @todo use dep strict equal only when needed
-      switch (dispatchEntry.type) {
-        case 'value':
-          return equal(dispatchEntry.value, currentDispatchValue)
-        case 'function':
-          return dispatchEntry.value(...args)
-        case 'constructor':
-          return currentDispatchValue instanceof dispatchEntry.value
-        case 'mixed':
-          return dispatchEntry.values
-            .map((item: ConstructorCaseEntry | ValueCaseEntry, index: number) =>
-              item.type === 'constructor'
-                ? currentDispatchValue[index] instanceof item.value
-                : equal(currentDispatchValue[index], item.value),
-            )
-            .every((matching: boolean) => matching === true)
-      }
-    })
-
-    const target = entry ? entry[1] : defaultMethod
-
-    // @todo optimize this by preselecting if this check if needed,
-    // when multimethod is created
-    // @todo refactor into function
-    if (!entry && target === null) {
-      throw new Error('No method specified for provided arguments')
-    }
+    const target = findTarget(
+      methodEntries,
+      currentDispatchValue,
+      args,
+      defaultMethod,
+    )
 
     if (typeof target !== 'function') {
       return target
@@ -128,34 +141,12 @@ const createSegmentedTarget: CreateSegmentedTarget = (
           currentDispatchValue = currentDispatchValue(...segmentsArgs[i])
         }
 
-        const entry = methodEntries.find(([dispatchEntry]) => {
-          switch (dispatchEntry.type) {
-            case 'value':
-              return equal(dispatchEntry.value, currentDispatchValue)
-            case 'function':
-              return dispatchEntry.value(...[].concat(...segmentsArgs))
-            case 'constructor':
-              return currentDispatchValue instanceof dispatchEntry.value
-            case 'mixed':
-              return dispatchEntry.values
-                .map(
-                  (
-                    item: ConstructorCaseEntry | ValueCaseEntry,
-                    index: number,
-                  ) =>
-                    item.type === 'constructor'
-                      ? currentDispatchValue[index] instanceof item.value
-                      : equal(currentDispatchValue[index], item.value),
-                )
-                .every((matching: boolean) => matching === true)
-          }
-        })
-
-        const target = entry ? entry[1] : defaultMethod
-
-        if (!entry && target === null) {
-          throw new Error('No method specified for provided arguments')
-        }
+        const target = findTarget(
+          methodEntries,
+          currentDispatchValue,
+          [].concat(...segmentsArgs),
+          defaultMethod,
+        )
 
         if (typeof target !== 'function') {
           return target

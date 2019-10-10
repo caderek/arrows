@@ -1,11 +1,24 @@
 import pipe from '@arrows/composition/pipe'
 import * as equal from 'fast-deep-equal'
-import { DefaultMethod, Dispatch, MethodEntries, Multi } from './types'
+import {
+  CaseEntry,
+  ConstructorCaseEntry,
+  DefaultMethod,
+  Dispatch,
+  Method,
+  MethodEntries,
+  Multi,
+  Multimethod,
+  ValueCaseEntry,
+} from './types'
 
 const multimethodKey = Symbol('multimethod')
 const methodKey = Symbol('method')
 
-const implicitDispatch = (...args) => (args.length > 1 ? [...args] : args[0])
+type ImplicitDispatch = (...args: any[]) => any | any[]
+
+const implicitDispatch: ImplicitDispatch = (...args) =>
+  args.length > 1 ? [...args] : args[0]
 
 type CountSegments = (dispatch: Dispatch) => number
 
@@ -39,7 +52,7 @@ const createSimpleTarget: CreateSimpleTarget = (
   defaultMethod,
   dispatch,
 ) => {
-  const fn = (...args) => {
+  const fn: Dispatch = (...args) => {
     const currentDispatchValue = dispatch(...args)
 
     const entry = methodEntries.find(([dispatchEntry]) => {
@@ -55,12 +68,12 @@ const createSimpleTarget: CreateSimpleTarget = (
           return currentDispatchValue instanceof dispatchEntry.value
         case 'mixed':
           return dispatchEntry.values
-            .map((item, index) =>
+            .map((item: ConstructorCaseEntry | ValueCaseEntry, index: number) =>
               item.type === 'constructor'
                 ? currentDispatchValue[index] instanceof item.value
                 : equal(currentDispatchValue[index], item.value),
             )
-            .every((matching) => matching === true)
+            .every((matching: boolean) => matching === true)
       }
     })
 
@@ -98,15 +111,20 @@ const createSegmentedTarget: CreateSegmentedTarget = (
   dispatch,
   segmentsCount,
 ) => {
-  const recur = (counter, previousSegmentsArgs = []) => {
+  type Recur = (
+    counter: number,
+    previousSegmentsArgs?: any[],
+  ) => Recur | Dispatch
+
+  const recur: Recur = (counter, previousSegmentsArgs = []) => {
     if (counter === 1) {
-      return (...args) => {
+      return (...args: any[]) => {
         const segmentsArgs = [...previousSegmentsArgs, args]
         const count = segmentsArgs.length
 
-        let currentDispatchValue = dispatch
+        let currentDispatchValue = dispatch(...segmentsArgs[0])
 
-        for (let i = 0; i < count; i++) {
+        for (let i = 1; i < count; i++) {
           currentDispatchValue = currentDispatchValue(...segmentsArgs[i])
         }
 
@@ -120,12 +138,16 @@ const createSegmentedTarget: CreateSegmentedTarget = (
               return currentDispatchValue instanceof dispatchEntry.value
             case 'mixed':
               return dispatchEntry.values
-                .map((item, index) =>
-                  item.type === 'constructor'
-                    ? currentDispatchValue[index] instanceof item.value
-                    : equal(currentDispatchValue[index], item.value),
+                .map(
+                  (
+                    item: ConstructorCaseEntry | ValueCaseEntry,
+                    index: number,
+                  ) =>
+                    item.type === 'constructor'
+                      ? currentDispatchValue[index] instanceof item.value
+                      : equal(currentDispatchValue[index], item.value),
                 )
-                .every((matching) => matching === true)
+                .every((matching: boolean) => matching === true)
           }
         })
 
@@ -149,7 +171,7 @@ const createSegmentedTarget: CreateSegmentedTarget = (
       }
     }
 
-    const fn = (...args) => {
+    const fn: Dispatch = (...args) => {
       return recur(counter - 1, [...previousSegmentsArgs, args])
     }
 
@@ -161,7 +183,7 @@ const createSegmentedTarget: CreateSegmentedTarget = (
   return recur(segmentsCount)
 }
 
-const validateFirstArg = (arg) => {
+const validateFirstArg = (arg: any) => {
   if (typeof arg !== 'function' && arg !== undefined) {
     throw new Error(
       'First argument of multi must be either dispatch function or partially applied method',
@@ -169,7 +191,7 @@ const validateFirstArg = (arg) => {
   }
 }
 
-const validateOtherArgs = (args) => {
+const validateOtherArgs = (args: any[]) => {
   args.forEach((item) => {
     if (typeof item !== 'function' || item[methodKey] !== true) {
       throw new Error(
@@ -197,8 +219,8 @@ const createMultimethod: CreateMultimethod = (methodEntries = []) => (
   validateOtherArgs(rest)
 
   const haveDispatchFn = isDispatchProvided(first)
-  const dispatch = haveDispatchFn ? first : implicitDispatch
-  const methods = haveDispatchFn ? rest : args
+  const dispatch = (haveDispatchFn ? first : implicitDispatch) as Dispatch
+  const methods = (haveDispatchFn ? rest : args) as Method[]
 
   const segmentsCount = countSegments(dispatch)
 
@@ -212,6 +234,7 @@ const createMultimethod: CreateMultimethod = (methodEntries = []) => (
           segmentsCount,
         )
 
+  // @ts-ignore
   resultFn[multimethodKey] = {
     defaultMethod,
     dispatch,
@@ -225,69 +248,4 @@ const createMultimethod: CreateMultimethod = (methodEntries = []) => (
   return resultFn
 }
 
-const isConstructor = (value) => {
-  return (
-    typeof value === 'function' &&
-    value.name &&
-    value.name[0] === value.name[0].toUpperCase()
-  )
-}
-
-const createCaseEntry = (caseValue) => {
-  if (isConstructor(caseValue)) {
-    return { type: 'constructor', value: caseValue }
-  }
-
-  if (typeof caseValue === 'function') {
-    return { type: 'function', value: caseValue }
-  }
-
-  if (
-    Array.isArray(caseValue) &&
-    caseValue.some((item) => isConstructor(item))
-  ) {
-    return {
-      type: 'mixed',
-      values: caseValue.map((item) => {
-        return {
-          type: isConstructor(item) ? 'constructor' : 'value',
-          value: item,
-        }
-      }),
-    }
-  }
-
-  return {
-    type: 'value',
-    value: caseValue,
-  }
-}
-
-type AddEntry = (
-  methodEntries: MethodEntries,
-  caseValue: any,
-  caseCorrespondingValue: any,
-) => MethodEntries
-
-const addEntry: AddEntry = (
-  methodEntries,
-  caseValue,
-  caseCorrespondingValue,
-) => {
-  const caseEntry = createCaseEntry(caseValue)
-
-  const index = methodEntries.findIndex((entry) => equal(entry[0], caseEntry))
-
-  const newMethodEntry: [any, any] = [caseEntry, caseCorrespondingValue]
-
-  if (index === -1) {
-    return [...methodEntries, newMethodEntry]
-  }
-
-  const newMethodEntries = [...methodEntries]
-  newMethodEntries[index] = newMethodEntry
-
-  return newMethodEntries
-}
-
-export { createMultimethod, addEntry, multimethodKey, methodKey }
+export { createMultimethod, multimethodKey, methodKey }

@@ -1,10 +1,10 @@
+import addEntry from './internal/addEntry'
 import {
-  addEntry,
   createMultimethod,
   methodKey,
   multimethodKey,
 } from './internal/multimethod'
-import { Method, MethodEntries } from './internal/types'
+import { Method, MethodEntries, Multimethod } from './internal/types'
 
 /**
  * Adds method to a multimethod
@@ -86,7 +86,7 @@ import { Method, MethodEntries } from './internal/types'
  * @see multi, fromMulti
  */
 const method: Method = (caseValue, correspondingValue) => {
-  const partialMethod = (multimethod) => {
+  const partialMethod = (multimethod: Multimethod): Multimethod => {
     if (!multimethod[multimethodKey]) {
       throw new Error('Function is not a multimethod')
     }
@@ -114,6 +114,7 @@ const method: Method = (caseValue, correspondingValue) => {
     return createMultimethod(methodEntries)(fn)(dispatch)
   }
 
+  // @ts-ignore
   partialMethod[methodKey] = true
 
   return partialMethod

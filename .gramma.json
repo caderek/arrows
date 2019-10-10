@@ -4,7 +4,8 @@
   "dictionary": [
     "Multimethod",
     "json",
-    "tslint"
+    "tslint",
+    "typings"
   ],
   "language": "en-US",
   "rules": {

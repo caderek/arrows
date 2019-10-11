@@ -51,7 +51,7 @@ yarn add @arrows/multimethod
 import { multi, method } from '@arrows/multimethod'
 
 const save = multi(
-  (data, format) => format,
+  (data, format) => format, // Custom dispatch function
 
   method('json', (data, format) => {
     console.log('Saving as JSON!')
@@ -84,7 +84,7 @@ extendedSave('csv') // -> "Saving as CSV!"
 extendedSave('yaml') // -> "Default - saving as TXT!"
 ```
 
-Or easily extend it with multiple methods:
+We can also easily extend the original function with multiple methods:
 
 ```js
 const extendedSave = fromMulti(
@@ -92,7 +92,7 @@ const extendedSave = fromMulti(
     console.log('Saving as CSV!')
   }),
 
-  method('csv', (data, format) => {
+  method('YAML', (data, format) => {
     console.log('Saving as YAML!')
   }),
 )(save)

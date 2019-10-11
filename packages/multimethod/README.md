@@ -13,6 +13,10 @@
 2. [Installation](#installation)
 3. [Usage](#usage)
    - [Quick example](#quick-example)
+   - [Anatomy of the multimethod](#anatomy-of-the-multimethod)
+     - [Dispatch function](#dispatch-function)
+     - [Case value](#case-value)
+     - [Corresponding value](#corresponding-value)
 4. [API reference](#api)
    - [multi](#multi)
    - [method](#method)
@@ -27,7 +31,9 @@ Multimethods are functions with superpowers - they can do all what ordinary func
 - can be easily extended, without the need to modify the original code,
 - allow you to write clean, concise and decoupled code.
 
-Multimethod library provides a tiny set of higher-order functions to create powerful, immutable multimethods in a functional way.
+Multimethod library provides a tiny set of higher-order functions to create powerful, immutable multimethods - in a functional way.
+
+The library has **built-in type definitions**, which provides an excellent IDE support.
 
 ## Installation
 
@@ -106,6 +112,209 @@ extendedSave('yaml') // -> "Saving as YAML!"
 In both cases, the original `save` function remains intact.
 
 That's just a simple example, you can do much more!
+
+### Anatomy of the multimethod
+
+```js
+const myFunction = multi(
+  optional_dispatch_function,
+
+  method(optional_case_value, corresponding_value),
+
+  ...other_methods,
+)
+```
+
+#### Dispatch function
+
+Dispatch function produces values, by which multimethod should be dispatched. The return value of the dispatch function is compared with case values of registered methods.
+
+Matching algorithm uses deep strict equality to find the match. There are two exceptions to this rule, they are described in the [case value](case-value) section.
+
+_Note: Current implementation of the deep strict equal algorithms guarantees the correct results for JSON compatible types, it may be later extended to also handle other types like `Map`, `Set` etc._
+
+If you do not provide a dispatch function, the default one will be used. Default dispatch function returns all arguments as an array, or in case of single argument - as a standalone value.
+
+Examples:
+
+```js
+/**
+ * Function with single argument,
+ * default dispatch will return that argument as-is.
+ *
+ * @param {string} color
+ * @returns {string} hex color
+ */
+const colorToHex = multi(
+  method('red', '#ff0000'),
+  method('green', '#00ff00'),
+  method('blue', '#0000ff'),
+)
+
+colorToHex('green') // -> "#00ff00"
+```
+
+```js
+/**
+ * Function with multiple arguments,
+ * default dispatch will return the array of arguments.
+ *
+ * Note that the order of the arguments do matter,
+ * so if you want the example to work for each combination,
+ * you either have to provide methods for reversed arguments,
+ * or add your custom dispatch function,
+ * which returns sorted values (better option).
+ *
+ * @param {string} colorA
+ * @param {string} colorB
+ * @returns {string} the resulting color
+ */
+const mixLights = multi(
+  method(['red', 'green'], 'yellow'),
+  method(['red', 'blue'], 'magenta'),
+  method(['green', 'blue'], 'cyan'),
+)
+
+mixLights('red', 'blue') // -> "magenta"
+mixLights('blue', 'red') // -> throws an error
+```
+
+```js
+/**
+ * Function with custom dispatch.
+ * More flexible version of the previous example.
+ *
+ * @param {string} colorA
+ * @param {string} colorB
+ * @returns {string} the resulting color
+ */
+const mixLights = multi(
+  (colorA, colorB) => [colorA, colorB].sort(), // custom dispatch
+  method(['green', 'red'], 'yellow'),
+  method(['blue', 'red'], 'magenta'),
+  method(['blue', 'green'], 'cyan'),
+)
+
+mixLights('red', 'blue') // -> "magenta"
+mixLights('blue', 'red') // -> "magenta"
+```
+
+```js
+/**
+ * Function with custom dispatch.
+ * Dispatch function can produce any arbitrary value.
+ *
+ * @param {string} colorA
+ * @param {string} colorB
+ * @returns {string} the resulting color
+ */
+const handleAction = multi(
+  (action, store) => action.type, // custom dispatch
+  method('ADD_TODO', (action, store) => store.add(action.text)),
+  method('REMOVE_TODO', (action, store) => store.remove(action.id)),
+  method('TOGGLE_TODO', (action, store) => store.toggle(action.id)),
+)
+
+handleAction({ type: 'ADD_TODO', text: 'Eat banana.' }) // -> todo added
+handleAction({ type: 'TOGGLE_TODO', id: 0 }) // -> todo toggled
+```
+
+_Note: If you are interested in Redux-like actions handling, check out [redux-multimethod](https://www.npmjs.com/package/redux-multimethod) package._
+
+#### Case value
+
+Case value is a first argument of the two-argument `method` (if you provide only one argument for to the `method`, it will be treated as default case).
+
+Case value can be either:
+
+1. an ordinary function
+2. a constructor / class
+3. any other value
+
+If the case value is neither a function, nor a constructor, it will be matched against the result of the dispatch function using deep strict equal algorithm.
+
+If the case value is a constructor (can be inside an array, more in the examples),
+it will be matched against the result of the dispatch function by strict equality (`===`) operator,
+and if that fails - by the `instanceof` operator.
+
+If the case value is an ordinary function, the dispatch function will be ignored,
+and case value function will be executed with all provided arguments. Case value function should return a boolean value (or at least the output will be treated as such).
+If the return value is truthy, then we have a match.
+
+You can mix all case value types in one multimethod.
+
+Examples:
+
+```js
+/**
+ * Function with case values as ordinary values.
+ * Values can be any JSON-compatible, arbitrary nested structure, or primitive.
+ * Matched by deep strict equal algorithm.
+ *
+ * @param {Object} player
+ * @returns {string} the resulting color
+ */
+const greet = multi(
+  method({ name: 'John', age: '30' }, 'Hello John!'),
+  method({ name: 'Jane', age: '25' }, 'Hi Jane!'),
+  method('Howdy stranger!'),
+)
+
+greet({ name: 'John', age: '30' }) // -> "Hello John!"
+greet({ name: 'Jane', age: '25' }) // -> "Hi Jane!"
+greet({ name: 'Jane', age: '40' }) // -> "Howdy stranger!"
+```
+
+```js
+class Email {}
+class SMS {}
+
+/**
+ * Function with case values as constructors.
+ * Matched by strict equality check, followed by instanceof check.
+ *
+ * @param {Object} player
+ * @returns {string} the resulting color
+ */
+const sendMessage = multi(
+  method(Email, 'Sending email...'),
+  method(SMS, 'Sending SMS...'),
+)
+
+sendMessage(new Email()) // -> "Sending email..."
+sendMessage(new SMS()) // -> "Sending SMS..."
+
+sendMessage(Email) // -> "Sending email..."
+sendMessage(SMS) // -> "Sending SMS..."
+```
+
+```js
+class Article {}
+class Recipe {}
+
+class PDF {}
+class HTML {}
+
+/**
+ * Function with case values .
+ * Matched by strict equality check, followed by instanceof check.
+ *
+ * @param {Object} player
+ * @returns {string} the resulting color
+ */
+const embed = multi(
+  method([Article, PDF], 'Embedding article inside PDF'),
+  method([Article, HTML], 'Embedding article inside HTML'),
+  method([Recipe, PDF], 'Embedding recipe inside PDF'),
+  method([Recipe, HTML], 'Embedding recipe inside HTML'),
+)
+
+sendMessage(new Email()) // -> "Sending email..."
+sendMessage(new SMS()) // -> "Sending SMS..."
+
+sendMessage(Email) // -> "Sending email..."
+sendMessage(SMS) // -> "Sending SMS..."
+```
 
 ## API
 

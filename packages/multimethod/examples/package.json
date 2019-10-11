@@ -1,0 +1,9 @@
+{
+  "name": "multimethod-examples",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "ISC",
+  "dependencies": {
+    "@arrows/multimethod": "^0.8.5"
+  }
+}

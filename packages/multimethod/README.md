@@ -72,9 +72,9 @@ const save = multi(
   }),
 )
 
-save('json') // -> "Saving as JSON!"
-save('html') // -> "Saving as HTML!"
-save('csv') // -> "Default - saving as TXT!"
+save('some data', 'json') // -> "Saving as JSON!"
+save('some data', 'html') // -> "Saving as HTML!"
+save('some data', 'csv') // -> "Default - saving as TXT!"
 ```
 
 Let's add a new format, without touching the existing code:
@@ -84,10 +84,10 @@ const extendedSave = method('csv', (data, format) => {
   console.log('Saving as CSV!')
 })(save)
 
-extendedSave('json') // -> "Saving as JSON!"
-extendedSave('html') // -> "Saving as HTML!"
-extendedSave('csv') // -> "Saving as CSV!"
-extendedSave('yaml') // -> "Default - saving as TXT!"
+extendedSave('some data', 'json') // -> "Saving as JSON!"
+extendedSave('some data', 'html') // -> "Saving as HTML!"
+extendedSave('some data', 'csv') // -> "Saving as CSV!"
+extendedSave('some data', 'yaml') // -> "Default - saving as TXT!"
 ```
 
 We can also easily extend the original function with multiple methods:
@@ -98,15 +98,15 @@ const extendedSave = fromMulti(
     console.log('Saving as CSV!')
   }),
 
-  method('YAML', (data, format) => {
+  method('yaml', (data, format) => {
     console.log('Saving as YAML!')
   }),
 )(save)
 
-extendedSave('json') // -> "Saving as JSON!"
-extendedSave('html') // -> "Saving as HTML!"
-extendedSave('csv') // -> "Saving as CSV!"
-extendedSave('yaml') // -> "Saving as YAML!"
+extendedSave2('some data', 'json') // -> "Saving as JSON!"
+extendedSave2('some data', 'html') // -> "Saving as HTML!"
+extendedSave2('some data', 'csv') // -> "Saving as CSV!"
+extendedSave2('some data', 'yaml') // -> "Saving as YAML!"
 ```
 
 In both cases, the original `save` function remains intact.
@@ -200,6 +200,18 @@ mixLights('blue', 'red') // -> "magenta"
 ```
 
 ```js
+const store = {
+  add(text) {
+    console.log('todo added')
+  },
+  remove(id) {
+    console.log('todo removed')
+  },
+  toggle(id) {
+    console.log('todo toggled')
+  },
+}
+
 /**
  * Function with custom dispatch.
  * Dispatch function can produce any arbitrary value.
@@ -215,8 +227,8 @@ const handleAction = multi(
   method('TOGGLE_TODO', (action, store) => store.toggle(action.id)),
 )
 
-handleAction({ type: 'ADD_TODO', text: 'Eat banana.' }) // -> todo added
-handleAction({ type: 'TOGGLE_TODO', id: 0 }) // -> todo toggled
+handleAction({ type: 'ADD_TODO', text: 'Eat banana.' }, store) // -> "todo added"
+handleAction({ type: 'TOGGLE_TODO', id: 0 }, store) // -> "todo toggled"
 ```
 
 _Note: If you are interested in Redux-like actions handling, check out [redux-multimethod](https://www.npmjs.com/package/redux-multimethod) package._
@@ -366,7 +378,7 @@ const VIPs = ['john@vip.com', 'alice@vip.com']
  * @returns {string | Object} response value
  */
 const notify = multi(
-  (msg) => notification.type,
+  (msg) => msg.type,
 
   method(
     (msg) => msg.type === 'email' && VIPs.includes(msg.email),

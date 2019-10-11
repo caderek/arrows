@@ -4,9 +4,6 @@ import { Method, Multimethod } from './internal/types'
 /**
  * Allows to create new multimethods from existing ones in a simple way.
  *
- * It works like functional `pipe`, but with additional checks,
- * specialized error messages and type checking.
- *
  * @param {...Method} [methods] Arbitrary number of partially applied methods
  * @param {Multimethod} multimethod Multimethod on which you want to base new multimethod
  * @returns {Multimethod} New multimethod (the base one is unchanged)
@@ -18,7 +15,7 @@ import { Method, Multimethod } from './internal/types'
  * @example <caption>Create new multimethod using existing one as a base:</caption>
  *
  * const add = multi(
- *   (a, b) => [(typeof a), (typeof b)],
+ *   (a, b) => [typeof a, typeof b],
  *   method(['number', 'number'], (a, b) => a + b),
  *   method(['string', 'string'], (a, b) => `${a}${b}`),
  * )

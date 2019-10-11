@@ -13,23 +13,18 @@ import { Multi } from './internal/types'
  * (dispatch?, method1?, method2?, ..., methodN?) => multimethod
  *
  *
- * @example <caption>Create multimethod with the default dispatch (identity function) and no methods:</caption>
- *
- * const fn = multi()
- * fn('foo') // -> throws an Error (because of no matching methods), but useful as a base for extensions
- *
  * @example <caption>Create multimethod with a custom dispatch and no methods:</caption>
  *
  * const fn = multi(x => typeof x)
  * fn('foo') // -> throws an Error (because of no matching methods), but useful as a base for extensions
  *
  *
- * @example <caption>Create multimethod with the default dispatch (identity function) and some methods:</caption>
+ * @example <caption>Create multimethod with the default dispatch and some methods:</caption>
  *
  * const makeSound = multi(
  *   method('cat', () => 'Meow!'),
  *   method('dog', () => 'Woof!'),
- *   method(() => 'Hello!'), // default method
+ *   method(() => 'Hello!'), // default method (ony one argument provided)
  * )
  *
  * makeSound('cat') // -> 'Meow!'

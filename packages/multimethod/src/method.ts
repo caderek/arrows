@@ -9,9 +9,12 @@ import { Method, MethodEntries, Multimethod } from './internal/types'
 /**
  * Adds method to a multimethod
  *
- * @param {any} [caseValue] The value to which the result of dispatch function is matched (if function, then is executed with output of dispatch function)
- * @param {any} correspondingValue The value that function should return on matching case (if function, then is executed with input arguments)
- * @param {Multimethod} multimethod Multimethod on which you want to base new multimethod
+ * @param {any} [caseValue] The value to which the result of dispatch function is matched
+ *   - if function, then is executed with input arguments (always unchunked, even if dispatch is chunked,
+ *   - if constructor, then is matched by reference value first, if that fails, by instanceof operator.
+ * @param {any} correspondingValue The value that function should return on matching case
+ *   - if function, then is executed with input arguments (chunked or unchunked, depending on the dispatch function)
+ * @param {Multimethod} multimethod Multimethod on which you want to base the new multimethod
  * @returns {Multimethod} New multimethod (the base one is unchanged)
  *
  * @example <caption>Interface:</caption>
@@ -47,7 +50,7 @@ import { Method, MethodEntries, Multimethod } from './internal/types'
  *
  * @example <caption>Case method with caseValue and correspondingValue as ordinary values:</caption>
  *
- * const getHexColor = multi() // Uses identity function (x => x) as default dispatch
+ * const getHexColor = multi() // Uses default dispatch
  *
  * const extendedGetHexColor = method('red', '#FF0000')(getHexColor)
  *
@@ -59,9 +62,9 @@ import { Method, MethodEntries, Multimethod } from './internal/types'
  * class Enemy {}
  * const is = (prototype) => (value) => value instanceof prototype
  *
- * const greet = multi() // Uses identity function (x => x) as default dispatch
+ * const greet = multi() // Uses default dispatch
  *
- * // Matches, when case function executed with dispatch value returns truthy value
+ * // Matches, when case function executed with initial arguments returns truthy value
  * const extendedGreet = method(is(Enemy), 'Goodbye!')(greet)
  *
  * extendedGreet(new Enemy()) // -> 'Goodbye!'
@@ -73,7 +76,7 @@ import { Method, MethodEntries, Multimethod } from './internal/types'
  * class Human { walk() { return 'walking...' } }
  * const is = (prototype) => (value) => value instanceof prototype
  *
- * const go = multi( // Uses identity function (x => x) as default dispatch
+ * const go = multi(
  *   method(is(Car), (entity) => entity.drive()) // lets add one case to original multimethod
  * )
  *
@@ -81,6 +84,21 @@ import { Method, MethodEntries, Multimethod } from './internal/types'
  *
  * extendedGo(new Car()) // -> 'driving...'
  * extendedGo(new Human()) // -> 'walking...'
+ *
+ *
+ * @example <caption>Case method with caseValue as a constructor:</caption>
+ *
+ * class Email {}
+ * class SMS {}
+ *
+ * const fn = multi(
+ *   method(Email, 'email') // lets add one case to original multimethod
+ * )
+ *
+ * const extendedFn = method(SMS, 'sms')(go)
+ *
+ * extendedFn(new Email()) // -> 'email'
+ * extendedFn(new SMS()) // -> 'sms'
  *
  *
  * @see multi, fromMulti

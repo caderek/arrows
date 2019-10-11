@@ -33,7 +33,7 @@ Multimethods are functions with superpowers - they can do all what ordinary func
 
 Multimethod library provides a tiny set of higher-order functions to create powerful, immutable multimethods - in a functional way.
 
-The library has **built-in type definitions**, which provides an excellent IDE support.
+The library has **built-in type definitions**, which provide an excellent IDE support.
 
 ## Installation
 

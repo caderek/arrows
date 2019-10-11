@@ -204,9 +204,9 @@ mixLights('blue', 'red') // -> "magenta"
  * Function with custom dispatch.
  * Dispatch function can produce any arbitrary value.
  *
- * @param {string} colorA
- * @param {string} colorB
- * @returns {string} the resulting color
+ * @param {Object} action
+ * @param {Object} store
+ * @returns {void}
  */
 const handleAction = multi(
   (action, store) => action.type, // custom dispatch
@@ -252,7 +252,7 @@ Examples:
  * Matched by deep strict equal algorithm.
  *
  * @param {Object} player
- * @returns {string} the resulting color
+ * @returns {string} greeting
  */
 const greet = multi(
   method({ name: 'John', age: '30' }, 'Hello John!'),
@@ -273,8 +273,8 @@ class SMS {}
  * Function with case values as constructors.
  * Matched by strict equality check, followed by instanceof check.
  *
- * @param {Object} player
- * @returns {string} the resulting color
+ * @param {Object} message
+ * @returns {string} status
  */
 const sendMessage = multi(
   method(Email, 'Sending email...'),
@@ -296,11 +296,21 @@ class PDF {}
 class HTML {}
 
 /**
- * Function with case values .
- * Matched by strict equality check, followed by instanceof check.
+ * Function with case values as constructors wrapped in an array - special case.
  *
- * @param {Object} player
- * @returns {string} the resulting color
+ * If the case value is an array, matching algorithm will check if the array
+ * contains constructors. If that's the case, then these constructors will be
+ * matched using constructor algorithm, other values of the array
+ * will be matched using a deep strict equal algorithm.
+ *
+ * The algorithm, by design, checks for constructors only the first-layer array.
+ *
+ * It can be very useful, for example as a trivial alternative
+ * to otherwise complex visitor patter.
+ *
+ * @param {Object} document
+ * @param {Object} template
+ * @returns {string} embedding description
  */
 const embed = multi(
   method([Article, PDF], 'Embedding article inside PDF'),
@@ -309,11 +319,103 @@ const embed = multi(
   method([Recipe, HTML], 'Embedding recipe inside HTML'),
 )
 
-sendMessage(new Email()) // -> "Sending email..."
-sendMessage(new SMS()) // -> "Sending SMS..."
+embed(new Article(), new PDF()) // -> "Embedding article inside PDF"
+embed(new Recipe(), new HTML()) // -> "Embedding recipe inside HTML"
+```
 
-sendMessage(Email) // -> "Sending email..."
-sendMessage(SMS) // -> "Sending SMS..."
+```js
+/**
+ * Function with case values as ordinary functions.
+ * Case value functions will be executed ignoring dispatch function values,
+ * instead operating on raw arguments.
+ *
+ * It's like each method has its own dispatch function.
+ *
+ * It is useful, when you can't express a dispatch in one common function,
+ * when each case has some specific rule.
+ *
+ * @param {Object} req
+ * @returns {string | Object} response value
+ */
+const router = multi(
+  method(
+    (req) => ['GET'].includes(req.method) && req.url === '/',
+    'Hello world!',
+  ),
+
+  method(
+    (req) => ['GET', 'POST'].includes(req.method) && req.url === '/users',
+    [{ id: 1, name: 'John' }],
+  ),
+
+  method('Oops!'),
+)
+
+router({ method: 'GET', url: '/' }) // -> "Hello world!"
+router({ method: 'POST', url: '/' }) // -> "Oops!"
+router({ method: 'GET', url: '/users' }) // -> [{ id: 1, name: "John" }]
+```
+
+```js
+const VIPs = ['john@vip.com', 'alice@vip.com']
+
+/**
+ * Function with case values of different types.
+ *
+ * @param {Object} msg
+ * @returns {string | Object} response value
+ */
+const notify = multi(
+  (msg) => notification.type,
+
+  method(
+    (msg) => msg.type === 'email' && VIPs.includes(msg.email),
+    'Email from VIP!',
+  ),
+
+  method('email', (msg) => `Email from ${msg.email}!`),
+  method('sms', (msg) => `SMS from ${msg.number}!`),
+)
+
+notify({ type: 'email', email: 'alice@vip.com' }) // -> "Email from VIP!"
+notify({ type: 'email', email: 'joe@ab.com' }) // -> "Email from joe@ab.com!"
+notify({ type: 'sms', number: '123456789' }) // -> "SMS from 123456789!"
+```
+
+#### Corresponding value
+
+Corresponding value is a second argument of the two-argument `method` (or the first and ony argument of the default method).
+
+Case value can be either:
+
+1. a function
+2. any other value
+
+If the corresponding value is a function, it will be executed with passed arguments when its case value is matching.
+
+If the corresponding value is not a function, it will be returned when its case value is matching.
+
+There are many examples already, but here's another one:
+
+```js
+/**
+ * Classic recursive fibonacci.
+ * Do not use it for big numbers.
+ *
+ * As you can see, recursion works just like with ordinary functions.
+ *
+ * @param {number} n
+ * @returns {number} Nth element of fibonacci sequence
+ */
+const fib = multi(
+  method(0, 0),
+  method(1, 1),
+  method((n) => fib(n - 1) + fib(n - 2)),
+)
+
+fib(0) // -> 0
+fib(1) // -> 1
+fib(9) // -> 34
 ```
 
 ## API

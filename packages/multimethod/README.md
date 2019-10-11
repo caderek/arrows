@@ -9,18 +9,103 @@
 
 ## Table of contents
 
-1. [Overview](#overview)
-2. [API reference](#api)
+1. [Introduction](#introduction)
+2. [Installation](#installation)
+3. [Usage](#usage)
+   - [Quick example](#quick-example)
+4. [API reference](#api)
    - [multi](#multi)
    - [method](#method)
    - [fromMulti](#fromMulti)
-3. [License](#license)
+5. [License](#license)
 
-## Overview
+## Introduction
 
-Multimethod library provides a tiny set of higher-order functions, that help you to control the flow of your program in a readable and extensible way.
+Multimethods are functions with superpowers - they can do all what ordinary functions can do, but additionally:
 
-This implementation allows you to create powerful, immutable multimethods in a functional way.
+- can chose proper implementation based on the provided arguments, without explicit conditional logic,
+- can be easily extended, without the need to modify the original code,
+- allow you to write clean, concise and decoupled code.
+
+Multimethod library provides a tiny set of higher-order functions to create powerful, immutable multimethods in a functional way.
+
+## Installation
+
+Via NPM:
+
+```sh
+npm i @arrows/multimethod
+```
+
+Via Yarn:
+
+```sh
+yarn add @arrows/multimethod
+```
+
+## Usage
+
+### Quick example
+
+```js
+import { multi, method } from '@arrows/multimethod'
+
+const save = multi(
+  (data, format) => format,
+
+  method('json', (data, format) => {
+    console.log('Saving as JSON!')
+  }),
+
+  method('html', (data, format) => {
+    console.log('Saving as HTML!')
+  }),
+
+  method((data, format) => {
+    console.log('Default - saving as TXT!')
+  }),
+)
+
+save('json') // -> "Saving as JSON!"
+save('html') // -> "Saving as HTML!"
+save('csv') // -> "Default - saving as TXT!"
+```
+
+Let's add a new format, without touching the existing code:
+
+```js
+const extendedSave = method('csv', (data, format) => {
+  console.log('Saving as CSV!')
+})(save)
+
+extendedSave('json') // -> "Saving as JSON!"
+extendedSave('html') // -> "Saving as HTML!"
+extendedSave('csv') // -> "Saving as CSV!"
+extendedSave('yaml') // -> "Default - saving as TXT!"
+```
+
+Or easily extend it with multiple methods:
+
+```js
+const extendedSave = fromMulti(
+  method('csv', (data, format) => {
+    console.log('Saving as CSV!')
+  }),
+
+  method('csv', (data, format) => {
+    console.log('Saving as YAML!')
+  }),
+)(save)
+
+extendedSave('json') // -> "Saving as JSON!"
+extendedSave('html') // -> "Saving as HTML!"
+extendedSave('csv') // -> "Saving as CSV!"
+extendedSave('yaml') // -> "Saving as YAML!"
+```
+
+In both cases, the original `save` function remains intact.
+
+That's just a simple example, you can do much more!
 
 ## API
 

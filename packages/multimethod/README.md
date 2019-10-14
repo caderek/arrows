@@ -32,13 +32,13 @@
 
 ## Introduction
 
-Multimethods are functions with superpowers - they can do all what ordinary functions can do, but additionally:
+Multimethods are functions with superpowers - they can do all that ordinary functions can do, but additionally:
 
-- can chose proper implementation based on the provided arguments, without explicit conditional logic,
+- can choose proper implementation based on the provided arguments, without explicit conditional logic,
 - can be easily extended, without the need to modify the original code,
 - allow you to write clean, concise and decoupled code.
 
-Multimethod library provides a tiny set of higher-order functions to create powerful, immutable multimethods - in a functional way.
+The multimethod library provides a tiny set of higher-order functions to create powerful, immutable multimethods - in a functional way.
 
 The library has **built-in type definitions**, which provide an excellent IDE support.
 
@@ -145,11 +145,11 @@ const myFunction = multi(
 
 #### Dispatch function
 
-Dispatch function produces values, by which multimethod should be dispatched. The return value of the dispatch function is compared with case values of registered methods.
+Dispatch function produces values, by which multimethod should be dispatched. The return value of the dispatch function is compared with the case values of registered methods.
 
-Matching algorithm uses deep strict equality to find the match. There are two exceptions to this rule, they are described in the [case value](#case-value) section.
+The matching algorithm uses deep strict equality to find the match. There are two exceptions to this rule, they are described in the [case value](#case-value) section.
 
-_Note: Current implementation of the deep strict equal algorithms guarantees the correct results for JSON compatible types, it may be later extended to also handle other types like `Map`, `Set` etc._
+_Note: Current implementation of the deep strict equal algorithms guarantees the correct results for JSON compatible types, it may be later extended to also handle other types like `Map`, `Set`, etc._
 
 If you do not provide a dispatch function, the default one will be used. Default dispatch function returns all arguments as an array, or in case of single argument - as a standalone value.
 
@@ -253,7 +253,7 @@ _Note: If you are interested in Redux-like actions handling, check out [redux-mu
 
 #### Case value
 
-Case value is a first argument of the two-argument `method` (if you provide only one argument for to the `method`, it will be treated as default case).
+Case value is the first argument of the two-argument `method` (if you provide only one argument to the `method`, it will be treated as a default case).
 
 Case value can be either:
 
@@ -261,14 +261,14 @@ Case value can be either:
 2. a constructor / class
 3. any other value
 
-If the case value is neither a function, nor a constructor, it will be matched against the result of the dispatch function using deep strict equal algorithm.
+If the case value is neither a function nor a constructor, it will be matched against the result of the dispatch function using the deep strict equal algorithm.
 
 If the case value is a constructor (can be inside an array, more in the examples),
 it will be matched against the result of the dispatch function by strict equality (`===`) operator,
 and if that fails - by the `instanceof` operator.
 
 If the case value is an ordinary function, the dispatch function will be ignored,
-and case value function will be executed with all provided arguments. Case value function should return a boolean value (or at least the output will be treated as such).
+and the case value function will be executed with all provided arguments. Case value function should return a boolean value (or at least the output will be treated as such).
 If the return value is truthy, then we have a match.
 
 You can mix all case value types in one multimethod.
@@ -326,9 +326,9 @@ class PDF {}
 class HTML {}
 
 /**
- * Function with case values as constructors wrapped in an array - special case.
+ * Function with case values as constructors wrapped in an array - a special case.
  *
- * If the case value is an array, matching algorithm will check if the array
+ * If the case value is an array, the matching algorithm will check if the array
  * contains constructors. If that's the case, then these constructors will be
  * matched using constructor algorithm, other values of the array
  * will be matched using a deep strict equal algorithm.
@@ -414,7 +414,7 @@ notify({ type: 'sms', number: '123456789' }) // -> "SMS from 123456789!"
 
 #### Corresponding value
 
-Corresponding value is a second argument of the two-argument `method` (or the first and ony argument of the default method).
+The corresponding value is a second argument of the two-argument `method` (or the first and only argument of the default method).
 
 Corresponding value can be either:
 
@@ -450,11 +450,11 @@ fib(9) // -> 34
 
 ### Extending multimethods
 
-The multimethod is immutable, so we can't add / override methods, but we can easily create a new multimethod based on the existing one. In fact, every time we execute the `method` function, we create a new multimethod. This multimethod will have all cases the old one has, plus the new method (you can also "replace" a method by using the same caseValue as an existing one).
+The multimethod is immutable, so we can't add/override methods, but we can easily create a new multimethod based on the existing one. In fact, every time we execute the `method` function, we create a new multimethod. This multimethod will have all cases the old one has, plus the new method (you can also "replace" a method by using the same caseValue as an existing one).
 
 #### Extending with a single method
 
-You can create a new multimethod with new method by executing `method` function and passing a base multimethod as an argument to the second chunk.
+You can create a new multimethod with a new method by executing `method` function and passing a base multimethod as an argument to the second chunk.
 
 Examples:
 
@@ -544,7 +544,7 @@ area({ type: 'circle', r: 3 }) // -> 28.274333882308138
 
 ### Methods priority
 
-When you execute the `method` function, the method will be added to the front of the multimethod. In case of the partially applied `method` functions passed to the `multi` function, they will be added from bottom to top - so they will maintain their order in a final multimethod.
+When you execute the `method` function, the method will be added to the front of the multimethod. In case of the partially applied `method` functions passed to the `multi` and `fromMulti` functions, they will be added from bottom to top - so they will maintain their order in a final multimethod.
 
 Order of the methods inside a multimethod determines their priority.
 
@@ -633,7 +633,7 @@ playVideo('movies.com/123') // -> "Playing video from: movies.com/123"
 
 #### Manual currying
 
-If you prefer a manual currying, or you already have functions that use manual currying and want to use them as methods, you can easily do that with the multimethod. Just like with automatic currying, execution is based on the dispatch function.
+If you prefer manual currying, or you already have functions that use manual currying and want to use them as methods, you can easily do that with the multimethod. Just like with automatic currying, execution is based on the dispatch function.
 
 Examples:
 
@@ -676,7 +676,7 @@ checkTypos('błąt', 'pl') // -> "Checking Polish grammar"
 
 ---
 
-_Note: To make it possible, the `multi` function counts chunks (segments) when multimethod is created, by executing dispatch function without arguments until returned value is not a function or error is thrown. This comes with one limitation - you should not use any arguments-based calculations as default values. If you do that, the library will be not able to correctly count segments._
+_Note: To make it possible, the `multi` function counts chunks (segments) when multimethod is created, by executing dispatch function without arguments until a returned value is not a function or error is thrown. This comes with one limitation - you should not use any arguments-based calculations as default values. If you do that, the library will be not able to correctly count segments._
 
 _For example, this will not work as intended:_
 
@@ -703,7 +703,7 @@ based on arbitrary dispatch of its arguments
 
 #### Parameters
 
-- `first` - First argument can be either dispatch function, or partially applied method
+- `first` - The first argument can be either dispatch function or partially-applied method
 - `methods` - Arbitrary number of partially applied methods (optional)
 
 #### Returns
@@ -921,7 +921,7 @@ Allows to create new multimethods from the existing ones in a simple way.
 #### Interface
 
 ```
-(method1, method2?, ..., methodN?) => (multimethod) => new_multimethod
+(method, method?, ..., method?) => (multimethod) => new_multimethod
 ```
 
 #### Example

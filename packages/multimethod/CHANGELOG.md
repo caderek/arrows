@@ -1,5 +1,9 @@
 # CHANGELOG
 
-### < 1.0.0
+## < 1.0.0
 
-- Unstable API. Changes undocumented.
+Unstable API. Changes undocumented.
+
+## 1.0.0
+
+First stable release.

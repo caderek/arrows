@@ -3,11 +3,11 @@ const { multi, method } = require('@arrows/multimethod')
 /**
  * Function with case values as ordinary functions.
  * Case value functions will be executed ignoring dispatch function values,
- * instead operating on raw arguments.
+ * and instead operating on raw arguments.
  *
  * It's like each method has its own dispatch function.
  *
- * It is useful, when you can't express a dispatch in one common function,
+ * It is useful when you can't express dispatch in one common function
  * when each case has some specific rule.
  *
  * @param {Object} req

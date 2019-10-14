@@ -13,7 +13,7 @@ const store = {
 }
 
 /**
- * Function with custom dispatch.
+ * Function with a custom dispatch.
  * Dispatch function can produce any arbitrary value.
  *
  * @param {Object} action

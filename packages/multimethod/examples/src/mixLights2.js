@@ -1,7 +1,7 @@
 const { multi, method } = require('@arrows/multimethod')
 
 /**
- * Function with custom dispatch.
+ * Function with a custom dispatch.
  * More flexible version of the previous example.
  *
  * @param {string} colorA

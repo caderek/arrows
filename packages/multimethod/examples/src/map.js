@@ -4,7 +4,7 @@ const mapArray = (fn) => (arr) => arr.map(fn)
 const mapString = (fn) => (str) => [...str].map(fn)
 
 /**
- * Manually curried function - each chunk have one argument.
+ * Manually curried function - each chunk has one argument.
  */
 const map = multi(
   (fn) => (val) => (Array.isArray(val) ? 'array' : typeof val),

@@ -9,12 +9,12 @@ class HTML {}
 /**
  * Function with case values as constructors wrapped in an array - special case.
  *
- * If the case value is an array, matching algorithm will check if the array
+ * If the case value is an array, the matching algorithm will check if the array
  * contains constructors. If that's the case, then these constructors will be
- * matched using constructor algorithm, other values of the array
+ * matched using the constructor algorithm, other values of the array
  * will be matched using a deep strict equal algorithm.
  *
- * The algorithm, by design, checks for constructors only the first-layer array.
+ * The algorithm, by design, checks for constructors only the first-level array.
  *
  * It can be very useful, for example as a trivial alternative
  * to otherwise complex visitor patter.

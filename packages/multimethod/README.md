@@ -58,7 +58,7 @@ yarn add @arrows/multimethod
 
 ## Usage
 
-_Note: You can find an run all the examples from this section in the [examples/](examples/) folder._
+_Note: You can find all the examples from this section (runnable) in the [examples/](examples/) folder._
 
 ### Quick example
 
@@ -66,7 +66,7 @@ _Note: You can find an run all the examples from this section in the [examples/]
 import { multi, method, fromMulti } from '@arrows/multimethod'
 
 /**
- * Save data in specified format
+ * Save data in a specified format
  *
  * @param {object} data
  * @param {string} format
@@ -129,6 +129,8 @@ extendedSave2(data, 'yaml') // -> "Saving as YAML!"
 
 In both cases, the original `save` function remains intact.
 
+---
+
 That's just a simple example, you can do much more!
 
 ### Anatomy of the multimethod
@@ -157,7 +159,7 @@ Examples:
 
 ```js
 /**
- * Function with single argument,
+ * Function with a single argument,
  * default dispatch will return that argument as-is.
  *
  * @param {string} color
@@ -177,9 +179,9 @@ colorToHex('green') // -> "#00ff00"
  * Function with multiple arguments,
  * default dispatch will return the array of arguments.
  *
- * Note that the order of the arguments do matter,
+ * Note that the order of the arguments does matter,
  * so if you want the example to work for each combination,
- * you either have to provide methods for reversed arguments,
+ * you either have to provide methods for reversed arguments
  * or add your custom dispatch function,
  * which returns sorted values (better option).
  *
@@ -199,7 +201,7 @@ mixLights('blue', 'red') // -> throws an error
 
 ```js
 /**
- * Function with custom dispatch.
+ * Function with a custom dispatch.
  * More flexible version of the previous example.
  *
  * @param {string} colorA
@@ -231,7 +233,7 @@ const store = {
 }
 
 /**
- * Function with custom dispatch.
+ * Function with a custom dispatch.
  * Dispatch function can produce any arbitrary value.
  *
  * @param {Object} action
@@ -253,7 +255,7 @@ _Note: If you are interested in Redux-like actions handling, check out [redux-mu
 
 #### Case value
 
-Case value is the first argument of the two-argument `method` (if you provide only one argument to the `method`, it will be treated as a default case).
+The case value is the first argument of the two-argument `method` (if you provide only one argument to the `method`, it will be treated as a default case).
 
 Case value can be either:
 
@@ -265,7 +267,7 @@ If the case value is neither a function nor a constructor, it will be matched ag
 
 If the case value is a constructor (can be inside an array, more in the examples),
 it will be matched against the result of the dispatch function by strict equality (`===`) operator,
-and if that fails - by the `instanceof` operator.
+and if that fails — by the `instanceof` operator.
 
 If the case value is an ordinary function, the dispatch function will be ignored,
 and the case value function will be executed with all provided arguments. Case value function should return a boolean value (or at least the output will be treated as such).
@@ -279,7 +281,7 @@ Examples:
 /**
  * Function with case values as ordinary values.
  * Values can be any JSON-compatible, arbitrary nested structure, or primitive.
- * Matched by deep strict equal algorithm.
+ * Matched by the deep strict equal algorithm.
  *
  * @param {Object} player
  * @returns {string} greeting
@@ -330,10 +332,10 @@ class HTML {}
  *
  * If the case value is an array, the matching algorithm will check if the array
  * contains constructors. If that's the case, then these constructors will be
- * matched using constructor algorithm, other values of the array
+ * matched using the constructor algorithm, other values of the array
  * will be matched using a deep strict equal algorithm.
  *
- * The algorithm, by design, checks for constructors only the first-layer array.
+ * The algorithm, by design, checks for constructors only the first-level array.
  *
  * It can be very useful, for example as a trivial alternative
  * to otherwise complex visitor patter.
@@ -357,11 +359,11 @@ embed(new Recipe(), new HTML()) // -> "Embedding recipe inside HTML"
 /**
  * Function with case values as ordinary functions.
  * Case value functions will be executed ignoring dispatch function values,
- * instead operating on raw arguments.
+ * and instead operating on raw arguments.
  *
  * It's like each method has its own dispatch function.
  *
- * It is useful, when you can't express a dispatch in one common function,
+ * It is useful when you can't express dispatch in one common function
  * when each case has some specific rule.
  *
  * @param {Object} req
@@ -466,7 +468,7 @@ const baseAdd = multi(
 )
 
 /**
- * Creating a new multimethod with additional method
+ * Creating a new multimethod with an additional method
  */
 const add = method(['bigint', 'bigint'], (a, b) => a + b)(baseAdd)
 
@@ -544,7 +546,7 @@ area({ type: 'circle', r: 3 }) // -> 28.274333882308138
 
 ### Methods priority
 
-When you execute the `method` function, the method will be added to the front of the multimethod. In case of the partially applied `method` functions passed to the `multi` and `fromMulti` functions, they will be added from bottom to top - so they will maintain their order in a final multimethod.
+When you execute the `method` function, the case will be added to the front of the multimethod. In case of the partially applied `method` functions passed to the `multi` and `fromMulti` functions, they will be added from bottom to top - so they will maintain their order in a final multimethod.
 
 Order of the methods inside a multimethod determines their priority.
 
@@ -570,6 +572,8 @@ const evenMoreExtended = fromMulti(
 
 ```js
 /**
+ * Function where the priority does matter
+ *
  * @param {number} points
  * @returns {number} grade
  */
@@ -594,7 +598,7 @@ gradeExam(25) // -> 'excellent'
 
 ### Currying
 
-Multimethods support automatic currying and manual currying / chunking, based on dispatch function.
+Multimethods support automatic currying and manual currying/chunking, based on dispatch function.
 
 #### Automatic currying
 
@@ -642,7 +646,7 @@ const mapArray = (fn) => (arr) => arr.map(fn)
 const mapString = (fn) => (str) => [...str].map(fn)
 
 /**
- * Manually curried function - each chunk have one argument.
+ * Manually curried function - each chunk has one argument.
  */
 
 const map = multi(
@@ -676,7 +680,7 @@ checkTypos('błąt', 'pl') // -> "Checking Polish grammar"
 
 ---
 
-_Note: To make it possible, the `multi` function counts chunks (segments) when multimethod is created, by executing dispatch function without arguments until a returned value is not a function or error is thrown. This comes with one limitation - you should not use any arguments-based calculations as default values. If you do that, the library will be not able to correctly count segments._
+_Note: To make it possible, the `multi` function counts chunks (segments) when multimethod is created, by executing dispatch function without arguments until a returned value is not a function or error is thrown. This comes with one limitation - **you should not use any argument-based calculations as default values**. If you do that, the library won't be to correctly count segments._
 
 _For example, this will not work as intended:_
 
@@ -684,8 +688,6 @@ _For example, this will not work as intended:_
 /**
  * This won't work, because of the default value calculation
  * based on the `a` argument.
- *
- *
  */
 const fn = multi(
   (a) => (b = a.foo) => a,
@@ -694,16 +696,36 @@ const fn = multi(
 )
 ```
 
+---
+
+_Note: If you use custom caseValue functions when using manual currying, arguments for these caseValue functions are automatically flattened._
+
+_For example:_
+
+```js
+/**
+ * Even though we don't use dispatch value, we have to add
+ * a dispatch function to inform the multimethod of how to handle this.
+ *
+ * As you can see, you don't have to curry a caseValue function.
+ */
+const fn = multi(
+  a => b => c => null,
+  method((a, b, c) => /* some check */, a => b => c => /* some return */),
+  method((a, b, c) => /* some check */, a => b => c => /* some return */),
+)
+```
+
 ## API reference
 
 ### multi
 
 Creates multimethod - a function that can dynamically choose proper implementation,
-based on arbitrary dispatch of its arguments
+based on arbitrary dispatch of its arguments.
 
 #### Parameters
 
-- `first` - The first argument can be either dispatch function or partially-applied method
+- `first` - The first argument can be either a dispatch function or a partially-applied method
 - `methods` - Arbitrary number of partially applied methods (optional)
 
 #### Returns
@@ -720,15 +742,15 @@ based on arbitrary dispatch of its arguments
 
 #### Examples
 
-Create multimethod with a custom dispatch and no methods:
+Create a multimethod with a custom dispatch and no methods:
 
 ```javascript
 const fn = multi((x) => typeof x)
 
-fn('foo') // -> throws an Error (because of no matching methods), but useful as a base for extensions
+fn('foo') // -> throws an Error (because of no matching methods), but is useful as a base for extensions
 ```
 
-Create multimethod with the default dispatch and some methods:
+Create a multimethod with the default dispatch and some methods:
 
 ```javascript
 const makeSound = multi(
@@ -742,7 +764,7 @@ makeSound('dog') // -> 'Woof!'
 makeSound('cow') // -> 'Hello!' (that's a rather unusual cow)
 ```
 
-Create multimethod with a custom dispatch and some methods:
+Create a multimethod with a custom dispatch and some methods:
 
 ```javascript
 const multiply = multi(
@@ -756,32 +778,9 @@ multiply(3, 'Beetlejuice! ') // -> 'Beetlejuice! Beetlejuice! Beetlejuice! ' (do
 multiply(2, [1, 2, 3]) // -> throws an Error (no match and no default method for these arguments)
 ```
 
-Create a new multimethod using an existing one as a base:
-
-```javascript
-const add = multi(
-  (a, b) => [typeof a, typeof b],
-  method(['number', 'number'], (a, b) => a + b),
-  method(['string', 'string'], (a, b) => `${a}${b}`),
-)
-
-const extendedAdd = multi(
-  add,
-  method(['bigint', 'bigint'], (a, b) => a + b),
-  method(['number', 'bigint'], (a, b) => BigInt(a) + b),
-  method(['bigint', 'number'], (a, b) => a + BigInt(b)),
-)
-
-extendedAdd(1, 2) // -> 3
-extendedAdd('foo', 'bar') // -> 'foobar'
-extendedAdd(2n, 3n) // -> 5n
-extendedAdd(5, 5n) // -> 10n
-extendedAdd(9n, 2) // -> 11n
-```
-
 ### method
 
-Adds method to a multimethod
+Adds a method to a multimethod
 
 #### Parameters
 
@@ -792,7 +791,7 @@ Adds method to a multimethod
 
 - `correspondingValue` - The value that function should return on matching case
 
-  - if function, then is executed with input arguments (chunked or unchunked, depending on the dispatch function)
+  - if function then is executed with input arguments (chunked or unchunked, depending on the dispatch function)
 
 - `multimethod` - Multimethod on which you want to base the new multimethod
 
@@ -808,12 +807,12 @@ Adds method to a multimethod
 
 #### Examples
 
-Default method as function:
+Default method as a function:
 
 ```javascript
 const sayHello = multi((user) => user.lang)
 
-const sayHelloWithDefault = method((user) => `Hello ${usr.name}!`)(sayHello)
+const sayHelloWithDefault = method((user) => `Hello ${user.name}!`)(sayHello)
 
 sayHelloWithDefault({ name: 'Alejandro', lang: 'es' }) // -> 'Hello Alejandro!'
 ```
@@ -821,14 +820,14 @@ sayHelloWithDefault({ name: 'Alejandro', lang: 'es' }) // -> 'Hello Alejandro!'
 Default method as other value:
 
 ```javascript
-const sayHello = multi(() => user.lang)
+const sayHello = multi((user) => user.lang)
 
 const sayHelloWithDefault = method('Hello!')(sayHello)
 
 sayHelloWithDefault({ name: 'Alejandro', lang: 'es' }) // -> 'Hello!'
 ```
 
-Case method with caseValue as ordinary value and correspondingValue as a function:
+Method with caseValue as an ordinary value and correspondingValue as a function:
 
 ```javascript
 const add = multi((a, b) => [typeof a, typeof b])
@@ -838,23 +837,23 @@ const extendedAdd = method(['number', 'number'], (a, b) => a + b)(add)
 extendedAdd(1, 2) // -> 3
 ```
 
-Case method with caseValue and correspondingValue as ordinary values:
+Method with caseValue and correspondingValue as ordinary values:
 
 ```javascript
-const getHexColor = multi() // Uses default dispatch
+const getHexColor = multi((color) => color)
 
 const extendedGetHexColor = method('red', '#FF0000')(getHexColor)
 
 extendedGetHexColor('red') // -> '#FF0000'
 ```
 
-Case method with caseValue as a function and correspondingValue as ordinary value:
+Method with caseValue as a function and correspondingValue as an ordinary value:
 
 ```javascript
 class Enemy {}
 const is = (prototype) => (value) => value instanceof prototype
 
-const greet = multi() // Uses default dispatch
+const greet = multi((person) => person)
 
 // Matches, when case function executed with initial arguments returns truthy value
 const extendedGreet = method(is(Enemy), 'Goodbye!')(greet)
@@ -862,7 +861,7 @@ const extendedGreet = method(is(Enemy), 'Goodbye!')(greet)
 extendedGreet(new Enemy()) // -> 'Goodbye!'
 ```
 
-Case method with caseValue and correspondingValue as functions:
+Method with caseValue and correspondingValue as functions:
 
 ```javascript
 class Car {
@@ -889,25 +888,25 @@ extendedGo(new Car()) // -> 'driving...'
 extendedGo(new Human()) // -> 'walking...'
 ```
 
-Case method with caseValue as a constructor:
+Method with caseValue as a constructor:
 
 ```javascript
 class Email {}
 class SMS {}
 
-const fn = multi(
-  method(Email, 'email'), // lets add one case to original multimethod
+const send = multi(
+  method(Email, 'Sending email...'), // lets add one case to the original multimethod
 )
 
-const extendedFn = method(SMS, 'sms')(go)
+const extendedSend = method(SMS, 'Sending SMS...')(send)
 
-extendedFn(new Email()) // -> 'email'
-extendedFn(new SMS()) // -> 'sms'
+extendedSend(new Email()) // -> 'Sending email...'
+extendedSend(new SMS()) // -> 'Sending SMS...'
 ```
 
 ### fromMulti
 
-Allows to create new multimethods from the existing ones in a simple way.
+Creates a new multimethods from the existing ones, convenient for adding multiple methods.
 
 #### Parameters
 

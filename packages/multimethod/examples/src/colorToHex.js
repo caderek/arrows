@@ -1,7 +1,7 @@
 const { multi, method } = require('@arrows/multimethod')
 
 /**
- * Function with single argument,
+ * Function with a single argument,
  * default dispatch will return that argument as-is.
  *
  * @param {string} color

@@ -6,6 +6,7 @@
     "README",
     "fromMulti",
     "json",
+    "runnable",
     "tslint",
     "typings"
   ],

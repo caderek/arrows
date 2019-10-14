@@ -4,9 +4,9 @@ const { multi, method } = require('@arrows/multimethod')
  * Function with multiple arguments,
  * default dispatch will return the array of arguments.
  *
- * Note that the order of the arguments do matter,
+ * Note that the order of the arguments does matter,
  * so if you want the example to work for each combination,
- * you either have to provide methods for reversed arguments,
+ * you either have to provide methods for reversed arguments
  * or add your custom dispatch function,
  * which returns sorted values (better option).
  *

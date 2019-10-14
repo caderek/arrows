@@ -1,5 +1,12 @@
 const { multi, method, fromMulti } = require('@arrows/multimethod')
 
+/**
+ * Save data in a specified format
+ *
+ * @param {object} data
+ * @param {string} format
+ * @returns {void}
+ */
 const save = multi(
   (data, format) => format, // Custom dispatch function
 

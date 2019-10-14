@@ -1,6 +1,8 @@
 const { multi, method, fromMulti } = require('@arrows/multimethod')
 
 /**
+ * Function where the priority does matter
+ *
  * @param {number} points
  * @returns {number} grade
  */

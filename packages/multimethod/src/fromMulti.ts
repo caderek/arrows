@@ -2,7 +2,8 @@ import compose from '@arrows/composition/compose'
 import { Method, Multimethod } from './internal/types'
 
 /**
- * Allows to create new multimethods from existing ones in a simple way.
+ * Creates a new multimethods from the existing ones,
+ * convenient for adding multiple methods.
  */
 const fromMulti = (...methods: Method[]) => (multimethod: Multimethod) => {
   return compose(...methods)(multimethod)

@@ -49,6 +49,7 @@
   "dependencies": {
     "@arrows/array": "^0.4.9",
     "@arrows/composition": "^0.2.5",
+    "@arrows/error": "^1.0.1",
     "fast-deep-equal": "^2.0.1"
   }
 }

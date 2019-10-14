@@ -1,14 +1,18 @@
 import compose from '@arrows/composition/compose'
 import * as equal from 'fast-deep-equal'
 import {
-  CaseEntry,
+  FirstArgumentError,
+  NoArgumentsError,
+  NoMethodError,
+  NotMethodError,
+} from '../errors'
+import {
   ConstructorCaseEntry,
   DefaultMethod,
   Dispatch,
   Method,
   MethodEntries,
   Multi,
-  Multimethod,
   ValueCaseEntry,
 } from './types'
 
@@ -72,7 +76,7 @@ const findTarget = (
   const target = entry ? entry[1] : defaultMethod
 
   if (!entry && target === null) {
-    throw new Error('No method specified for provided arguments')
+    throw new NoMethodError(`Args: ${args}`)
   }
 
   return target
@@ -174,28 +178,18 @@ const createSegmentedTarget: CreateSegmentedTarget = (
   return recur(segmentsCount)
 }
 
-const validateOtherArgs = (args: any[]) => {
-  args.forEach((item) => {
-    if (typeof item !== 'function' || item[methodKey] !== true) {
-      throw new Error(
-        'Second or further argument of multi must be a partially applied method',
-      )
-    }
-  })
+const areMethodsValid = (args: any[]) => {
+  return args.every(
+    (item) => typeof item === 'function' && item[methodKey] === true,
+  )
 }
 
 const getFirstArgumentType = (arg) => {
   if (typeof arg !== 'function') {
-    throw new Error(
-      'First argument of multi must be either dispatch function, multimethod, or partially applied method',
-    )
+    throw new FirstArgumentError()
   }
 
-  return arg[methodKey]
-    ? 'method'
-    : arg[multimethodKey]
-    ? 'multimethod'
-    : 'dispatch'
+  return arg[methodKey] ? 'method' : 'dispatch'
 }
 
 type CreateMultimethod = (
@@ -208,11 +202,13 @@ const createMultimethod: CreateMultimethod = (methodEntries = []) => (
   const [first, ...rest] = args
 
   if (first === undefined) {
-    throw new Error('You have to provide at least one argument')
+    throw new NoArgumentsError()
   }
 
-  if (rest.length > 0) {
-    validateOtherArgs(rest)
+  if (rest.length > 0 && !areMethodsValid(rest)) {
+    throw new NotMethodError(
+      'Second or further argument of multi must be a partially applied method.',
+    )
   }
 
   const firstArgumentType = getFirstArgumentType(first)
@@ -247,4 +243,4 @@ const createMultimethod: CreateMultimethod = (methodEntries = []) => (
   return multimethod
 }
 
-export { createMultimethod, multimethodKey, methodKey }
+export { createMultimethod, multimethodKey, methodKey, areMethodsValid }

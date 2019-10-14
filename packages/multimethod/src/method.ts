@@ -1,3 +1,4 @@
+import { NotMultimethodError } from './errors'
 import addEntry from './internal/addEntry'
 import {
   createMultimethod,
@@ -12,7 +13,7 @@ import { Method, MethodEntries, Multimethod } from './internal/types'
 const method: Method = (caseValue, correspondingValue) => {
   const partialMethod = (multimethod: Multimethod): Multimethod => {
     if (!multimethod[multimethodKey]) {
-      throw new Error('Function is not a multimethod')
+      throw new NotMultimethodError()
     }
 
     const first = caseValue

@@ -1,4 +1,11 @@
 import * as curry from 'ramda.curry'
+import {
+  FirstArgumentError,
+  NoArgumentsError,
+  NoMethodError,
+  NotMethodError,
+  NotMultimethodError,
+} from './errors'
 import fromMulti from './fromMulti'
 import method from './method'
 import multi from './multi'
@@ -6,19 +13,19 @@ import multi from './multi'
 describe('multi', () => {
   describe('executed without any arguments', () => {
     it('throws an error (not enough arguments)', () => {
-      expect(multi).toThrowError('You have to provide at least one argument')
+      expect(multi).toThrowError(NoArgumentsError)
     })
   })
 
   describe('executed with dispatch function only', () => {
     it('creates multimethod that throws error: no matching method', () => {
       const fn = multi(() => true)
-      expect(fn).toThrowError('No method specified for provided arguments')
+      expect(fn).toThrowError(NoMethodError)
     })
 
     it('works also for chunked dispatch', () => {
       const fn = multi(() => () => true)
-      expect(fn()).toThrowError('No method specified for provided arguments')
+      expect(fn()).toThrowError(NoMethodError)
     })
   })
 
@@ -94,9 +101,7 @@ describe('multi', () => {
       // @ts-ignore
       multi('oops')
     }
-    expect(createIncorrectMultimethod).toThrowError(
-      'First argument of multi must be either dispatch function, multimethod, or partially applied method',
-    )
+    expect(createIncorrectMultimethod).toThrowError(FirstArgumentError)
   })
 
   describe('throws readable error when other arguments are not partial methods', () => {
@@ -104,9 +109,7 @@ describe('multi', () => {
       // @ts-ignore
       multi((x) => x, 'oops')
     }
-    expect(createIncorrectMultimethod).toThrowError(
-      'Second or further argument of multi must be a partially applied method',
-    )
+    expect(createIncorrectMultimethod).toThrowError(NotMethodError)
   })
 })
 
@@ -149,7 +152,7 @@ describe('method', () => {
         method('default')(notMultimethod)
       }
 
-      expect(execute).toThrowError('Function is not a multimethod')
+      expect(execute).toThrowError(NotMultimethodError)
     })
   })
 
@@ -410,5 +413,30 @@ describe('multimethod', () => {
       expect(fn(6)).toEqual('higher than 5')
       expect(fn(2)).toEqual('higher than 1')
     })
+  })
+})
+
+describe('fromMulti', () => {
+  it('throws when no arguments are provided', () => {
+    const base = multi((x) => x)
+
+    const execute = () => fromMulti()(base)
+
+    expect(execute).toThrowError(NoArgumentsError)
+  })
+
+  it('throws when wrong methods are provided', () => {
+    const base = multi((x) => x)
+
+    const execute = () => fromMulti(() => null)(base)
+
+    expect(execute).toThrowError(NotMethodError)
+  })
+
+  it('throws when wrong multimethod is provided', () => {
+    // @ts-ignore
+    const execute = () => fromMulti(method(1, 1))(() => null)
+
+    expect(execute).toThrowError(NotMultimethodError)
   })
 })

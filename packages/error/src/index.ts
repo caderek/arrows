@@ -1,3 +1,7 @@
-import error from './error'
+import createErrorClass from './createErrorClass'
 
-export default error
+export { createErrorClass }
+
+export default {
+  createErrorClass,
+}

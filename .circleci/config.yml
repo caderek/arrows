@@ -22,7 +22,6 @@ common_steps: &common_steps_anchor
         - node_modules
       key: v1-dependencies-{{ checksum "package.json" }}
 
-  - run: yarn test
   - run: yarn coverage
 
 jobs:

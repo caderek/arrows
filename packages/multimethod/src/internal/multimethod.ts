@@ -45,7 +45,14 @@ const countSegments: CountSegments = (dispatch) => {
   return count
 }
 
-const findTarget = (
+type FindTarget = (
+  methodEntries: MethodEntries,
+  currentDispatchValue: any,
+  args: any[],
+  defaultMethod: DefaultMethod,
+) => any
+
+const findTarget: FindTarget = (
   methodEntries,
   currentDispatchValue,
   args,
@@ -184,7 +191,9 @@ const areMethodsValid = (args: any[]) => {
   )
 }
 
-const getFirstArgumentType = (arg) => {
+type GetFirstArgumentType = (arg: any) => 'method' | 'dispatch'
+
+const getFirstArgumentType: GetFirstArgumentType = (arg) => {
   if (typeof arg !== 'function') {
     throw new FirstArgumentError()
   }
@@ -230,6 +239,7 @@ const createMultimethod: CreateMultimethod = (methodEntries = []) => (
           segmentsCount,
         )
 
+  // @ts-ignore
   multimethod[multimethodKey] = {
     defaultMethod,
     dispatch,

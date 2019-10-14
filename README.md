@@ -5,11 +5,12 @@
 
 ## Packages docs
 
-- @arrows/multimethod -> [DOCS](packages/multimethod/README.md)
+- [@arrows/multimethod](packages/multimethod/README.md)
 - @arrows/array -> WIP
+- @arrows/object -> TODO
 - @arrows/dispatch -> WIP
 - @arrows/composition -> WIP
-- @arrows/error -> WIP
+- [@arrows/error](packages/error/README.md)
 
 ## License
 

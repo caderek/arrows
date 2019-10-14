@@ -6,6 +6,9 @@ type CreateErrorClass = (
   serializeStacktrace?: boolean,
 ) => CustomErrorClass
 
+/**
+ * Creates custom error class that returns extended error object that can be serialized to JSON
+ */
 const createErrorClass: CreateErrorClass = (
   name,
   message,

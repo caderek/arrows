@@ -19,6 +19,15 @@
   resolved "https://registry.yarnpkg.com/@arrows/dispatch/-/dispatch-0.2.5.tgz#577cef190319e3d3bac4215c5d16bcb1e1343a6b"
   integrity sha512-tLTqdWte6Ux+NCaU4FSgqupNmWE19q4SGCT+gMsmQSdFjVPKntO890y95v8iZ2CRRoU++DfHWXjHcp3exW+Dnw==
 
+"@arrows/multimethod@^0.9.0":
+  version "0.9.0"
+  resolved "https://registry.yarnpkg.com/@arrows/multimethod/-/multimethod-0.9.0.tgz#329b17226431ff9d27a0595f949ca943711eba2b"
+  integrity sha512-bY/+RFU+pz7JTSwEtr8RNGXLe23i5UqK2Mm7diVv5ikTaZU0f01zYjeNVaOveOixeJzpyrJkqwx9VREa4/5sPg==
+  dependencies:
+    "@arrows/array" "^0.4.9"
+    "@arrows/composition" "^0.2.5"
+    fast-deep-equal "^2.0.1"
+
 "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.5.5":
   version "7.5.5"
   resolved "https://registry.yarnpkg.com/@babel/code-frame/-/code-frame-7.5.5.tgz#bc0782f6d69f7b7d49531219699b988f669a8f9d"
@@ -639,17 +648,20 @@ benchmark@^2.1.4:
     lodash "^4.17.4"
     platform "^1.3.3"
 
-benny@^3.3.0:
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/benny/-/benny-3.3.0.tgz#b19eba8c81561953afdc7737ae72a37d035c1ddf"
-  integrity sha512-3lTWhV8Z9p7vsNIaAZBXZw4Q5Rc9vK5/Ocz2MXiyocCI32RBg3RQNLR8cAR1zD7bniqqWd9R7ykXstolY5pt/Q==
+benny@^3.6.6:
+  version "3.6.6"
+  resolved "https://registry.yarnpkg.com/benny/-/benny-3.6.6.tgz#4f5026e649a2aef44a8b2fe26948d26cf991eff8"
+  integrity sha512-Q50uGOorT4GnxUjiOis0sK1wcelHTShzXjVwriIGt8v1HUob4brvfCYkLEpQgKY3M2KueL2W2mw8uH5IAZUDLA==
   dependencies:
     "@arrows/composition" "^0.2.5"
     "@arrows/dispatch" "^0.2.5"
+    "@arrows/multimethod" "^0.9.0"
     benchmark "^2.1.4"
     fs-extra "^8.1.0"
+    json2csv "^4.5.3"
     kleur "^3.0.3"
     log-update "^3.3.0"
+    prettier "^1.18.2"
     stats-median "^1.0.1"
 
 brace-expansion@^1.1.7:
@@ -851,6 +863,11 @@ commander@^2.12.1, commander@~2.20.0:
   version "2.20.0"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.20.0.tgz#d58bb2b5c1ee8f87b0d340027e9e94e222c5a422"
   integrity sha512-7j2y+40w61zy6YC2iRNpUe/NwhNyoXrYpHMrSunaMG64nRnaf96zO/KMQR4OyN/UnE5KLyEBnKHd4aG3rskjpQ==
+
+commander@^2.15.1:
+  version "2.20.3"
+  resolved "https://registry.yarnpkg.com/commander/-/commander-2.20.3.tgz#fd485e84c03eb4881c20722ba48035e8531aeb33"
+  integrity sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==
 
 component-emitter@^1.2.1:
   version "1.3.0"
@@ -2196,6 +2213,15 @@ json-stringify-safe@~5.0.1:
   resolved "https://registry.yarnpkg.com/json-stringify-safe/-/json-stringify-safe-5.0.1.tgz#1296a2d58fd45f19a0f6ce01d65701e2c735b6eb"
   integrity sha1-Epai1Y/UXxmg9s4B1lcB4sc1tus=
 
+json2csv@^4.5.3:
+  version "4.5.4"
+  resolved "https://registry.yarnpkg.com/json2csv/-/json2csv-4.5.4.tgz#2b59c2869a137ec48cd2e243e0180466155f773f"
+  integrity sha512-YxBhY4Lmn8IvVZ36nqg5omxneLy9JlorkqW1j/EDCeqvmi+CQ4uM+wsvXlcIqvGDewIPXMC/O/oF8DX9EH5aoA==
+  dependencies:
+    commander "^2.15.1"
+    jsonparse "^1.3.1"
+    lodash.get "^4.4.2"
+
 json5@2.x, json5@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/json5/-/json5-2.1.0.tgz#e7a0c62c48285c628d20a10b85c89bb807c32850"
@@ -2209,6 +2235,11 @@ jsonfile@^4.0.0:
   integrity sha1-h3Gq4HmbZAdrdmQPygWPnBDjPss=
   optionalDependencies:
     graceful-fs "^4.1.6"
+
+jsonparse@^1.3.1:
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/jsonparse/-/jsonparse-1.3.1.tgz#3f4dae4a91fac315f71062f8521cc239f1366280"
+  integrity sha1-P02uSpH6wxX3EGL4UhzCOfE2YoA=
 
 jsprim@^1.2.2:
   version "1.4.1"
@@ -2284,6 +2315,11 @@ locate-path@^3.0.0:
   dependencies:
     p-locate "^3.0.0"
     path-exists "^3.0.0"
+
+lodash.get@^4.4.2:
+  version "4.4.2"
+  resolved "https://registry.yarnpkg.com/lodash.get/-/lodash.get-4.4.2.tgz#2d177f652fa31e939b4438d5341499dfa3825e99"
+  integrity sha1-LRd/ZS+jHpObRDjVNBSZ36OCXpk=
 
 lodash.memoize@4.x:
   version "4.1.2"
@@ -2836,6 +2872,11 @@ prelude-ls@~1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/prelude-ls/-/prelude-ls-1.1.2.tgz#21932a549f5e52ffd9a827f570e04be62a97da54"
   integrity sha1-IZMqVJ9eUv/ZqCf1cOBL5iqX2lQ=
+
+prettier@^1.18.2:
+  version "1.18.2"
+  resolved "https://registry.yarnpkg.com/prettier/-/prettier-1.18.2.tgz#6823e7c5900017b4bd3acf46fe9ac4b4d7bda9ea"
+  integrity sha512-OeHeMc0JhFE9idD4ZdtNibzY0+TPHSpSSb9h8FqtP+YnoZZ1sl8Vc9b1sasjfymH3SonAF4QcA2+mzHPhMvIiw==
 
 pretty-format@^24.9.0:
   version "24.9.0"
@@ -3596,10 +3637,10 @@ type-check@~0.3.2:
   dependencies:
     prelude-ls "~1.1.2"
 
-typescript@^3.6.3:
-  version "3.6.3"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.6.3.tgz#fea942fabb20f7e1ca7164ff626f1a9f3f70b4da"
-  integrity sha512-N7bceJL1CtRQ2RiG0AQME13ksR7DiuQh/QehubYcghzv20tnh+MQnQIuJddTmsbqYj+dztchykemz0zFzlvdQw==
+typescript@^3.6.4:
+  version "3.6.4"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.6.4.tgz#b18752bb3792bc1a0281335f7f6ebf1bbfc5b91d"
+  integrity sha512-unoCll1+l+YK4i4F8f22TaNVPRHcD9PA3yCuZ8g5e0qGqlVlJ/8FSateOLLSagn+Yg5+ZwuPkL8LFUc0Jcvksg==
 
 uglify-js@^3.1.4:
   version "3.6.0"

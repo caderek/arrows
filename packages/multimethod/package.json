@@ -20,7 +20,10 @@
     "polymorphic",
     "function",
     "functions",
-    "generic"
+    "generic",
+    "types",
+    "ts",
+    "typescript"
   ],
   "author": "Maciej Cąderek",
   "scripts": {
@@ -34,14 +37,14 @@
   "devDependencies": {
     "@types/jest": "^24.0.18",
     "benchmark": "^2.1.4",
-    "benny": "^3.3.0",
+    "benny": "^3.6.6",
     "codecov": "^3.6.1",
     "jest": "^24.9.0",
     "ramda.curry": "^0.26.1",
     "ts-jest": "^24.1.0",
     "tslint": "^5.20.0",
     "tslint-config-prettier": "^1.18.0",
-    "typescript": "^3.6.3"
+    "typescript": "^3.6.4"
   },
   "dependencies": {
     "@arrows/array": "^0.4.9",

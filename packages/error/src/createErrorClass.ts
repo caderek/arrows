@@ -1,4 +1,4 @@
-type CustomErrorClass = { new (details?: any) }
+type CustomErrorClass = { new (details?: string) }
 
 type CreateErrorClass = (
   name: string,
@@ -17,13 +17,13 @@ const createErrorClass: CreateErrorClass = (
   return class extends Error {
     public name: string
     public message: string
-    public details: any
 
-    constructor(details: any = null) {
-      super(message)
+    constructor(details: string = null) {
+      const fullMessage = `${message}${details ? ` ${details}` : ''}`
+
+      super(fullMessage)
       this.name = name
-      this.message = message
-      this.details = details
+      this.message = fullMessage
     }
 
     public toJSON() {
@@ -31,7 +31,6 @@ const createErrorClass: CreateErrorClass = (
         error: {
           name: this.name,
           message: this.message,
-          details: this.details,
           ...(serializeStacktrace && { stacktrace: this.stack }),
         },
       })

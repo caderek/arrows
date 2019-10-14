@@ -1,4 +1,4 @@
-const { multi, method } = require('@arrows/multimethod')
+const { multi, method, fromMulti } = require('@arrows/multimethod')
 
 const baseArea = multi(
   (shape) => shape.type,
@@ -7,13 +7,12 @@ const baseArea = multi(
 )
 
 /**
- * Creating a new multimethod with many new methods via `multi` function
+ * Creating a new multimethod with many new methods via `fromMulti` function
  */
-const area = multi(
-  baseArea,
+const area = fromMulti(
   method('circle', (shape) => Math.PI * shape.r ** 2),
   method('triangle', (shape) => 0.5 * shape.a * shape.h),
-)
+)(baseArea)
 
 console.log(
   area({ type: 'square', a: 5 }), // -> 25

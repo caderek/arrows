@@ -198,28 +198,6 @@ const getFirstArgumentType = (arg) => {
     : 'dispatch'
 }
 
-const createNewMultimethod = (dispatch, methodEntries, defaultMethod) => {
-  const segmentsCount = countSegments(dispatch)
-
-  const multimethod =
-    segmentsCount === 1
-      ? createSimpleTarget(methodEntries, defaultMethod, dispatch)
-      : createSegmentedTarget(
-          methodEntries,
-          defaultMethod,
-          dispatch,
-          segmentsCount,
-        )
-
-  multimethod[multimethodKey] = {
-    defaultMethod,
-    dispatch,
-    methodEntries,
-  }
-
-  return multimethod
-}
-
 type CreateMultimethod = (
   methodEntries?: MethodEntries,
 ) => (defaultMethod?: DefaultMethod) => Multi
@@ -240,17 +218,27 @@ const createMultimethod: CreateMultimethod = (methodEntries = []) => (
   const firstArgumentType = getFirstArgumentType(first)
 
   const methods = (firstArgumentType !== 'method' ? rest : args) as Method[]
+  const dispatch = (firstArgumentType === 'dispatch'
+    ? first
+    : implicitDispatch) as Dispatch
+
+  const segmentsCount = countSegments(dispatch)
 
   const multimethod =
-    firstArgumentType === 'multimethod'
-      ? first
-      : createNewMultimethod(
-          (firstArgumentType === 'dispatch'
-            ? first
-            : implicitDispatch) as Dispatch,
+    segmentsCount === 1
+      ? createSimpleTarget(methodEntries, defaultMethod, dispatch)
+      : createSegmentedTarget(
           methodEntries,
           defaultMethod,
+          dispatch,
+          segmentsCount,
         )
+
+  multimethod[multimethodKey] = {
+    defaultMethod,
+    dispatch,
+    methodEntries,
+  }
 
   if (methods.length !== 0) {
     return compose(...methods)(multimethod)

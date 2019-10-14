@@ -1,4 +1,5 @@
 import * as curry from 'ramda.curry'
+import fromMulti from './fromMulti'
 import method from './method'
 import multi from './multi'
 
@@ -381,17 +382,16 @@ describe('multimethod', () => {
       expect(fn(4)).toEqual('higher than 3')
     })
 
-    it('when extended by `multi` - top to bottom, but all above old methods', () => {
+    it('when extended by `fromMulti` - top to bottom, but all above old methods', () => {
       const baseFn = multi(
         method((x) => x > 5, 'higher than 5'),
         method((x) => x > 1, 'higher than 1'),
       )
 
-      const fn = multi(
-        baseFn,
+      const fn = fromMulti(
         method((x) => x > 7, 'higher than 7'),
         method((x) => x > 3, 'higher than 3'),
-      )
+      )(baseFn)
 
       expect(fn(9)).toEqual('higher than 7')
       expect(fn(4)).toEqual('higher than 3')

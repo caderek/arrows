@@ -27,6 +27,7 @@
 4. [API reference](#api-reference)
    - [multi](#multi)
    - [method](#method)
+   - [fromMulti](#fromMulti)
 5. [License](#license)
 
 ## Introduction
@@ -62,12 +63,12 @@ _Note: You can find an run all the examples from this section in the [examples/]
 ### Quick example
 
 ```js
-import { multi, method } from '@arrows/multimethod'
+import { multi, method, fromMulti } from '@arrows/multimethod'
 
 /**
  * Save data in specified format
  *
- * @param {string} data
+ * @param {object} data
  * @param {string} format
  * @returns {void}
  */
@@ -87,9 +88,11 @@ const save = multi(
   }),
 )
 
-save('some data', 'json') // -> "Saving as JSON!"
-save('some data', 'html') // -> "Saving as HTML!"
-save('some data', 'csv') // -> "Default - saving as TXT!"
+const data = { name: 'Alice', score: 100 }
+
+save(data, 'json') // -> "Saving as JSON!"
+save(data, 'html') // -> "Saving as HTML!"
+save(data, 'csv') // -> "Default - saving as TXT!"
 ```
 
 Let's add a new format, without touching the existing code:
@@ -99,18 +102,16 @@ const extendedSave = method('csv', (data, format) => {
   console.log('Saving as CSV!')
 })(save)
 
-extendedSave('some data', 'json') // -> "Saving as JSON!"
-extendedSave('some data', 'html') // -> "Saving as HTML!"
-extendedSave('some data', 'csv') // -> "Saving as CSV!"
-extendedSave('some data', 'yaml') // -> "Default - saving as TXT!"
+extendedSave(data, 'json') // -> "Saving as JSON!"
+extendedSave(data, 'html') // -> "Saving as HTML!"
+extendedSave(data, 'csv') // -> "Saving as CSV!"
+extendedSave(data, 'yaml') // -> "Default - saving as TXT!"
 ```
 
 We can also easily extend the original function with multiple methods:
 
 ```js
-const extendedSave2 = multi(
-  save,
-
+const extendedSave2 = fromMulti(
   method('csv', (data, format) => {
     console.log('Saving as CSV!')
   }),
@@ -118,12 +119,12 @@ const extendedSave2 = multi(
   method('yaml', (data, format) => {
     console.log('Saving as YAML!')
   }),
-)
+)(save)
 
-extendedSave2('some data', 'json') // -> "Saving as JSON!"
-extendedSave2('some data', 'html') // -> "Saving as HTML!"
-extendedSave2('some data', 'csv') // -> "Saving as CSV!"
-extendedSave2('some data', 'yaml') // -> "Saving as YAML!"
+extendedSave2(data, 'json') // -> "Saving as JSON!"
+extendedSave2(data, 'html') // -> "Saving as HTML!"
+extendedSave2(data, 'csv') // -> "Saving as CSV!"
+extendedSave2(data, 'yaml') // -> "Saving as YAML!"
 ```
 
 In both cases, the original `save` function remains intact.
@@ -500,7 +501,7 @@ greet('fr') // -> "Hello!"
 
 #### Extending with multiple methods
 
-You can create a new multimethod with multiple new methods either by generic `compose` function, or by passing an old multimethod as a first argument to the `multi` function (instead of a dispatch function).
+You can create a new multimethod with multiple new methods either by generic `compose` function, or by using a built-in `fromMulti` function that gives you additional type checks and better error handling.
 
 Examples:
 
@@ -530,13 +531,12 @@ const baseArea = multi(
 )
 
 /**
- * Creating a new multimethod with many new methods via `multi` function
+ * Creating a new multimethod with many new methods via `fromMulti` function
  */
-const area = multi(
-  baseArea,
+const area = fromMulti(
   method('circle', (shape) => Math.PI * shape.r ** 2),
   method('triangle', (shape) => 0.5 * shape.a * shape.h),
-)
+)(baseArea)
 
 area({ type: 'square', a: 5 }) // -> 25
 area({ type: 'circle', r: 3 }) // -> 28.274333882308138
@@ -561,12 +561,11 @@ const base = multi(
 
 const extended = method('d', 'priority: 4')(base)
 
-const evenMoreExtended = multi(
-  extended,
+const evenMoreExtended = fromMulti(
   method('e', 'priority: 1'),
   method('f', 'priority: 2'),
   method('g', 'priority: 3'),
-)
+)(extended)
 ```
 
 ```js
@@ -580,11 +579,10 @@ const baseGradeExam = multi(
   method((points) => points > 15, 'good'),
 )
 
-const gradeExam = multi(
-  baseGradeExam,
+const gradeExam = fromMulti(
   method((points) => points === 0, 'terrible'),
   method((points) => points > 20, 'excellent'),
-)
+)(baseGradeExam)
 
 gradeExam(0) // -> 'terrible'
 gradeExam(5) // -> 'failed'
@@ -705,7 +703,7 @@ based on arbitrary dispatch of its arguments
 
 #### Parameters
 
-- `first` - First argument can be either dispatch function, multimethod or partially applied method
+- `first` - First argument can be either dispatch function, or partially applied method
 - `methods` - Arbitrary number of partially applied methods (optional)
 
 #### Returns
@@ -716,7 +714,7 @@ based on arbitrary dispatch of its arguments
 
 ```
 
-(dispatch | multimethod | method, method?, method?, ..., method?) => multimethod
+(dispatch | method, method?, method?, ..., method?) => multimethod
 
 ```
 
@@ -905,6 +903,49 @@ const extendedFn = method(SMS, 'sms')(go)
 
 extendedFn(new Email()) // -> 'email'
 extendedFn(new SMS()) // -> 'sms'
+```
+
+### fromMulti
+
+Allows to create new multimethods from the existing ones in a simple way.
+
+#### Parameters
+
+- `methods` - Arbitrary number of partially applied methods
+- `multimethod` - Multimethod on which you want to base a new multimethod
+
+#### Returns
+
+- A new multimethod (the base one is unchanged)
+
+#### Interface
+
+```
+(method1, method2?, ..., methodN?) => (multimethod) => new_multimethod
+```
+
+#### Example
+
+Create a new multimethod using an existing one as a base:
+
+```javascript
+const add = multi(
+  (a, b) => [typeof a, typeof b],
+  method(['number', 'number'], (a, b) => a + b),
+  method(['string', 'string'], (a, b) => `${a}${b}`),
+)
+
+const extendedAdd = fromMulti(
+  method(['bigint', 'bigint'], (a, b) => a + b),
+  method(['number', 'bigint'], (a, b) => BigInt(a) + b),
+  method(['bigint', 'number'], (a, b) => a + BigInt(b)),
+)(add)
+
+extendedAdd(1, 2) // -> 3
+extendedAdd('foo', 'bar') // -> 'foobar'
+extendedAdd(2n, 3n) // -> 5n
+extendedAdd(5, 5n) // -> 10n
+extendedAdd(9n, 2) // -> 11n
 ```
 
 ## License

@@ -1,4 +1,4 @@
-const { multi, method } = require('@arrows/multimethod')
+const { multi, method, fromMulti } = require('@arrows/multimethod')
 
 const save = multi(
   (data, format) => format, // Custom dispatch function
@@ -16,22 +16,22 @@ const save = multi(
   }),
 )
 
-save('some data', 'json') // -> "Saving as JSON!"
-save('some data', 'html') // -> "Saving as HTML!"
-save('some data', 'csv') // -> "Default - saving as TXT!"
+const data = { name: 'Alice', score: 100 }
+
+save(data, 'json') // -> "Saving as JSON!"
+save(data, 'html') // -> "Saving as HTML!"
+save(data, 'csv') // -> "Default - saving as TXT!"
 
 const extendedSave = method('csv', (data, format) => {
   console.log('Saving as CSV!')
 })(save)
 
-extendedSave('some data', 'json') // -> "Saving as JSON!"
-extendedSave('some data', 'html') // -> "Saving as HTML!"
-extendedSave('some data', 'csv') // -> "Saving as CSV!"
-extendedSave('some data', 'yaml') // -> "Default - saving as TXT!"
+extendedSave(data, 'json') // -> "Saving as JSON!"
+extendedSave(data, 'html') // -> "Saving as HTML!"
+extendedSave(data, 'csv') // -> "Saving as CSV!"
+extendedSave(data, 'yaml') // -> "Default - saving as TXT!"
 
-const extendedSave2 = multi(
-  save,
-
+const extendedSave2 = fromMulti(
   method('csv', (data, format) => {
     console.log('Saving as CSV!')
   }),
@@ -39,9 +39,9 @@ const extendedSave2 = multi(
   method('yaml', (data, format) => {
     console.log('Saving as YAML!')
   }),
-)
+)(save)
 
-extendedSave2('some data', 'json') // -> "Saving as JSON!"
-extendedSave2('some data', 'html') // -> "Saving as HTML!"
-extendedSave2('some data', 'csv') // -> "Saving as CSV!"
-extendedSave2('some data', 'yaml') // -> "Saving as YAML!"
+extendedSave2(data, 'json') // -> "Saving as JSON!"
+extendedSave2(data, 'html') // -> "Saving as HTML!"
+extendedSave2(data, 'csv') // -> "Saving as CSV!"
+extendedSave2(data, 'yaml') // -> "Saving as YAML!"

@@ -1,4 +1,4 @@
-const { multi, method } = require('@arrows/multimethod')
+const { multi, method, fromMulti } = require('@arrows/multimethod')
 
 /**
  * @param {number} points
@@ -10,11 +10,10 @@ const baseGradeExam = multi(
   method((points) => points > 15, 'good'),
 )
 
-const gradeExam = multi(
-  baseGradeExam,
+const gradeExam = fromMulti(
   method((points) => points === 0, 'terrible'),
   method((points) => points > 20, 'excellent'),
-)
+)(baseGradeExam)
 
 console.log(
   gradeExam(0), // -> 'terrible'

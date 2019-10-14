@@ -21,6 +21,9 @@
      - [Extending with a single method](#extending-with-a-single-method)
      - [Extending with multiple methods](#extending-with-multiple-methods)
    - [Methods priority](#methods-priority)
+   - [Currying](#currying)
+     - [Automatic currying](#automatic-currying)
+     - [Manual currying](#manual-currying)
 4. [API reference](#api-reference)
    - [multi](#multi)
    - [method](#method)
@@ -591,100 +594,107 @@ gradeExam(20) // -> 'good'
 gradeExam(25) // -> 'excellent'
 ```
 
-<!-- ### Rearranging multimethods
+### Currying
 
-If some rare situations you would want to arbitrarily rearrange methods,
-without changing the original function.
+Multimethods support automatic currying and manual currying / chunking, based on dispatch function.
 
-Unlike in some other multimethod implementations,
-there is no special syntax for that - you can do that by simply
-creating a new multimethod with rearranged your methods.
+#### Automatic currying
 
-In order to do that (without hacks), a module should export not only a multimethod,
-but also specific implementations (at least the potentially problematic ones). **If you create a library that uses multimethods, pay a special attention to this.**
+Multimethods work with all generic `curry` functions. Currying is based on the length of the dispatch function, so you should provide an explicit dispatch (default dispatch is a variadic function, so it's length is `0`).
 
-It can be more verbose, but it's more explicit, and easy to understand.
-
-Lets say that we have the following original implementation:
+Example:
 
 ```js
-// original.js
+import curry from 'curry'
 import { multi, method } from '@arrows/multimethod'
 
-export const whenBat = () => 'Talking about bats.'
-export const whenBatman = () => 'Talking about Batman.'
-export const whenDog = () => 'Talking about dogs.'
-export const whenCat = () => 'Talking about cats.'
-
 /**
- * @param {string} phrase
- * @returns {string} conclusion
+ * Currying with a generic `curry` function.
+ * Explicit dispatch function (length: 2).
+ *
+ * Note that you can still use non-functions as corresponding values.
+ *
+ * @param {string} type
+ * @param {string} source
+ * @returns {string} info
  */
-const original = multi(
-  (phrase) => phrase.toLoweCase(),
-  method((phrase) => phrase.includes('bat'), whenBat),
-  method((phrase) => phrase.includes('batman'), whenBatman),
-  method((phrase) => phrase.includes('dog'), whenDog),
-  method((phrase) => phrase.includes('cat'), whenCat),
+const play = multi(
+  (type, source) => type,
+  method('audio', (type, source) => `Playing audio from: ${source}`),
+  method('video', (type, source) => `Playing video from: ${source}`),
 )
 
-export default original
+const curriedPlay = curry(play)
+
+const playAudio = curriedPlay('audio')
+const playVideo = curriedPlay('video')
+
+playAudio('songs.io/123') // -> "Playing audio from: songs.io/123"
+playVideo('movies.com/123') // -> "Playing video from: movies.com/123"
 ```
 
-Now we can rearrange implementations by creating a new multimethod,
-we can do this in two ways - it depends weather we care about keeping a default method
-open for future changes or not.
+#### Manual currying
 
-In the vast majority of the cases, we're good with delegating methods that we do not care about to the original function via default method:
+If you prefer a manual currying, or you already have functions that use manual currying and want to use them as methods, you can easily do that with the multimethod. Just like with automatic currying, execution is based on the dispatch function.
+
+Examples:
 
 ```js
-import { multi, method } from '@arrows/multimethod'
-import original, { whenBat, whenBatman } from './original'
+const mapArray = (fn) => (arr) => arr.map(fn)
+const mapString = (fn) => (str) => [...str].map(fn)
 
 /**
- * @param {string} phrase
- * @returns {string} conclusion
+ * Manually curried function - each chunk have one argument.
  */
-const rearranged = multi(
-  method((phrase) => phrase.includes('batman'), whenBatman),
-  method((phrase) => phrase.includes('bat'), whenBat),
-  method(original),
+
+const map = multi(
+  (fn) => (val) => (Array.isArray(val) ? 'array' : typeof val),
+  method('array', mapArray),
+  method('string', mapString),
 )
 
-original('I like Batman!') // -> "Talking about bats"
-original('Dracula can turn into a bat') // -> "Talking about bats"
-
-rearranged('I like Batman!') // -> "Talking about Batman"
-rearranged('Dracula can turn into a bat') // -> "Talking about bats"
-rearranged('My dogs are lazy.') // -> "Talking about dogs"
-rearranged('My cat is crazy.') // -> "Talking about cats"
+map((char) => char.charCodeAt(0))('Hello') // -> [72, 101, 108, 108, 111]
+map((item) => item * 2)([1, 2, 3]) // -> [2, 4, 6]
 ```
 
-If we need to keep the default method open, we have to be more verbose, specifying all the cases:
-
 ```js
-import { multi, method } from '@arrows/multimethod'
-import original, { whenBat, whenBatman, whenCat, whenDog } from './original'
-
 /**
- * @param {string} phrase
- * @returns {string} conclusion
+ * Manually chunked function - chunks can have more than one argument,
+ * they can also have default values.
+ *
+ * Note that you can still use non-functions as corresponding values.
  */
-const rearranged = multi(
-  method((phrase) => phrase.includes('batman'), whenBatman),
-  method((phrase) => phrase.includes('bat'), whenBat),
-  method((phrase) => phrase.includes('dog'), whenDog),
-  method((phrase) => phrase.includes('cat'), whenCat),
+const checkGrammar = multi(
+  (config = {}) => (text, language) => language,
+  method('en', 'Checking English grammar'),
+  method('pl', 'Checking Polish grammar'),
 )
 
-original('I like Batman!') // -> "Talking about bats"
-original('Dracula can turn into a bat') // -> "Talking about bats"
+const checkTypos = checkGrammar({ typos: true })
 
-rearranged('I like Batman!') // -> "Talking about Batman"
-rearranged('Dracula can turn into a bat') // -> "Talking about bats"
-rearranged('My dogs are lazy.') // -> "Talking about dogs"
-rearranged('My cat is crazy.') // -> "Talking about cats"
-``` -->
+checkTypos('mistkae', 'en') // -> "Checking English grammar"
+checkTypos('błąt', 'pl') // -> "Checking Polish grammar"
+```
+
+---
+
+_Note: To make it possible, the `multi` function counts chunks (segments) when multimethod is created, by executing dispatch function without arguments until returned value is not a function or error is thrown. This comes with one limitation - you should not use any arguments-based calculations as default values. If you do that, the library will be not able to correctly count segments._
+
+_For example, this will not work as intended:_
+
+```js
+/**
+ * This won't work, because of the default value calculation
+ * based on the `a` argument.
+ *
+ *
+ */
+const fn = multi(
+  (a) => (b = a.foo) => a,
+  method(/* some case */),
+  method(/* some case */),
+)
+```
 
 ## API reference
 
@@ -705,7 +715,9 @@ based on arbitrary dispatch of its arguments
 #### Interface
 
 ```
+
 (dispatch | multimethod | method, method?, method?, ..., method?) => multimethod
+
 ```
 
 #### Examples

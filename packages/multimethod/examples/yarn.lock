@@ -14,14 +14,19 @@
   dependencies:
     "@arrows/array" "^0.4.9"
 
-"@arrows/multimethod@^0.8.5":
-  version "0.8.5"
-  resolved "https://registry.yarnpkg.com/@arrows/multimethod/-/multimethod-0.8.5.tgz#0b292c1ef2927b3946c69b9108545bbf24634131"
-  integrity sha512-8u++R3RxRlEwIZqRCk4GAZe7FhzqsH1jG3/MK97jrijmiAIjONzjC6+PKj8bfte1FRGBnOi2FjWPJjw4GXIAyw==
+"@arrows/multimethod@^0.9.0":
+  version "0.9.0"
+  resolved "https://registry.yarnpkg.com/@arrows/multimethod/-/multimethod-0.9.0.tgz#329b17226431ff9d27a0595f949ca943711eba2b"
+  integrity sha512-bY/+RFU+pz7JTSwEtr8RNGXLe23i5UqK2Mm7diVv5ikTaZU0f01zYjeNVaOveOixeJzpyrJkqwx9VREa4/5sPg==
   dependencies:
     "@arrows/array" "^0.4.9"
     "@arrows/composition" "^0.2.5"
     fast-deep-equal "^2.0.1"
+
+curry@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/curry/-/curry-1.2.0.tgz#9e6dd289548dba7e653d5ae3fe903fe7dfb33af2"
+  integrity sha1-nm3SiVSNun5lPVrj/pA/59+zOvI=
 
 fast-deep-equal@^2.0.1:
   version "2.0.1"

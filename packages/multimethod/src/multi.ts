@@ -5,12 +5,12 @@ import { Multi } from './internal/types'
  * Creates multimethod - a function that can dynamically choose proper implementation,
  * based on arbitrary dispatch of its arguments
  *
- * @param {Dispatch} [dispatch] The function that calculates values for matching
+ * @param {Dispatch | Multimethod | Method } first The function that calculates values for matching
  * @param {...Method} [methods] Arbitrary number of partially applied methods
  * @returns {Multimethod} Returns an immutable multimethod that can be used as ordinary function
  *
  * @example <caption>Interface:</caption>
- * (dispatch?, method1?, method2?, ..., methodN?) => multimethod
+ * (dispatch | multimethod | method, method?, method?, ..., method?) => multimethod
  *
  *
  * @example <caption>Create multimethod with a custom dispatch and no methods:</caption>

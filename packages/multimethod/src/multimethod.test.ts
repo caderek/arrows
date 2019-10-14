@@ -1,19 +1,11 @@
 import * as curry from 'ramda.curry'
-import fromMulti from './fromMulti'
 import method from './method'
 import multi from './multi'
 
 describe('multi', () => {
   describe('executed without any arguments', () => {
-    it('creates multimethod that throws error: no matching method', () => {
-      const fn = multi()
-      expect(fn).toThrowError('No method specified for provided arguments')
-    })
-
-    it('sets default dispatcher as identity function', () => {
-      const fn = multi()
-      const fnWithMethod = method('hello', 'world')(fn)
-      expect(fnWithMethod('hello')).toEqual('world')
+    it('throws an error (not enough arguments)', () => {
+      expect(multi).toThrowError('You have to provide at least one argument')
     })
   })
 
@@ -102,7 +94,7 @@ describe('multi', () => {
       multi('oops')
     }
     expect(createIncorrectMultimethod).toThrowError(
-      'First argument of multi must be either dispatch function or partially applied method',
+      'First argument of multi must be either dispatch function, multimethod, or partially applied method',
     )
   })
 
@@ -389,16 +381,17 @@ describe('multimethod', () => {
       expect(fn(4)).toEqual('higher than 3')
     })
 
-    it('when added by `fromMulti` - top to bottom, but all above old methods', () => {
+    it('when extended by `multi` - top to bottom, but all above old methods', () => {
       const baseFn = multi(
         method((x) => x > 5, 'higher than 5'),
         method((x) => x > 1, 'higher than 1'),
       )
 
-      const fn = fromMulti(
+      const fn = multi(
+        baseFn,
         method((x) => x > 7, 'higher than 7'),
         method((x) => x > 3, 'higher than 3'),
-      )(baseFn)
+      )
 
       expect(fn(9)).toEqual('higher than 7')
       expect(fn(4)).toEqual('higher than 3')

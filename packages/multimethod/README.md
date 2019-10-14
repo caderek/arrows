@@ -17,10 +17,13 @@
      - [Dispatch function](#dispatch-function)
      - [Case value](#case-value)
      - [Corresponding value](#corresponding-value)
-4. [API reference](#api)
+   - [Extending multimethods](#extending-multimethods)
+     - [Extending with a single method](#extending-with-a-single-method)
+     - [Extending with multiple methods](#extending-with-multiple-methods)
+   - [Methods priority](#methods-priority)
+4. [API reference](#api-reference)
    - [multi](#multi)
    - [method](#method)
-   - [fromMulti](#fromMulti)
 5. [License](#license)
 
 ## Introduction
@@ -51,11 +54,20 @@ yarn add @arrows/multimethod
 
 ## Usage
 
+_Note: You can find an run all the examples from this section in the [examples/](examples/) folder._
+
 ### Quick example
 
 ```js
 import { multi, method } from '@arrows/multimethod'
 
+/**
+ * Save data in specified format
+ *
+ * @param {string} data
+ * @param {string} format
+ * @returns {void}
+ */
 const save = multi(
   (data, format) => format, // Custom dispatch function
 
@@ -93,7 +105,7 @@ extendedSave('some data', 'yaml') // -> "Default - saving as TXT!"
 We can also easily extend the original function with multiple methods:
 
 ```js
-const extendedSave = fromMulti(
+const extendedSave2 = fromMulti(
   method('csv', (data, format) => {
     console.log('Saving as CSV!')
   }),
@@ -129,7 +141,7 @@ const myFunction = multi(
 
 Dispatch function produces values, by which multimethod should be dispatched. The return value of the dispatch function is compared with case values of registered methods.
 
-Matching algorithm uses deep strict equality to find the match. There are two exceptions to this rule, they are described in the [case value](case-value) section.
+Matching algorithm uses deep strict equality to find the match. There are two exceptions to this rule, they are described in the [case value](#case-value) section.
 
 _Note: Current implementation of the deep strict equal algorithms guarantees the correct results for JSON compatible types, it may be later extended to also handle other types like `Map`, `Set` etc._
 
@@ -398,7 +410,7 @@ notify({ type: 'sms', number: '123456789' }) // -> "SMS from 123456789!"
 
 Corresponding value is a second argument of the two-argument `method` (or the first and ony argument of the default method).
 
-Case value can be either:
+Corresponding value can be either:
 
 1. a function
 2. any other value
@@ -430,7 +442,249 @@ fib(1) // -> 1
 fib(9) // -> 34
 ```
 
-## API
+### Extending multimethods
+
+The multimethod is immutable, so we can't add / override methods, but we can easily create a new multimethod based on the existing one. In fact, every time we execute the `method` function, we create a new multimethod. This multimethod will have all cases the old one has, plus the new method (you can also "replace" a method by using the same caseValue as an existing one).
+
+#### Extending with a single method
+
+You can create a new multimethod with new method by executing `method` function and passing a base multimethod as an argument to the second chunk.
+
+Examples:
+
+```js
+const baseAdd = multi(
+  (a, b) => [typeof a, typeof b],
+  method(['number', 'number'], (a, b) => a + b),
+  method(['string', 'string'], (a, b) => `${a}${b}`),
+)
+
+/**
+ * Creating a new multimethod with additional method
+ */
+const add = method(['bigint', 'bigint'], (a, b) => a + b)(baseAdd)
+
+add(1, 2) // -> 3
+add('bat', 'man') // -> "batman"
+add(1n, 2n) // -> 3n
+```
+
+```js
+const { multi, method } = require('@arrows/multimethod')
+
+/**
+ * @param {string} language
+ * @returns ${string} greeting
+ */
+const baseGreet = multi(
+  method('ru', 'Привет!'),
+  method('es', '¡Hola!'),
+  method('pl', 'Cześć!'),
+)
+
+/**
+ * Creating a new multimethod with added default method
+ */
+const greet = method('Hello!')(baseGreet)
+
+greet('ru') // -> "Привет!"
+greet('es') // -> "¡Hola!"
+greet('pl') // -> "Cześć!"
+greet('fr') // -> "Hello!"
+```
+
+#### Extending with multiple methods
+
+You can create a new multimethod with multiple new methods either by generic `compose` function, or by passing an old multimethod as a first argument to the `multi` function (instead of a dispatch function).
+
+Examples:
+
+```js
+const baseHandleHTTPError = multi(
+  method(400, 'Incorrect request.'),
+  method(404, 'The path does not exist.'),
+)
+
+/**
+ * Creating a new multimethod with many new methods via generic functional compose
+ */
+const handleHTTPError = compose(
+  method(403, 'You do not have access to this resource.'),
+  method(418, 'We are all teapots!'),
+)(baseHandleHTTPError)
+
+handleHTTPError(400) // -> "Incorrect request."
+handleHTTPError(418) // -> "We are all teapots!"
+```
+
+```js
+const baseArea = multi(
+  (shape) => shape.type,
+  method('rectangle', (shape) => shape.a * shape.b),
+  method('square', (shape) => shape.a ** 2),
+)
+
+/**
+ * Creating a new multimethod with many new methods via fromMulti function
+ */
+const area = multi(
+  baseArea,
+  method('circle', (shape) => Math.PI * shape.r ** 2),
+  method('triangle', (shape) => 0.5 * shape.a * shape.h),
+)
+
+area({ type: 'square', a: 5 }) // -> 25
+area({ type: 'circle', r: 3 }) // -> 28.274333882308138
+```
+
+### Methods priority
+
+When you execute the `method` function, the method will be added to the front of the multimethod. In case of the partially applied `method` functions passed to the `multi` function, they will be added from bottom to top - so they will maintain their order in a final multimethod.
+
+Order of the methods inside a multimethod determines their priority.
+
+Examples:
+
+```js
+/** Priorities for methods inside `evenMoreExtended` function */
+
+const base = multi(
+  method('a', 'priority: 5'),
+  method('b', 'priority: 6'),
+  method('c', 'priority: 7'),
+)
+
+const extended = method('d', 'priority: 4')(base)
+
+const evenMoreExtended = fromMulti(
+  extended,
+  method('e', 'priority: 1'),
+  method('f', 'priority: 2'),
+  method('g', 'priority: 3'),
+)
+```
+
+```js
+/**
+ * @param {number} points
+ * @returns {number} grade
+ */
+const baseGradeExam = multi(
+  method((points) => points < 10, 'failed'),
+  method((points) => points <= 15, 'ok'),
+  method((points) => points > 15, 'good'),
+)
+
+const gradeExam = multi(
+  baseGradeExam,
+  method((points) => points === 0, 'terrible'),
+  method((points) => points > 20, 'excellent'),
+)
+
+gradeExam(0) // -> 'terrible'
+gradeExam(5) // -> 'failed'
+gradeExam(10) // -> 'ok'
+gradeExam(15) // -> 'ok'
+gradeExam(20) // -> 'good'
+gradeExam(25) // -> 'excellent'
+```
+
+<!-- ### Rearranging multimethods
+
+If some rare situations you would want to arbitrarily rearrange methods,
+without changing the original function.
+
+Unlike in some other multimethod implementations,
+there is no special syntax for that - you can do that by simply
+creating a new multimethod with rearranged your methods.
+
+In order to do that (without hacks), a module should export not only a multimethod,
+but also specific implementations (at least the potentially problematic ones). **If you create a library that uses multimethods, pay a special attention to this.**
+
+It can be more verbose, but it's more explicit, and easy to understand.
+
+Lets say that we have the following original implementation:
+
+```js
+// original.js
+import { multi, method } from '@arrows/multimethod'
+
+export const whenBat = () => 'Talking about bats.'
+export const whenBatman = () => 'Talking about Batman.'
+export const whenDog = () => 'Talking about dogs.'
+export const whenCat = () => 'Talking about cats.'
+
+/**
+ * @param {string} phrase
+ * @returns {string} conclusion
+ */
+const original = multi(
+  (phrase) => phrase.toLoweCase(),
+  method((phrase) => phrase.includes('bat'), whenBat),
+  method((phrase) => phrase.includes('batman'), whenBatman),
+  method((phrase) => phrase.includes('dog'), whenDog),
+  method((phrase) => phrase.includes('cat'), whenCat),
+)
+
+export default original
+```
+
+Now we can rearrange implementations by creating a new multimethod,
+we can do this in two ways - it depends weather we care about keeping a default method
+open for future changes or not.
+
+In the vast majority of the cases, we're good with delegating methods that we do not care about to the original function via default method:
+
+```js
+import { multi, method } from '@arrows/multimethod'
+import original, { whenBat, whenBatman } from './original'
+
+/**
+ * @param {string} phrase
+ * @returns {string} conclusion
+ */
+const rearranged = multi(
+  method((phrase) => phrase.includes('batman'), whenBatman),
+  method((phrase) => phrase.includes('bat'), whenBat),
+  method(original),
+)
+
+original('I like Batman!') // -> "Talking about bats"
+original('Dracula can turn into a bat') // -> "Talking about bats"
+
+rearranged('I like Batman!') // -> "Talking about Batman"
+rearranged('Dracula can turn into a bat') // -> "Talking about bats"
+rearranged('My dogs are lazy.') // -> "Talking about dogs"
+rearranged('My cat is crazy.') // -> "Talking about cats"
+```
+
+If we need to keep the default method open, we have to be more verbose, specifying all the cases:
+
+```js
+import { multi, method } from '@arrows/multimethod'
+import original, { whenBat, whenBatman, whenCat, whenDog } from './original'
+
+/**
+ * @param {string} phrase
+ * @returns {string} conclusion
+ */
+const rearranged = multi(
+  method((phrase) => phrase.includes('batman'), whenBatman),
+  method((phrase) => phrase.includes('bat'), whenBat),
+  method((phrase) => phrase.includes('dog'), whenDog),
+  method((phrase) => phrase.includes('cat'), whenCat),
+)
+
+original('I like Batman!') // -> "Talking about bats"
+original('Dracula can turn into a bat') // -> "Talking about bats"
+
+rearranged('I like Batman!') // -> "Talking about Batman"
+rearranged('Dracula can turn into a bat') // -> "Talking about bats"
+rearranged('My dogs are lazy.') // -> "Talking about dogs"
+rearranged('My cat is crazy.') // -> "Talking about cats"
+``` -->
+
+## API reference
 
 ### multi
 
@@ -439,8 +693,8 @@ based on arbitrary dispatch of its arguments
 
 #### Parameters
 
-- `dispatch` - The function that calculates values for matching
-- `methods` - Arbitrary number of partially applied methods
+- `first` - First argument can be either dispatch function, multimethod or partially applied method
+- `methods` - Arbitrary number of partially applied methods (optional)
 
 #### Returns
 
@@ -449,7 +703,7 @@ based on arbitrary dispatch of its arguments
 #### Interface
 
 ```
-(dispatch?, method1?, method2?, ..., methodN?) => multimethod
+(dispatch | multimethod | method, method?, method?, ..., method?) => multimethod
 ```
 
 #### Examples
@@ -488,6 +742,29 @@ const multiply = multi(
 multiply(2, 5) // -> 10
 multiply(3, 'Beetlejuice! ') // -> 'Beetlejuice! Beetlejuice! Beetlejuice! ' (do not read it out loud)
 multiply(2, [1, 2, 3]) // -> throws an Error (no match and no default method for these arguments)
+```
+
+Create a new multimethod using an existing one as a base:
+
+```javascript
+const add = multi(
+  (a, b) => [typeof a, typeof b],
+  method(['number', 'number'], (a, b) => a + b),
+  method(['string', 'string'], (a, b) => `${a}${b}`),
+)
+
+const extendedAdd = multi(
+  add,
+  method(['bigint', 'bigint'], (a, b) => a + b),
+  method(['number', 'bigint'], (a, b) => BigInt(a) + b),
+  method(['bigint', 'number'], (a, b) => a + BigInt(b)),
+)
+
+extendedAdd(1, 2) // -> 3
+extendedAdd('foo', 'bar') // -> 'foobar'
+extendedAdd(2n, 3n) // -> 5n
+extendedAdd(5, 5n) // -> 10n
+extendedAdd(9n, 2) // -> 11n
 ```
 
 ### method
@@ -614,49 +891,6 @@ const extendedFn = method(SMS, 'sms')(go)
 
 extendedFn(new Email()) // -> 'email'
 extendedFn(new SMS()) // -> 'sms'
-```
-
-### fromMulti
-
-Allows to create new multimethods from existing ones in a simple way.
-
-#### Parameters
-
-- `methods` - Arbitrary number of partially applied methods
-- `multimethod` - Multimethod on which you want to base new multimethod
-
-#### Returns
-
-- New multimethod (the base one is unchanged)
-
-#### Interface
-
-```
-(method1, method2?, ..., methodN?) => (multimethod) => new_multimethod
-```
-
-#### Examples
-
-Create new multimethod using existing one as a base:
-
-```javascript
-const add = multi(
-  (a, b) => [typeof a, typeof b],
-  method(['number', 'number'], (a, b) => a + b),
-  method(['string', 'string'], (a, b) => `${a}${b}`),
-)
-
-const extendedAdd = fromMulti(
-  method(['bigint', 'bigint'], (a, b) => a + b),
-  method(['number', 'bigint'], (a, b) => BigInt(a) + b),
-  method(['bigint', 'number'], (a, b) => a + BigInt(b)),
-)(add)
-
-extendedAdd(1, 2) // -> 3
-extendedAdd('foo', 'bar') // -> 'foobar'
-extendedAdd(2n, 3n) // -> 5n
-extendedAdd(5, 5n) // -> 10n
-extendedAdd(9n, 2) // -> 11n
 ```
 
 ## License

@@ -1,5 +1,5 @@
 # CHANGELOG
 
-## 0.6.3
+### < 1.0.0
 
-- Added benchmarks
+- Unstable API. Changes undocumented.

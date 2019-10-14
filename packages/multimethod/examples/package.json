@@ -4,6 +4,7 @@
   "main": "index.js",
   "license": "ISC",
   "dependencies": {
-    "@arrows/multimethod": "^0.8.5"
+    "@arrows/composition": "^0.2.5",
+    "@arrows/multimethod": "^0.9.0"
   }
 }

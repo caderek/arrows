@@ -1,4 +1,4 @@
-import pipe from '@arrows/composition/pipe'
+import compose from '@arrows/composition/compose'
 import * as equal from 'fast-deep-equal'
 import {
   CaseEntry,
@@ -174,14 +174,6 @@ const createSegmentedTarget: CreateSegmentedTarget = (
   return recur(segmentsCount)
 }
 
-const validateFirstArg = (arg: any) => {
-  if (typeof arg !== 'function' && arg !== undefined) {
-    throw new Error(
-      'First argument of multi must be either dispatch function or partially applied method',
-    )
-  }
-}
-
 const validateOtherArgs = (args: any[]) => {
   args.forEach((item) => {
     if (typeof item !== 'function' || item[methodKey] !== true) {
@@ -192,10 +184,41 @@ const validateOtherArgs = (args: any[]) => {
   })
 }
 
-type IsDispatchProvided = (item: any) => boolean
+const getFirstArgumentType = (arg) => {
+  if (typeof arg !== 'function') {
+    throw new Error(
+      'First argument of multi must be either dispatch function, multimethod, or partially applied method',
+    )
+  }
 
-const isDispatchProvided: IsDispatchProvided = (item) =>
-  typeof item === 'function' && !item[methodKey] === true
+  return arg[methodKey]
+    ? 'method'
+    : arg[multimethodKey]
+    ? 'multimethod'
+    : 'dispatch'
+}
+
+const createNewMultimethod = (dispatch, methodEntries, defaultMethod) => {
+  const segmentsCount = countSegments(dispatch)
+
+  const multimethod =
+    segmentsCount === 1
+      ? createSimpleTarget(methodEntries, defaultMethod, dispatch)
+      : createSegmentedTarget(
+          methodEntries,
+          defaultMethod,
+          dispatch,
+          segmentsCount,
+        )
+
+  multimethod[multimethodKey] = {
+    defaultMethod,
+    dispatch,
+    methodEntries,
+  }
+
+  return multimethod
+}
 
 type CreateMultimethod = (
   methodEntries?: MethodEntries,
@@ -206,39 +229,34 @@ const createMultimethod: CreateMultimethod = (methodEntries = []) => (
 ) => (...args) => {
   const [first, ...rest] = args
 
-  validateFirstArg(first)
-  validateOtherArgs(rest)
+  if (first === undefined) {
+    throw new Error('You have to provide at least one argument')
+  }
 
-  const haveDispatchFn = isDispatchProvided(first)
-  const dispatch = (haveDispatchFn ? first : implicitDispatch) as Dispatch
-  // Reverse, so methods have natural order (because by default, `method`
-  // adds to the front of the methods list)
-  const methods = (haveDispatchFn ? rest : args).reverse() as Method[]
+  if (rest.length > 0) {
+    validateOtherArgs(rest)
+  }
 
-  const segmentsCount = countSegments(dispatch)
+  const firstArgumentType = getFirstArgumentType(first)
 
-  const resultFn =
-    segmentsCount === 1
-      ? createSimpleTarget(methodEntries, defaultMethod, dispatch)
-      : createSegmentedTarget(
+  const methods = (firstArgumentType !== 'method' ? rest : args) as Method[]
+
+  const multimethod =
+    firstArgumentType === 'multimethod'
+      ? first
+      : createNewMultimethod(
+          (firstArgumentType === 'dispatch'
+            ? first
+            : implicitDispatch) as Dispatch,
           methodEntries,
           defaultMethod,
-          dispatch,
-          segmentsCount,
         )
 
-  // @ts-ignore
-  resultFn[multimethodKey] = {
-    defaultMethod,
-    dispatch,
-    methodEntries,
-  }
-
   if (methods.length !== 0) {
-    return pipe(...methods)(resultFn)
+    return compose(...methods)(multimethod)
   }
 
-  return resultFn
+  return multimethod
 }
 
 export { createMultimethod, multimethodKey, methodKey }

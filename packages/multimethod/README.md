@@ -58,7 +58,7 @@ yarn add @arrows/multimethod
 
 ## Usage
 
-_Note: You can find all the examples from this section (runnable) in the [examples/](examples/) folder._
+_Note: You can find all the examples from this section (runnable) in the [examples](https://github.com/caderek/arrows/tree/master/packages/multimethod/examples) folder._
 
 ### Quick example
 
@@ -680,7 +680,7 @@ checkTypos('błąt', 'pl') // -> "Checking Polish grammar"
 
 ---
 
-_Note: To make it possible, the `multi` function counts chunks (segments) when multimethod is created, by executing dispatch function without arguments until a returned value is not a function or error is thrown. This comes with one limitation - **you should not use any argument-based calculations as default values**. If you do that, the library won't be to correctly count segments._
+_Note: To make it possible, the `multi` function counts chunks (segments) when multimethod is created, by executing dispatch function without arguments until a returned value is not a function or error is thrown. This comes with one limitation - **you should not use any argument-based calculations as default values**. If you do that, the library won't be able to correctly count segments._
 
 _For example, this will not work as intended:_
 

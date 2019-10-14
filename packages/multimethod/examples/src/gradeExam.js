@@ -1,4 +1,4 @@
-const { multi, method, fromMulti } = require('@arrows/multimethod')
+const { multi, method } = require('@arrows/multimethod')
 
 /**
  * @param {number} points

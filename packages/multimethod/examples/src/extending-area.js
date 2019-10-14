@@ -1,4 +1,4 @@
-const { multi, method, fromMulti } = require('@arrows/multimethod')
+const { multi, method } = require('@arrows/multimethod')
 
 const baseArea = multi(
   (shape) => shape.type,
@@ -7,7 +7,7 @@ const baseArea = multi(
 )
 
 /**
- * Creating a new multimethod with many new methods via generic fromMulti function
+ * Creating a new multimethod with many new methods via `multi` function
  */
 const area = multi(
   baseArea,

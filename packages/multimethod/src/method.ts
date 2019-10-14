@@ -99,9 +99,6 @@ import { Method, MethodEntries, Multimethod } from './internal/types'
  *
  * extendedFn(new Email()) // -> 'email'
  * extendedFn(new SMS()) // -> 'sms'
- *
- *
- * @see multi, fromMulti
  */
 const method: Method = (caseValue, correspondingValue) => {
   const partialMethod = (multimethod: Multimethod): Multimethod => {

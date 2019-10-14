@@ -105,7 +105,9 @@ extendedSave('some data', 'yaml') // -> "Default - saving as TXT!"
 We can also easily extend the original function with multiple methods:
 
 ```js
-const extendedSave2 = fromMulti(
+const extendedSave2 = multi(
+  save,
+
   method('csv', (data, format) => {
     console.log('Saving as CSV!')
   }),
@@ -113,7 +115,7 @@ const extendedSave2 = fromMulti(
   method('yaml', (data, format) => {
     console.log('Saving as YAML!')
   }),
-)(save)
+)
 
 extendedSave2('some data', 'json') // -> "Saving as JSON!"
 extendedSave2('some data', 'html') // -> "Saving as HTML!"
@@ -506,7 +508,7 @@ const baseHandleHTTPError = multi(
 )
 
 /**
- * Creating a new multimethod with many new methods via generic functional compose
+ * Creating a new multimethod with many new methods via generic functional `compose`
  */
 const handleHTTPError = compose(
   method(403, 'You do not have access to this resource.'),
@@ -525,7 +527,7 @@ const baseArea = multi(
 )
 
 /**
- * Creating a new multimethod with many new methods via fromMulti function
+ * Creating a new multimethod with many new methods via `multi` function
  */
 const area = multi(
   baseArea,
@@ -556,7 +558,7 @@ const base = multi(
 
 const extended = method('d', 'priority: 4')(base)
 
-const evenMoreExtended = fromMulti(
+const evenMoreExtended = multi(
   extended,
   method('e', 'priority: 1'),
   method('f', 'priority: 2'),

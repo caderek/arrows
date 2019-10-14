@@ -43,8 +43,6 @@ import { Multi } from './internal/types'
  * multiply(2, 5) // -> 10
  * multiply(3, 'Beetlejuice! ') // -> 'Beetlejuice! Beetlejuice! Beetlejuice! ' (do not read it out loud)
  * multiply(2, [1, 2, 3]) // -> throws an Error (no match and no default method for these arguments)
- *
- * @see method, fromMulti
  */
 const multi: Multi = createMultimethod()()
 

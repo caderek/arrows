@@ -38,17 +38,18 @@ export type Internals = {
   dispatch: Dispatch
 }
 
-export type Multimethod = {
-  (...args: any[]): any
+export type Multi = {
   [multimethodKey]: Internals
 }
 
-export type Method = (
+export type Multimethod = ((...args: any[]) => any) & Multi
+
+export type MethodFn = (
   arg0: any,
   arg1?: any,
 ) => (multimethod: Multimethod) => Multimethod
 
-export type Multi = (
-  arg0?: Dispatch | Method,
-  ...methods: Method[]
+export type MultiFn = (
+  arg0?: Dispatch | MethodFn,
+  ...methods: MethodFn[]
 ) => Multimethod

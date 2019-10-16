@@ -5,12 +5,12 @@ import {
   methodKey,
   multimethodKey,
 } from './internal/multimethod'
-import { Method, MethodEntries, Multimethod } from './internal/types'
+import { MethodFn, MethodEntries, Multimethod } from './internal/types'
 
 /**
  * Adds method to a multimethod
  */
-const method: Method = (caseValue, correspondingValue) => {
+const method: MethodFn = (caseValue, correspondingValue) => {
   const partialMethod = (multimethod: Multimethod): Multimethod => {
     if (!multimethod[multimethodKey]) {
       throw new NotMultimethodError()

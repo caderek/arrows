@@ -24,6 +24,10 @@
    - [Currying](#currying)
      - [Automatic currying](#automatic-currying)
      - [Manual currying](#manual-currying)
+   - [Defining types](#defining-types)
+     - [Adding types via interfaces](#adding-types-via-interfaces)
+     - [Adding types via type aliases and intersections](#adding-types-via-type-aliases-and-intersections)
+     - [Adding types using existing types](#adding-types-using-existing-types)
 4. [API reference](#api-reference)
    - [multi](#multi)
    - [method](#method)
@@ -714,6 +718,194 @@ const fn = multi(
   method((a, b, c) => /* some check */, a => b => c => /* some return */),
   method((a, b, c) => /* some check */, a => b => c => /* some return */),
 )
+```
+
+### Defining types
+
+If you use TypeScript, you will probably want to make your multimethods type-safe. While the dynamic nature of the multimethods makes it hard for the compiler to guarantee that multimethod is put together correctly, you can still ensure correct usage of the multimethod by defining its interface.
+
+TypeScript supports function overloading defined via interfaces (or type alias equivalents) and intersections.
+
+### Adding types via interfaces
+
+Creating a new multimethod from scratch:
+
+```ts
+import { method, multi, Multi } from '@arrows/multimethod'
+
+/**
+ * Multimethod type defined using interface.
+ *
+ * Extending `Multi` type guarantees that the multimethod will
+ * be recognized correctly when extended by `fromMulti` function.
+ */
+interface IMultiply extends Multi {
+  (times: number, x: number): number
+  (times: number, x: string): string
+}
+
+const multiply: IMultiply = multi(
+  (times: number, x: any): string => typeof x,
+  method('number', (times: number, x: number): number => x * times),
+  method('string', (times: number, x: string): string => x.repeat(times)),
+)
+
+/*
+multiply(3, 3) // -> 9
+multiply(3, 'foo') // -> "foofoofoo"
+multiply(3, [1, 2, 3]) // compiler error
+*/
+
+export { IMultiply }
+export default multiply
+```
+
+Creating a new multimethod from an existing one:
+
+```ts
+import { fromMulti, method } from '@arrows/multimethod'
+import baseMultiply, { IMultiply as IBaseMultiply } from './multiply'
+
+/**
+ * Multimethod type defined by extending existing interface.
+ */
+interface IMultiply extends IBaseMultiply {
+  (times: number, x: bigint): bigint
+}
+
+const multiply: IMultiply = fromMulti(
+  method('bigint', (times: number, x: bigint) => x * BigInt(times)),
+)(baseMultiply)
+
+multiply(3, 3) // -> 9
+multiply(3, 'foo') // -> "foofoofoo"
+multiply(3, 5n) // -> 15n
+multiply(3, [1, 2, 3]) // compiler error
+```
+
+### Adding types via type aliases and intersections
+
+Creating a new multimethod from scratch:
+
+```ts
+import { method, multi, Multi } from '@arrows/multimethod'
+
+/**
+ * Multimethod type defined using interface.
+ *
+ * Using intersection with `Multi` type guarantees that the multimethod
+ * will be recognized correctly when extended by `fromMulti` function.
+ */
+type Multiply = Multi & {
+  (times: number, x: number): number
+  (times: number, x: string): string
+}
+
+const multiply: Multiply = multi(
+  (times: number, x: any): string => typeof x,
+  method('number', (times: number, x: number): number => x * times),
+  method('string', (times: number, x: string): string => x.repeat(times)),
+)
+
+/*
+multiply(3, 3) // -> 9
+multiply(3, 'foo') // -> "foofoofoo"
+multiply(3, [1, 2, 3]) // compiler error
+*/
+
+export { Multiply }
+export default multiply
+```
+
+Creating a new multimethod from an existing one:
+
+```ts
+import { fromMulti, method } from '@arrows/multimethod'
+import baseMultiply, { Multiply as BaseMultiply } from './multiply'
+
+/**
+ * Multimethod type defined by intersection with existing type.
+ */
+type Multiply = BaseMultiply & {
+  (times: number, x: bigint): bigint
+}
+
+const multiply: Multiply = fromMulti(
+  method('bigint', (times: number, x: bigint) => x * BigInt(times)),
+)(baseMultiply)
+
+multiply(3, 3) // -> 9
+multiply(3, 'foo') // -> "foofoofoo"
+multiply(3, 5n) // -> 15n
+multiply(3, [1, 2, 3]) // compiler error
+```
+
+#### Adding types using existing types
+
+Usually, the best way to create a multimethod is to define component functions and their type aliases first - that way you can use a multimethod or a raw function - according to what fits best.
+Doing so you can also reuse type aliases for specific components for multimethod type.
+
+Creating a new multimethod from scratch:
+
+```ts
+import { method, multi, Multi } from '@arrows/multimethod'
+
+/**
+ * Component functions with type aliases.
+ */
+type MultiplyNumber = (times: number, x: number) => number
+const multiplyNumber: MultiplyNumber = (times, x) => x * times
+
+type MultiplyString = (times: number, x: string) => string
+const multiplyString: MultiplyString = (times, x) => x.repeat(times)
+
+/**
+ * Multimethod type defined by intersection of existing types.
+ *
+ * Using intersection with `Multi` type guarantees that the multimethod
+ * will be recognized correctly when extended by `fromMulti` function.
+ */
+type Multiply = Multi & MultiplyNumber & MultiplyString
+
+const multiply: Multiply = multi(
+  (times: number, x: any): string => typeof x,
+  method('number', multiplyNumber),
+  method('string', multiplyString),
+)
+
+/*
+multiply(3, 3) // -> 9
+multiply(3, 'foo') // -> "foofoofoo"
+multiply(3, [1, 2, 3]) // compiler error
+*/
+
+export { multiplyNumber, multiplyString, Multiply }
+export default multiply
+```
+
+Creating a new multimethod from an existing one:
+
+```ts
+import { fromMulti, method } from '@arrows/multimethod'
+import baseMultiply, { Multiply as BaseMultiply } from './multiply'
+
+type MultiplyBigInt = (times: number, x: bigint) => bigint
+const multiplyBigInt: MultiplyBigInt = (times, x) => x * BigInt(times)
+
+/**
+ * Multimethod type defined by intersection of existing types.
+ */
+type Multiply = BaseMultiply & MultiplyBigInt
+
+// prettier-ignore
+const multiply: Multiply = fromMulti(
+  method('bigint', multiplyBigInt),
+)(baseMultiply)
+
+multiply(3, 3) // -> 9
+multiply(3, 'foo') // -> "foofoofoo"
+multiply(3, 5n) // -> 15n
+multiply(3, [1, 2, 3]) // compiler error
 ```
 
 ## API reference

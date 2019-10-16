@@ -10,9 +10,9 @@ import {
   ConstructorCaseEntry,
   DefaultMethod,
   Dispatch,
-  Method,
   MethodEntries,
-  Multi,
+  MethodFn,
+  MultiFn,
   ValueCaseEntry,
 } from './types'
 
@@ -203,7 +203,7 @@ const getFirstArgumentType: GetFirstArgumentType = (arg) => {
 
 type CreateMultimethod = (
   methodEntries?: MethodEntries,
-) => (defaultMethod?: DefaultMethod) => Multi
+) => (defaultMethod?: DefaultMethod) => MultiFn
 
 const createMultimethod: CreateMultimethod = (methodEntries = []) => (
   defaultMethod = null,
@@ -222,7 +222,7 @@ const createMultimethod: CreateMultimethod = (methodEntries = []) => (
 
   const firstArgumentType = getFirstArgumentType(first)
 
-  const methods = (firstArgumentType !== 'method' ? rest : args) as Method[]
+  const methods = (firstArgumentType !== 'method' ? rest : args) as MethodFn[]
   const dispatch = (firstArgumentType === 'dispatch'
     ? first
     : implicitDispatch) as Dispatch

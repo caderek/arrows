@@ -1,10 +1,10 @@
 import compose from '@arrows/composition/compose'
 import { NoArgumentsError, NotMethodError, NotMultimethodError } from './errors'
 import { areMethodsValid, multimethodKey } from './internal/multimethod'
-import { Method, Multimethod } from './internal/types'
+import { MethodFn, Multimethod } from './internal/types'
 
 type FromMulti = (
-  ...methods: Method[]
+  ...methods: MethodFn[]
 ) => (multimethod: Multimethod) => Multimethod
 
 /**

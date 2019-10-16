@@ -14,17 +14,22 @@
   dependencies:
     "@arrows/array" "^0.4.9"
 
+"@arrows/composition@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@arrows/composition/-/composition-0.3.0.tgz#b35f617366f3afc37e7cc7a81a8a8d8256a842d1"
+  integrity sha512-JCbtF/z2SW2dsC5VodfhehUZuWZTJ1hNwcFATWuRMUhQt5GZd8ruz82AudBhf7Wu2V6L74/6UlBrzkynVmIoGQ==
+  dependencies:
+    "@arrows/array" "^0.4.9"
+
 "@arrows/dispatch@^0.2.5":
   version "0.2.5"
   resolved "https://registry.yarnpkg.com/@arrows/dispatch/-/dispatch-0.2.5.tgz#577cef190319e3d3bac4215c5d16bcb1e1343a6b"
   integrity sha512-tLTqdWte6Ux+NCaU4FSgqupNmWE19q4SGCT+gMsmQSdFjVPKntO890y95v8iZ2CRRoU++DfHWXjHcp3exW+Dnw==
 
-"@arrows/error@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@arrows/error/-/error-1.0.1.tgz#37450c084ba0304a52149047079bef89747542bd"
-  integrity sha512-QqvQ4s94CopNUvVKRefshtf5AoZa0BMxEcPwf0KicM16sTJr9BnVbJxBO7e7M2sSSeufUPy/agJc9NmIorwBjw==
-  dependencies:
-    codecov "^3.6.1"
+"@arrows/error@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@arrows/error/-/error-1.0.2.tgz#4e68036f901118ba6f1de88656ef6be49e650414"
+  integrity sha512-yvkiv1ay4Z3+Z6oQsUkedsQm5aFdyPpkBUQs8vejazU/RmANABx6bMMcBPPHI4aW43VPQmXFfBzr/4FExwWTEA==
 
 "@arrows/multimethod@^0.9.0":
   version "0.9.0"

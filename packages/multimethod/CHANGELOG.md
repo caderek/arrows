@@ -21,3 +21,7 @@ First stable release.
 - Added `Multi` type to exports so it can be extended.
 - Added "defining types" section to README.
 - Added examples for defining types.
+
+## 1.1.3
+
+- Updated dependencies.

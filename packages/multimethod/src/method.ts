@@ -5,7 +5,7 @@ import {
   methodKey,
   multimethodKey,
 } from './internal/multimethod'
-import { MethodFn, MethodEntries, Multimethod } from './internal/types'
+import { MethodEntries, MethodFn, Multimethod } from './internal/types'
 
 /**
  * Adds method to a multimethod

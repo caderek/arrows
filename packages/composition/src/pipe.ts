@@ -1,6 +1,6 @@
 import reduce from '@arrows/array/reduce'
-import { ChainFunctions } from './internal/types'
 import chain from './chain'
+import { ChainFunctions } from './internal/common-types'
 
 const pipe: ChainFunctions = chain(reduce)
 

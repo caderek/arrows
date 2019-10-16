@@ -7,13 +7,16 @@
     "build": "tsc",
     "test": "jest",
     "prep": "node ../../scripts/prepare-lib.js",
-    "coverage": "jest --coverage && codecov -F composition"
+    "coverage": "jest --coverage && codecov -F composition",
+    "lint": "tslint -c tslint.json 'src/**/*.ts'"
   },
   "devDependencies": {
     "@types/jest": "^24.0.18",
     "codecov": "^3.6.1",
     "jest": "^24.9.0",
     "ts-jest": "^24.1.0",
+    "tslint": "^5.20.0",
+    "tslint-config-prettier": "^1.18.0",
     "typescript": "^3.6.3"
   },
   "dependencies": {

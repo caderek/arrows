@@ -1,4 +1,6 @@
-const wrapSync = (fn) => (input) => {
+import { AnyFn } from './common-types'
+
+const wrapSync = (fn: AnyFn) => (input: any) => {
   if (input instanceof Error) {
     return input
   }

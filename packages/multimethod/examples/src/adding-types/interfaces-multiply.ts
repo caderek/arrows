@@ -1,4 +1,4 @@
-import { method, multi, Multi } from '../../../src/index'
+import { method, multi, Multi } from '@arrows/multimethod'
 /**
  * Multimethod type defined using interface.
  *

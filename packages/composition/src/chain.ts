@@ -1,13 +1,11 @@
-import { ChainFactory } from './internal/types'
+import { AnyFn, ChainFactory } from './internal/common-types'
 
-const chain: ChainFactory = (reducingFn, wrappingFn = null) => (...fns) => (
+const chain: ChainFactory = (reduceFn, wrappingFn) => (...fns) => (
   initialArg,
 ) => {
   return wrappingFn
-    ? reducingFn((arg: any, fn: Function) => wrappingFn(fn)(arg), initialArg)(
-        fns,
-      )
-    : reducingFn((arg: any, fn: Function) => fn(arg), initialArg)(fns)
+    ? reduceFn((arg: any, fn: AnyFn) => wrappingFn(fn)(arg), initialArg)(fns)
+    : reduceFn((arg: any, fn: AnyFn) => fn(arg), initialArg)(fns)
 }
 
 export { chain }

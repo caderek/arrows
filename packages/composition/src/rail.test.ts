@@ -56,7 +56,7 @@ describe('rail', () => {
     })
 
     it('when one of the functions returns undefined, passes previous result to the next function', () => {
-      const fn = rail((x) => x + 1, (x) => {}, (x) => x * 2)
+      const fn = rail((x) => x + 1, (x) => undefined, (x) => x * 2)
 
       const result = fn(1)
       const expected = 4

@@ -159,6 +159,8 @@ _Note: Current implementation of the deep strict equal algorithms guarantees the
 
 If you do not provide a dispatch function, the default one will be used. Default dispatch function returns all arguments as an array, or in case of single argument - as a standalone value.
 
+For a collection of useful, ready-to-use dispatch functions, check out the [@arrows/dispatch](https://www.npmjs.com/package/@arrows/dispatch) package.
+
 Examples:
 
 ```js

@@ -611,7 +611,7 @@ Multimethods work with all generic `curry` functions. Currying is based on the l
 Example:
 
 ```js
-import curry from 'curry'
+import curry from '@arrows/composition/curry'
 import { multi, method } from '@arrows/multimethod'
 
 /**

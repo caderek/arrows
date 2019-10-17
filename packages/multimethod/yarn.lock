@@ -31,13 +31,14 @@
   resolved "https://registry.yarnpkg.com/@arrows/error/-/error-1.0.2.tgz#4e68036f901118ba6f1de88656ef6be49e650414"
   integrity sha512-yvkiv1ay4Z3+Z6oQsUkedsQm5aFdyPpkBUQs8vejazU/RmANABx6bMMcBPPHI4aW43VPQmXFfBzr/4FExwWTEA==
 
-"@arrows/multimethod@^0.9.0":
-  version "0.9.0"
-  resolved "https://registry.yarnpkg.com/@arrows/multimethod/-/multimethod-0.9.0.tgz#329b17226431ff9d27a0595f949ca943711eba2b"
-  integrity sha512-bY/+RFU+pz7JTSwEtr8RNGXLe23i5UqK2Mm7diVv5ikTaZU0f01zYjeNVaOveOixeJzpyrJkqwx9VREa4/5sPg==
+"@arrows/multimethod@^1.0.0":
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/@arrows/multimethod/-/multimethod-1.1.3.tgz#6d7a3f96ac8c8e58b6f7b9df6a61e34972895e59"
+  integrity sha512-maZEFE/4phyFDKwZSV/4/7qf5MtStAGUGdEpqIvJEOqllrxHTXJFLxPvpQ1gRbmYaHHDRczZUBySD57+wBwnlA==
   dependencies:
     "@arrows/array" "^0.4.9"
-    "@arrows/composition" "^0.2.5"
+    "@arrows/composition" "^0.3.0"
+    "@arrows/error" "^1.0.2"
     fast-deep-equal "^2.0.1"
 
 "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.5.5":
@@ -383,10 +384,10 @@
   resolved "https://registry.yarnpkg.com/@types/jest-diff/-/jest-diff-20.0.1.tgz#35cc15b9c4f30a18ef21852e255fdb02f6d59b89"
   integrity sha512-yALhelO3i0hqZwhjtcr6dYyaLoCHbAMshwtj6cGxTvHZAKXHsYGdff6E8EPw3xLKY0ELUTQ69Q1rQiJENnccMA==
 
-"@types/jest@^24.0.18":
-  version "24.0.18"
-  resolved "https://registry.yarnpkg.com/@types/jest/-/jest-24.0.18.tgz#9c7858d450c59e2164a8a9df0905fc5091944498"
-  integrity sha512-jcDDXdjTcrQzdN06+TSVsPPqxvsZA/5QkYfIZlq1JMw7FdP5AZylbOc+6B/cuDurctRe+MziUMtQ3xQdrbjqyQ==
+"@types/jest@^24.0.19":
+  version "24.0.19"
+  resolved "https://registry.yarnpkg.com/@types/jest/-/jest-24.0.19.tgz#f7036058d2a5844fe922609187c0ad8be430aff5"
+  integrity sha512-YYiqfSjocv7lk5H/T+v5MjATYjaTMsUkbDnjGqSMoO88jWdtJXJV4ST/7DKZcoMHMBvB2SeSfyOzZfkxXHR5xg==
   dependencies:
     "@types/jest-diff" "*"
 
@@ -660,14 +661,14 @@ benchmark@^2.1.4:
     lodash "^4.17.4"
     platform "^1.3.3"
 
-benny@^3.6.6:
-  version "3.6.6"
-  resolved "https://registry.yarnpkg.com/benny/-/benny-3.6.6.tgz#4f5026e649a2aef44a8b2fe26948d26cf991eff8"
-  integrity sha512-Q50uGOorT4GnxUjiOis0sK1wcelHTShzXjVwriIGt8v1HUob4brvfCYkLEpQgKY3M2KueL2W2mw8uH5IAZUDLA==
+benny@^3.6.7:
+  version "3.6.7"
+  resolved "https://registry.yarnpkg.com/benny/-/benny-3.6.7.tgz#2b3e2840655fc40a90baa0eea0a31a241c254c46"
+  integrity sha512-ah7qFK5tRr+GVMPU/ZUu0qZzDm4C6CTeWeLvlKRGXFz9IXe0/mGg4d5pLQ5c2tVEhQgTJkEZ0SFH5SyTA2VaVQ==
   dependencies:
     "@arrows/composition" "^0.2.5"
     "@arrows/dispatch" "^0.2.5"
-    "@arrows/multimethod" "^0.9.0"
+    "@arrows/multimethod" "^1.0.0"
     benchmark "^2.1.4"
     fs-extra "^8.1.0"
     json2csv "^4.5.3"

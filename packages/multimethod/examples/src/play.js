@@ -1,4 +1,4 @@
-const curry = require('curry')
+const { curry } = require('@arrows/composition')
 const { multi, method } = require('@arrows/multimethod')
 
 /**

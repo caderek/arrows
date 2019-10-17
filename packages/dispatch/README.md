@@ -85,7 +85,7 @@ _See: [MDN - Object.prototype.toString.call](https://developer.mozilla.org/en-US
 
 ```javascript
 getType(1) // -> "Number"
-getType(/abc/) // -> "RexExp"
+getType(/abc/) // -> "RegExp"
 getType([1, 2, 3]) // -> "Array"
 ```
 

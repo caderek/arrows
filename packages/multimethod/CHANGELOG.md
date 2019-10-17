@@ -22,6 +22,6 @@ First stable release.
 - Added "defining types" section to README.
 - Added examples for defining types.
 
-## 1.1.3
+## 1.1.3 - 1.1.4
 
 - Updated dependencies.

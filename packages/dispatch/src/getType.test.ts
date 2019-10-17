@@ -24,7 +24,7 @@ describe('getType', () => {
   })
 
   it('if value is an instance of the String returns "String"', () => {
-    const result = getType(new String())
+    const result = getType(new String()) // tslint:disable-line
     const expected = types.String
 
     expect(result).toEqual(expected)
@@ -38,7 +38,7 @@ describe('getType', () => {
   })
 
   it('if value is an instance of the Number returns "Number"', () => {
-    const result = getType(new Number())
+    const result = getType(new Number()) // tslint:disable-line
     const expected = types.Number
 
     expect(result).toEqual(expected)
@@ -60,7 +60,7 @@ describe('getType', () => {
   })
 
   it('if value is an instance of the Boolean returns "Boolean"', () => {
-    const result = getType(new Boolean())
+    const result = getType(new Boolean()) // tslint:disable-line
     const expected = types.Boolean
 
     expect(result).toEqual(expected)
@@ -116,24 +116,41 @@ describe('getType', () => {
   })
 
   it('if value is an arrow function literal returns "Function"', () => {
-    const result = getType(() => {})
+    const result = getType(() => {}) // tslint:disable-line
     const expected = types.Function
 
     expect(result).toEqual(expected)
   })
 
   it('if value is a regular function returns "Function"', () => {
-    const result = getType(function() {})
+    const result = getType(function() {}) // tslint:disable-line
     const expected = types.Function
 
     expect(result).toEqual(expected)
   })
 
-  it('if value is an instance of the Function returns "RegExp"', () => {
+  it('if value is an instance of the Function returns "Function"', () => {
     const result = getType(new Function())
     const expected = types.Function
 
     expect(result).toEqual(expected)
+  })
+
+  it('if value is an async-await function returns "Function"', () => {
+    // This distinction exist only for Node >=10,
+    // so we temporarily patch this behavior to test it on ts-node
+    const originalMethod = Object.prototype.toString.call
+    Object.prototype.toString.call = () => '[object AsyncFunction]'
+
+    const fn = async () => {
+      await Promise.resolve()
+    }
+    const result = getType(fn)
+    const expected = types.Function
+
+    expect(result).toEqual(expected)
+
+    Object.prototype.toString.call = originalMethod
   })
 
   it('if value is an instance of the Promise returns "Promise"', () => {

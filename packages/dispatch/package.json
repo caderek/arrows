@@ -3,17 +3,41 @@
   "version": "0.2.5",
   "main": "index.js",
   "license": "ISC",
+  "repository": "https://github.com/caderek/arrows/tree/master/packages/dispatch",
+  "homepage": "https://caderek.github.io/arrows/packages/dispatch/",
+  "description": "Functional dispatch library",
+  "keywords": [
+    "arrows",
+    "functional",
+    "fp",
+    "dispatch",
+    "helpers",
+    "utils",
+    "function",
+    "functions",
+    "types",
+    "ts",
+    "typescript"
+  ],
+  "author": "Maciej Cąderek",
   "scripts": {
     "build": "tsc",
     "test": "jest",
     "prep": "node ../../scripts/prepare-lib.js",
-    "coverage": "jest --coverage && codecov -F dispatch"
+    "coverage": "jest --coverage && codecov -F dispatch",
+    "lint": "tslint -c tslint.json 'src/**/*.ts'"
   },
   "devDependencies": {
     "@types/jest": "^24.0.18",
     "codecov": "^3.6.1",
     "jest": "^24.9.0",
     "ts-jest": "^24.1.0",
+    "ts-node": "^8.4.1",
+    "tslint": "^5.20.0",
+    "tslint-config-prettier": "^1.18.0",
     "typescript": "^3.6.3"
+  },
+  "dependencies": {
+    "@arrows/composition": "^0.3.0"
   }
 }

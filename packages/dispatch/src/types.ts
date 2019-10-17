@@ -1,10 +1,11 @@
 const types = {
   Array: 'Array',
-  AsyncFunction: 'AsyncFunction',
   BigInt: 'BigInt',
   Boolean: 'Boolean',
   Error: 'Error',
   Function: 'Function',
+  Generator: 'Generator',
+  GeneratorFunction: 'GeneratorFunction',
   Null: 'Null',
   Number: 'Number',
   Object: 'Object',

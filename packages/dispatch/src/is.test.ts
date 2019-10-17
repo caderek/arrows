@@ -1,18 +1,18 @@
 import is from './is'
 
 describe('is', () => {
-  it('when partially applied returns a function with arity of one', () => {
-    const isBoolean = is(Boolean)
-
-    expect(isBoolean).toBeInstanceOf(Function)
-    expect(isBoolean.length).toBe(1)
-  })
-
-  it('when fully applied returns true if the value is instance of the passed prototype', () => {
+  it('returns true if the value is an instance of the prototype', () => {
     class Cat {}
     const result = is(Cat)(new Cat())
-    const expected = true
 
-    expect(result).toEqual(expected)
+    expect(result).toEqual(true)
+  })
+
+  it('returns false if the value is not an instance of the prototype', () => {
+    class Cat {}
+    class Dog {}
+    const result = is(Cat)(new Dog())
+
+    expect(result).toEqual(false)
   })
 })

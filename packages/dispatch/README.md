@@ -58,8 +58,8 @@ import getType from '@arrows/dispatch/getType'
 
 ### getType
 
-Retrieves the type of a value (using internal `[[Class]]` property).
-More useful alternative for `typeof` operator.
+Retrieves the type of a value (using the internal `[[Class]]` property).
+A more useful alternative for the `typeof` operator.
 
 It does not return custom prototypes - if you need that, use the `is` function instead.
 
@@ -89,6 +89,8 @@ getType(/abc/) // -> "RexExp"
 getType([1, 2, 3]) // -> "Array"
 ```
 
+---
+
 ### identity
 
 Standard identity function - useful as a default dispatch or a placeholder.
@@ -114,6 +116,8 @@ identity('foo') // -> "foo"
 identity([1, 2, 3]) // -> [1, 2, 3]
 ```
 
+---
+
 ### is
 
 Checks if a value is an instance of a prototype/class.
@@ -125,7 +129,7 @@ Checks if a value is an instance of a prototype/class.
 
 #### Returns
 
-- Returns true is a value is an instance of a prototype/class, false otherwise.
+- Returns `true` is a value is an instance of a prototype/class, `false` otherwise.
 
 #### Interface
 
@@ -149,6 +153,8 @@ is(Cat)(cat) // -> true
 is(Dog)(cat) // -> false
 ```
 
+---
+
 ### isIn
 
 Checks if a value is inside an array/set.
@@ -160,7 +166,7 @@ Checks if a value is inside an array/set.
 
 #### Returns
 
-- Returns true is a value is inside an array/set, false otherwise.
+- Returns `true` is a value is inside an array/set, `false` otherwise.
 
 #### Interface
 
@@ -190,9 +196,11 @@ isIn(names)('Alice') // -> true
 isIn(names)('Bob') // -> false
 ```
 
+---
+
 ### types
 
-An object that contains a list of the most common types to use with the [getType](#getType) function. You can use instead using raw strings, which is error-prone.
+An object that contains a list of the most common types to use with the [getType](#getType) function. You can use it instead of using raw strings (which is error-prone).
 
 #### Example
 

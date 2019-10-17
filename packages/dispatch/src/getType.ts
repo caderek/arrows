@@ -1,5 +1,5 @@
 /**
- * Returns the type of a value (using internal `[[Class]]` property).
+ * Returns the type of a value (using the internal `[[Class]]` property).
  *
  * It does not return custom prototypes - if you need that, use `is` function.
  *

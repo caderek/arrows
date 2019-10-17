@@ -8,7 +8,7 @@
 - [@arrows/multimethod](packages/multimethod/README.md)
 - @arrows/array -> WIP
 - @arrows/object -> TODO
-- @arrows/dispatch -> WIP
+- [@arrows/dispatch](packages/dispatch/README.md)
 - @arrows/composition -> WIP
 - [@arrows/error](packages/error/README.md)
 

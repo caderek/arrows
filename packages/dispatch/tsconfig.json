@@ -6,7 +6,8 @@
     "declaration": true,
     "outDir": "./lib",
     "preserveConstEnums": true,
-    "strict": true
+    "strict": true,
+    "lib": ["es2016", "es2017", "es2018", "es2019"]
   },
   "include": ["src"],
   "exclude": ["node_modules", "src/**/*.test.ts", "src/**/*.temp.ts"]

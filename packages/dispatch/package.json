@@ -28,16 +28,16 @@
     "lint": "tslint -c tslint.json 'src/**/*.ts'"
   },
   "devDependencies": {
-    "@types/jest": "^24.0.18",
+    "@types/jest": "^24.0.19",
     "codecov": "^3.6.1",
     "jest": "^24.9.0",
     "ts-jest": "^24.1.0",
     "ts-node": "^8.4.1",
     "tslint": "^5.20.0",
     "tslint-config-prettier": "^1.18.0",
-    "typescript": "^3.6.3"
+    "typescript": "^3.6.4"
   },
   "dependencies": {
-    "@arrows/composition": "^0.3.0"
+    "@arrows/composition": "^0.3.1"
   }
 }

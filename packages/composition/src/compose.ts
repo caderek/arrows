@@ -1,8 +1,7 @@
-import reduceRight from '@arrows/array/reduceRight'
-import chain from './chain'
-import { ChainFunctions } from './internal/common-types'
+import { AnyFn, Compose } from './internal/common-types'
 
-const compose: ChainFunctions = chain(reduceRight)
+const compose: Compose = (...fns) => (initialArg) =>
+  fns.reduceRight((arg: any, fn: AnyFn) => fn(arg), initialArg)
 
 export { compose }
 export default compose

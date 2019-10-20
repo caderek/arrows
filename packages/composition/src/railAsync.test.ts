@@ -1,23 +1,23 @@
-import railSync from './railSync'
+import { railAsync } from './index'
 
-describe('railSync', () => {
+describe('railAsync', () => {
   describe('when partially applied', () => {
     it('returns new function that is a composition of supplied functions', () => {
-      const fn = railSync((x) => x + 1, (x) => x * 2)
+      const fn = railAsync((x) => x + 1, (x) => x * 2)
 
       expect(fn).toBeInstanceOf(Function)
     })
 
     it('returned function has the arity of one', () => {
-      const fn = railSync((x) => x + 1, (x) => x * 2)
+      const fn = railAsync((x) => x + 1, (x) => x * 2)
 
       expect(fn.length).toBe(1)
     })
   })
 
   describe('when fully applied', () => {
-    it('executes provided functions on provided argument top to bottom', () => {
-      const fn = railSync((x) => `${x} one`, (x) => `${x} two`)
+    it('executes provided functions on provided argument left to right', () => {
+      const fn = railAsync((x) => `${x} one`, (x) => `${x} two`)
 
       const result = fn('zero')
       const expected = 'zero one two'
@@ -26,7 +26,7 @@ describe('railSync', () => {
     })
 
     it('when one of the functions throws, passes the error as an end result', () => {
-      const fn = railSync(
+      const fn = railAsync(
         (x) => x + 1,
         (x) => {
           throw new Error('Ooops!')
@@ -41,7 +41,7 @@ describe('railSync', () => {
     })
 
     it('when one of the functions returns an error, passes the error as an end result', () => {
-      const fn = railSync(
+      const fn = railAsync(
         (x) => x + 1,
         (x) => {
           return Error('Ooops!')
@@ -56,10 +56,23 @@ describe('railSync', () => {
     })
 
     it('when one of the functions returns undefined, passes previous result to the next function', () => {
-      const fn = railSync((x) => x + 1, (x) => undefined, (x) => x * 2)
+      const fn = railAsync((x) => x + 1, (x) => undefined, (x) => x * 2)
 
       const result = fn(1)
       const expected = 4
+
+      expect(result).toEqual(expected)
+    })
+
+    it('when the component function returns promise, unwraps the promise before passing to the next function', async () => {
+      const fn = railAsync(
+        (x) => Promise.resolve(x + 1),
+        (x) => x ** 2,
+        (x) => x * 2,
+      )
+
+      const result = await fn(1)
+      const expected = 8
 
       expect(result).toEqual(expected)
     })

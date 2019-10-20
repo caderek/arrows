@@ -6,9 +6,6 @@ export type ReduceFn = (fn: ReducingFn, initial: any) => (arr: any[]) => any
 
 export type WrappingFn = AnyFn
 
-export type ChainFunctions = (...fns: AnyFn[]) => (initialArg: any) => any
+export type Pipe = (...fns: AnyFn[]) => (initialArg: any) => any
 
-export type ChainFactory = (
-  reduceFn: ReduceFn,
-  wrappingFn?: WrappingFn,
-) => ChainFunctions
+export type Compose = Pipe

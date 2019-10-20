@@ -18,8 +18,5 @@
     "tslint": "^5.20.0",
     "tslint-config-prettier": "^1.18.0",
     "typescript": "^3.6.3"
-  },
-  "dependencies": {
-    "@arrows/array": "^0.4.9"
   }
 }

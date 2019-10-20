@@ -1,4 +1,4 @@
-import curry from './curry'
+import { curry } from './index'
 
 describe('curry', () => {
   it('returns original function for functions of arity 0', () => {

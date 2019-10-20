@@ -1,4 +1,4 @@
-import pipe from './pipe'
+import { pipe } from './index'
 
 describe('pipe', () => {
   describe('when partially applied', () => {

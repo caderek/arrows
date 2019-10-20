@@ -1,8 +1,7 @@
-import reduce from '@arrows/array/reduce'
-import chain from './chain'
-import { ChainFunctions } from './internal/common-types'
+import { AnyFn, Pipe } from './internal/common-types'
 
-const pipe: ChainFunctions = chain(reduce)
+const pipe: Pipe = (...fns) => (initialArg) =>
+  fns.reduce((arg: any, fn: AnyFn) => fn(arg), initialArg)
 
 export { pipe }
 export default pipe

@@ -1,14 +1,19 @@
 import { AnyFn } from './common-types'
-import wrapSync from './wrapSync'
 
-const wrap = (fn: AnyFn) => (input: any) => {
-  if (input instanceof Promise) {
-    return input.then((rawInput) => {
-      return wrapSync(fn)(rawInput)
-    })
+const wrap = (fn: AnyFn, input: any) => {
+  if (input instanceof Error) {
+    return input
   }
 
-  return wrapSync(fn)(input)
+  let result
+
+  try {
+    result = fn(input)
+  } catch (error) {
+    result = error
+  }
+
+  return typeof result === 'undefined' ? input : result
 }
 
 export { wrap }

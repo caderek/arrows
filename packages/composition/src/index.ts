@@ -1,17 +1,36 @@
 import chain from './chain'
+import chainRight from './chainRight'
 import compose from './compose'
 import curry from './curry'
 import pipe from './pipe'
 import rail from './rail'
-import railSync from './railSync'
+import railAsync from './railAsync'
+import railRight from './railRight'
+import railRightAsync from './railRightAsync'
+import tap from './tap'
 
-export { chain, compose, curry, pipe, rail, railSync }
-
-export default {
+export {
   chain,
+  chainRight,
   compose,
   curry,
   pipe,
   rail,
-  railSync,
+  railAsync,
+  railRight,
+  railRightAsync,
+  tap,
+}
+
+export default {
+  chain,
+  chainRight,
+  compose,
+  curry,
+  pipe,
+  rail,
+  railAsync,
+  railRight,
+  railRightAsync,
+  tap,
 }

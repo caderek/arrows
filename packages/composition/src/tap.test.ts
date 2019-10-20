@@ -4,7 +4,7 @@ describe('tap', () => {
   describe('when argument is not a promise', () => {
     it('executes single-argument function on the argument an returns argument as-is', () => {
       const fn = jest.fn((x) => {}) // tslint:disable-line
-      const result = tap(fn)(1)
+      const result = tap(fn, 1)
 
       expect(result).toEqual(1)
       expect(fn.mock.calls.length).toBe(1)
@@ -32,7 +32,7 @@ describe('tap', () => {
   describe('when argument is a promise', () => {
     it('executes single-argument function on the resolved promise an returns argument as-is', async () => {
       const fn = jest.fn((x) => {}) // tslint:disable-line
-      const result = await tap(fn)(Promise.resolve(1))
+      const result = await tap(fn, Promise.resolve(1))
 
       expect(result).toEqual(1)
       expect(fn.mock.calls.length).toBe(1)

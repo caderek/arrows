@@ -2,17 +2,10 @@
 # yarn lockfile v1
 
 
-"@arrows/array@^0.4.9":
-  version "0.4.9"
-  resolved "https://registry.yarnpkg.com/@arrows/array/-/array-0.4.9.tgz#20b6bf8b1314ac01801102cc809f5e24780f9a8a"
-  integrity sha512-xuDbkXMpoeRJVIgljbUFaMAGIaOrMeu8RddxmLHnM9z3YCWNkGxcoA6EvKRwxoRg0VuaMlLbC7ztZD7I2lcCfA==
-
-"@arrows/composition@^0.3.1":
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/@arrows/composition/-/composition-0.3.1.tgz#6a50eff8b02acb5aea8adc280b41a022d9557f8c"
-  integrity sha512-VJA/KIZhRl6Q3o0U4/32TE0Dt1KFND1cnB41U2e5NbpQRH3mBL/YquwmO7CqxnbiA2P+McWuezVLABDrGXVKQw==
-  dependencies:
-    "@arrows/array" "^0.4.9"
+"@arrows/composition@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@arrows/composition/-/composition-1.0.0.tgz#8f285fbdd96d42229a0a7689da661b8b5ff52c14"
+  integrity sha512-6Lzg41Pkwf2JrJfnMsgDH8tnJ/KL4yXuxPZr3qnCqMSF7cEWDjXBuBh+ShmNNb0O8Ou/Haf0wqIj9GwuVHwoaw==
 
 "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.5.5":
   version "7.5.5"

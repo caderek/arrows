@@ -6,6 +6,7 @@
     "Multimethod",
     "README",
     "codecov",
+    "config",
     "dev",
     "fromMulti",
     "json",

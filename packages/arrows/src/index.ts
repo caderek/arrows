@@ -1,15 +1,15 @@
-import array from '@arrows/array'
-import composition from '@arrows/composition'
-import dispatch from '@arrows/dispatch'
-import error from '@arrows/error'
-import multimethod from '@arrows/multimethod'
+import arr from '@arrows/array'
+import com from '@arrows/composition'
+import dis from '@arrows/dispatch'
+import err from '@arrows/error'
+import mul from '@arrows/multimethod'
 
-export { array, composition, dispatch, error, multimethod }
+export { arr, com, dis, err, mul }
 
 export default {
-  array,
-  composition,
-  dispatch,
-  error,
-  multimethod,
+  arr,
+  com,
+  dis,
+  err,
+  mul,
 }

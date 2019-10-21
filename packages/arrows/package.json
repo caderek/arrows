@@ -27,7 +27,7 @@
     "build": "tsc",
     "test": "jest",
     "prep": "node ../../scripts/prepare-lib.js",
-    "coverage": "jest --coverage && codecov -F composition",
+    "coverage": "jest --coverage && codecov -F arrows",
     "lint": "tslint -c tslint.json 'src/**/*.ts'"
   },
   "devDependencies": {

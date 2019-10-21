@@ -15,20 +15,26 @@
 
 ## Introduction
 
-This package is a meta-package, it contains all @arrows libraries.
+This package is a meta-package, it contains all @arrows libraries. It is a handy single import to get things done quickly. Libraries names are aliased to their three-letter shortcuts:
+
+- [@arrows/array](../array/README.md) as `arr`,
+- [@arrows/composition](../composition/README.md) as `com`,
+- [@arrows/dispatch](../dispatch/README.md) as `dis`,
+- [@arrows/error](../error/README.md) as `err`,
+- [@arrows/multimethod](../multimethod/README.md) as `mul`.
 
 ## Installation
 
 Via NPM:
 
 ```sh
-npm i @arrows/composition
+npm i @arrows/arrows
 ```
 
 Via Yarn:
 
 ```sh
-yarn add @arrows/composition
+yarn add @arrows/arrows
 ```
 
 ## License

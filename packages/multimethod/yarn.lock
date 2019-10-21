@@ -21,6 +21,11 @@
   dependencies:
     "@arrows/array" "^0.4.9"
 
+"@arrows/composition@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@arrows/composition/-/composition-1.0.0.tgz#8f285fbdd96d42229a0a7689da661b8b5ff52c14"
+  integrity sha512-6Lzg41Pkwf2JrJfnMsgDH8tnJ/KL4yXuxPZr3qnCqMSF7cEWDjXBuBh+ShmNNb0O8Ou/Haf0wqIj9GwuVHwoaw==
+
 "@arrows/dispatch@^1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@arrows/dispatch/-/dispatch-1.0.1.tgz#6becda7230e48a45ef49edba4a4c28c877b3d19f"

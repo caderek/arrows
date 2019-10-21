@@ -1,9 +1,9 @@
-import { AnyFn, Pipe, WrappingFn } from './internal/common-types'
+import { ArityOneFn, Pipe, WrappingFn } from './internal/common-types'
 
 type Chain = (wrappingFn: WrappingFn) => Pipe
 
-const chain: Chain = (wrappingFn) => (...fns) => (initialArg) =>
-  fns.reduce((arg: any, fn: AnyFn) => wrappingFn(fn, arg), initialArg)
+const chainRight: Chain = (wrappingFn) => (...fns) => (initialArg) =>
+  fns.reduce((arg: any, fn: ArityOneFn) => wrappingFn(fn, arg), initialArg)
 
-export { chain }
-export default chain
+export { chainRight as chain }
+export default chainRight

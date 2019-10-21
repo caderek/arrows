@@ -9,7 +9,7 @@
 - @arrows/array -> WIP
 - @arrows/object -> TODO
 - [@arrows/dispatch](packages/dispatch/README.md)
-- @arrows/composition -> WIP
+- [@arrows/composition](packages/composition/README.md)
 - [@arrows/error](packages/error/README.md)
 
 ## License

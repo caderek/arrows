@@ -1,8 +1,8 @@
-import chain from './chain'
+import chainRight from './chain'
 import { Pipe } from './internal/common-types'
 import wrapAsync from './internal/wrapAsync'
 
-const railAsync: Pipe = chain(wrapAsync)
+const railRightAsync: Pipe = chainRight(wrapAsync)
 
-export { railAsync }
-export default railAsync
+export { railRightAsync as railAsync }
+export default railRightAsync

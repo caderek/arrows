@@ -1,8 +1,8 @@
-import chain from './chain'
+import chainRight from './chain'
 import { Pipe } from './internal/common-types'
 import wrap from './internal/wrap'
 
-const rail: Pipe = chain(wrap)
+const railRight: Pipe = chainRight(wrap)
 
-export { rail }
-export default rail
+export { railRight as rail }
+export default railRight

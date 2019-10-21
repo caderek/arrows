@@ -1,7 +1,7 @@
 import curry from './curry'
-import { AnyFn } from './internal/common-types'
+import { ArityOneFn } from './internal/common-types'
 
-type RawTap = <T>(fn: AnyFn, arg: T) => T
+type RawTap = <T>(fn: ArityOneFn, arg: T) => T
 
 const rawTap: RawTap = (fn, arg) => {
   if (arg instanceof Promise) {
@@ -13,7 +13,7 @@ const rawTap: RawTap = (fn, arg) => {
   return arg
 }
 
-type Tap = RawTap & (<T>(fn: AnyFn) => (arg: T) => T)
+type Tap = RawTap & (<T>(fn: ArityOneFn) => (arg: T) => T)
 const tap = curry(rawTap)
 
 export { tap }

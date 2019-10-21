@@ -1,6 +1,6 @@
-import { AnyFn } from './common-types'
+import { ArityOneFn } from './common-types'
 
-const wrap = (fn: AnyFn, input: any) => {
+const wrap = (fn: ArityOneFn, input: any) => {
   if (input instanceof Error) {
     return input
   }

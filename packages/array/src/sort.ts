@@ -1,5 +1,5 @@
-type Comparator = (a: any, b: any) => number
-type Sort = (fn?: Comparator) => (arr: any[]) => any[]
+type Comparator = (a: T, b: T) => number
+type Sort = (fn?: Comparator) => (arr: T[]) => T[]
 
 const sort: Sort = (fn) => (arr) => [...arr].sort(fn)
 

@@ -2,7 +2,7 @@ const { railAsync } = require('../../lib/index')
 
 const dbFake = {
   id: 0,
-  save() {
+  save(entry) {
     const result = Promise.resolve(this.id)
     this.id++
     return result

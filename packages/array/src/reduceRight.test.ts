@@ -1,4 +1,4 @@
-import reduceRight from './reduceRight'
+import { reduceRight } from './index'
 
 describe('Array reduceRight', () => {
   it('provides functional wrapper for Array.prototype.reduceRight', () => {

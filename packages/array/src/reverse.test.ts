@@ -1,4 +1,4 @@
-import reverse from './reverse'
+import { reverse } from './index'
 
 describe('Array reverse', () => {
   it('provides functional wrapper for Array.prototype.reverse', () => {

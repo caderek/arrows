@@ -14,5 +14,6 @@ const add = method(['bigint', 'bigint'], (a, b) => a + b)(baseAdd)
 console.log(
   add(1, 2), // -> 3
   add('bat', 'man'), // -> "batman"
+  // @ts-ignore
   add(1n, 2n), // -> 3n
 )

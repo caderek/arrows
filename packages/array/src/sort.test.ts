@@ -1,4 +1,4 @@
-import sort from './sort'
+import { sort } from './index'
 
 describe('Array sort', () => {
   it('provides functional wrapper for Array.prototype.sort', () => {

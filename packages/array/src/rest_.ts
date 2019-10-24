@@ -1,6 +1,12 @@
-type Rest = (arr: T[]) => T[]
+type Rest_ = <T>(arr: T[]) => T[]
 
-const rest_: Rest = (arr) => arr.slice(1)
+/**
+ * Creates new array without the first element.
+ *
+ * @param arr Initial array
+ * @returns New array
+ */
+const rest_: Rest_ = (arr) => arr.slice(1)
 
 export { rest_ }
 export default rest_

@@ -26,7 +26,7 @@ const _insert_: _Insert_ = (index, value, arr) => {
 }
 
 /**
- * Inserts an additional value inside an array at a provided index.
+ * Creates a new array with an additional value at the provided index.
  * Shifts old values to the right.
  * If the index is out of bound of the array adds a value as a last element.
  *

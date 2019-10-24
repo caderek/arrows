@@ -6,9 +6,16 @@ describe('Array reduceRight', () => {
     const reducingFn = (acc, value) => acc + value
     const initialValue = 0
 
-    const result = reduceRight(reducingFn, initialValue)(arr)
+    const result = reduceRight(reducingFn, initialValue, arr)
+    const result2 = reduceRight(reducingFn, initialValue)(arr)
+    const result3 = reduceRight(reducingFn)(initialValue, arr)
+    const result4 = reduceRight(reducingFn)(initialValue)(arr)
+
     const expected = arr.reduceRight(reducingFn, initialValue)
 
+    expect(result).toEqual(result2)
+    expect(result).toEqual(result3)
+    expect(result).toEqual(result4)
     expect(result).toEqual(expected)
   })
 })

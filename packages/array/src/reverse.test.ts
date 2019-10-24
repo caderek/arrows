@@ -9,4 +9,12 @@ describe('Array reverse', () => {
 
     expect(result).toEqual(expected)
   })
+
+  it('always returns a new array', () => {
+    const arr = [1]
+
+    const result = reverse(arr)
+
+    expect(result).not.toBe(arr)
+  })
 })

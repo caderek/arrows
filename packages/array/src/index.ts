@@ -17,7 +17,9 @@ import last_ from './last_'
 import map from './map'
 import prepend_ from './prepend_'
 import reduce from './reduce'
+import reduceFirst from './reduceFirst'
 import reduceRight from './reduceRight'
+import reduceRightFirst from './reduceRightFirst'
 import remove_ from './remove_'
 import rest_ from './rest_'
 import reverse from './reverse'
@@ -51,7 +53,9 @@ export {
   map,
   prepend_,
   reduce,
+  reduceFirst,
   reduceRight,
+  reduceRightFirst,
   remove_,
   rest_,
   reverse,
@@ -86,7 +90,9 @@ export default {
   map,
   prepend_,
   reduce,
+  reduceFirst,
   reduceRight,
+  reduceRightFirst,
   remove_,
   rest_,
   reverse,

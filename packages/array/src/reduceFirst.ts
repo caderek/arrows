@@ -7,12 +7,12 @@ type ReducingFn<V> = (
   arr?: V[],
 ) => V
 
-type _ReduceSelf = <T>(reducingFn: ReducingFn<T>, arr: T[]) => T
-type _ReduceSelf2 = <T>(reducingFn: ReducingFn<T>) => (arr: T[]) => T
+type _ReduceFirst = <T>(reducingFn: ReducingFn<T>, arr: T[]) => T
+type _ReduceFirst2 = <T>(reducingFn: ReducingFn<T>) => (arr: T[]) => T
 
-type ReduceSelf = _ReduceSelf & _ReduceSelf2
+type ReduceFirst = _ReduceFirst & _ReduceFirst2
 
-const _reduceSelf: _ReduceSelf = (reducingFn, arr) => arr.reduce(reducingFn)
+const _reduceFirst: _ReduceFirst = (reducingFn, arr) => arr.reduce(reducingFn)
 
 /**
  * Functional wrapper for Array.prototype.reduce without initializer
@@ -25,7 +25,7 @@ const _reduceSelf: _ReduceSelf = (reducingFn, arr) => arr.reduce(reducingFn)
  * @param arr Initial array
  * @returns Final accumulator value
  */
-const reduceSelf: ReduceSelf = curry(_reduceSelf)
+const reduceFirst: ReduceFirst = curry(_reduceFirst)
 
-export { reduceSelf }
-export default reduceSelf
+export { reduceFirst }
+export default reduceFirst

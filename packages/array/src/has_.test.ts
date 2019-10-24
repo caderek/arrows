@@ -5,9 +5,11 @@ describe('Array flat', () => {
     const arr = [1, 2, 3, 4]
     const index = 2
 
-    const result = has_(index)(arr)
+    const result = has_(index, arr)
+    const result2 = has_(index)(arr)
     const expected = true
 
+    expect(result).toEqual(result2)
     expect(result).toEqual(expected)
   })
 
@@ -15,9 +17,11 @@ describe('Array flat', () => {
     const arr = [1, 2, 3, 4]
     const index = 10
 
-    const result = has_(index)(arr)
+    const result = has_(index, arr)
+    const result2 = has_(index)(arr)
     const expected = false
 
+    expect(result).toEqual(result2)
     expect(result).toEqual(expected)
   })
 })

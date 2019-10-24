@@ -3,11 +3,13 @@ import { insert_ } from './index'
 describe('Array insert', () => {
   it('returns array with additional element on provided index', () => {
     const arr = [1, 2, 3]
+    const value = 4
+    const index = 1
 
-    const result = insert_(1, 4, arr)
-    const result2 = insert_(1, 4)(arr)
-    const result3 = insert_(1)(4, arr)
-    const result4 = insert_(1)(4)(arr)
+    const result = insert_(value, index, arr)
+    const result2 = insert_(value, index)(arr)
+    const result3 = insert_(value)(index, arr)
+    const result4 = insert_(value)(index)(arr)
 
     const expected = [1, 4, 2, 3]
 
@@ -19,11 +21,13 @@ describe('Array insert', () => {
 
   it('when index is out of bound adds new element at the end', () => {
     const arr = [1, 2, 3]
+    const value = 4
+    const index = 10
 
-    const result = insert_(10, 4, arr)
-    const result2 = insert_(10, 4)(arr)
-    const result3 = insert_(10)(4, arr)
-    const result4 = insert_(10)(4)(arr)
+    const result = insert_(value, index, arr)
+    const result2 = insert_(value, index)(arr)
+    const result3 = insert_(value)(index, arr)
+    const result4 = insert_(value)(index)(arr)
 
     const expected = [1, 2, 3, 4]
 
@@ -33,16 +37,12 @@ describe('Array insert', () => {
     expect(result).toEqual(expected)
   })
 
-  it('always returns a new array - regular insertion', () => {
+  it('always returns a new array', () => {
     const arr = [1]
-    const result = insert_(0, 2, arr)
+    const value = 2
+    const index = 0
 
-    expect(result).not.toBe(arr)
-  })
-
-  it('always returns a new array - out of bound insertion', () => {
-    const arr = [1]
-    const result = insert_(10, 2, arr)
+    const result = insert_(value, index, arr)
 
     expect(result).not.toBe(arr)
   })

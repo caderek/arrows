@@ -3,11 +3,13 @@ import { set_ } from './index'
 describe('Array set', () => {
   it('returns array with new value on provided index', () => {
     const arr = [1, 2, 3]
+    const value = 4
+    const index = 1
 
-    const result = set_(1, 4, arr)
-    const result2 = set_(1, 4)(arr)
-    const result3 = set_(1)(4, arr)
-    const result4 = set_(1)(4)(arr)
+    const result = set_(value, index, arr)
+    const result2 = set_(value, index)(arr)
+    const result3 = set_(value)(index, arr)
+    const result4 = set_(value)(index)(arr)
 
     const expected = [1, 4, 3]
 
@@ -19,7 +21,10 @@ describe('Array set', () => {
 
   it('always returns a new array', () => {
     const arr = []
-    const result = set_(0, 'foo')(arr)
+    const value = 'foo'
+    const index = 0
+
+    const result = set_(value, index)(arr)
 
     expect(result).not.toBe(arr)
   })

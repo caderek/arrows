@@ -1,4 +1,4 @@
-type Zip = (otherArr: T[]) => (arr: T[]) => T[][]
+type Zip = <T>(otherArr: T[]) => (arr: T[]) => T[][]
 
 /**
  * Zips two arrays creating an array of pairs

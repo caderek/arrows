@@ -1,5 +1,7 @@
-type ZippingFn = (a: T, b: T) => T
-type ZipWith = (fn: ZippingFn) => (otherArr: T[]) => (arr: T[]) => T[]
+type ZippingFn<T, V> = (a: T, b: T) => V
+type ZipWith = <T, V>(
+  fn: ZippingFn<T, V>,
+) => (otherArr: T[]) => (arr: T[]) => V[]
 
 /**
  * Zips two arrays creating an array containing values

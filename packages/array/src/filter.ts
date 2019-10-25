@@ -1,6 +1,6 @@
 import curry from '@arrows/composition/curry'
 
-type FilteringFn<V> = (element: V, index: number, array: V[]) => boolean
+type FilteringFn<V> = (element: V, index: number, arr: V[]) => boolean
 type _Filter = <T>(fn: FilteringFn<T>, arr: T[]) => T[]
 type _Filter2 = <T>(fn: FilteringFn<T>) => (arr: T[]) => T[]
 type Filter = _Filter & _Filter2

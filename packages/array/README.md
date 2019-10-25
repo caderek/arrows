@@ -4,3 +4,6 @@
 ![David (path)](https://img.shields.io/david/caderek/arrows?path=packages%2Farray)
 ![Codecov](https://img.shields.io/codecov/c/github/caderek/arrows?token=c6adb715d638431786fefe69ca08ab00)
 ![npm bundle size (scoped)](https://img.shields.io/bundlephobia/minzip/@arrows/array)
+
+  <!-- ? Add range function
+  TODO ass slice and other missing native methods -->

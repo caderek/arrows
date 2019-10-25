@@ -1,12 +1,12 @@
 import curry from '@arrows/composition/curry'
 
-type FilteringFn<V> = (element: V, index: number, array: V[]) => boolean
+type FilteringFn<V> = (element: V, index: number, arr: V[]) => boolean
 type _FilterNot_ = <T>(fn: FilteringFn<T>, arr: T[]) => T[]
 type _FilterNot2_ = <T>(fn: FilteringFn<T>) => (arr: T[]) => T[]
 type FilterNot_ = _FilterNot_ & _FilterNot2_
 
 const _filterNot_: _FilterNot_ = (fn, arr) =>
-  arr.filter((element, index, array) => !fn(element, index, array))
+  arr.filter((element, index, arr) => !fn(element, index, arr))
 
 /**
  * Creates a new array from the initial one, without the values

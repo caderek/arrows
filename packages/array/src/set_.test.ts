@@ -20,12 +20,24 @@ describe('Array set', () => {
   })
 
   it('always returns a new array', () => {
-    const arr = []
-    const value = 'foo'
+    const arr = ['foo']
+    const value = 'bar'
     const index = 0
 
     const result = set_(value, index)(arr)
 
     expect(result).not.toBe(arr)
+  })
+
+  it('throws when an  index is out of bound of the array', () => {
+    const arr = ['foo']
+    const value = 'bar'
+    const index = 10
+
+    const call = () => set_(value, index, arr)
+
+    expect(call).toThrowError(
+      'The provided index is out of bound of the array.',
+    )
   })
 })

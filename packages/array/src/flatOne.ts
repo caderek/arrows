@@ -6,7 +6,6 @@ type FlatOne = <T>(arr: T[]) => T[]
  * Creates a new array with all sub-array elements
  * concatenated into it recursively up to the specified depth.
  *
- * @param depth Maximum recursion depth
  * @param arr Initial array
  * @returns New array
  */

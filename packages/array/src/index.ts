@@ -18,10 +18,15 @@ import get_ from './get_'
 import groupBy_ from './groupBy_'
 import has_ from './has_'
 import includes from './includes'
+import indexOf from './indexOf'
 import insert_ from './insert_'
+import join from './join'
+import keys from './keys'
 import last_ from './last_'
+import lastIndexOf from './lastIndexOf'
 import map from './map'
 import prepend_ from './prepend_'
+import range_ from './range_'
 import reduce from './reduce'
 import reduceFirst from './reduceFirst'
 import reduceRight from './reduceRight'
@@ -62,10 +67,15 @@ export {
   groupBy_,
   has_,
   includes,
+  indexOf,
   insert_,
+  join,
+  keys,
   last_,
+  lastIndexOf,
   map,
   prepend_,
+  range_,
   reduce,
   reduceFirst,
   reduceRight,
@@ -107,10 +117,15 @@ export default {
   groupBy_,
   has_,
   includes,
+  indexOf,
   insert_,
+  join,
+  keys,
   last_,
+  lastIndexOf,
   map,
   prepend_,
+  range_,
   reduce,
   reduceFirst,
   reduceRight,

@@ -39,8 +39,3 @@ const insert_: Insert_ = curry(_insert_)
 
 export { insert_ }
 export default insert_
-
-insert_(0, 1, [])
-insert_(0)(1)([])
-insert_(0, 1)([])
-insert_(0)(1, [])

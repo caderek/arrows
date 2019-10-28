@@ -37,10 +37,14 @@ import reverse from './reverse'
 import set_ from './set_'
 import setSize_ from './setSize_'
 import size_ from './size_'
+import slice from './slice'
 import some from './some'
 import sort from './sort'
 import sortBy_ from './sortBy_'
+import toLocaleString from './toLocaleString'
+import toString from './toString'
 import update_ from './update_'
+import values from './values'
 import zip_ from './zip_'
 import zipAll_ from './zipAll_'
 import zipWith_ from './zipWith_'
@@ -86,10 +90,14 @@ export {
   set_,
   setSize_,
   size_,
+  slice,
   some,
   sort,
   sortBy_,
+  toLocaleString,
+  toString,
   update_,
+  values,
   zip_,
   zipAll_,
   zipWith_,
@@ -136,10 +144,14 @@ export default {
   set_,
   setSize_,
   size_,
+  slice,
   some,
   sort,
   sortBy_,
+  toLocaleString,
+  toString,
   update_,
+  values,
   zip_,
   zipAll_,
   zipWith_,

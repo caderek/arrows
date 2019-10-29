@@ -35,9 +35,9 @@
     "benchmark": "ts-node benchmark"
   },
   "devDependencies": {
-    "@types/jest": "^24.0.19",
+    "@types/jest": "^24.0.20",
     "benchmark": "^2.1.4",
-    "benny": "^3.6.9",
+    "benny": "^3.6.13",
     "codecov": "^3.6.1",
     "jest": "^24.9.0",
     "ramda.curry": "^0.26.1",
@@ -47,7 +47,7 @@
     "typescript": "^3.6.4"
   },
   "dependencies": {
-    "@arrows/array": "^0.4.9",
+    "@arrows/array": "^1.0.0",
     "@arrows/composition": "^1.0.0",
     "@arrows/error": "^1.0.2",
     "fast-deep-equal": "^2.0.1"

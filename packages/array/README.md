@@ -22,7 +22,7 @@ All wrappers try to mimic original methods as close as possible while providing 
 
 For convenience, some functions have additional methods to execute the most common use cases of the function. For example - `sort` function, in addition to the generic form, contains also static methods (that are also auto-curried, pure functions) like `sort.num`, `sort.numDesc`, etc.
 
-Functions that do not have a native equivalent have `_` suffix. That way we can implement native-like version in the future (if an equivalent method will be added to the language), without potentially breaking backward-compatibility of the library.
+Functions that do not have a native equivalent contain `_` suffix. That way we can implement native-like version in the future (if an equivalent method will be added to the language), without potentially breaking backward-compatibility of the library.
 
 The library has **built-in type definitions**, which provide an excellent IDE support.
 
@@ -135,7 +135,7 @@ Similar to Array.prototype.push, but immutable.
 - `value` Additional value
 - `arr` Initial array
 
-Returns **any** New array
+**Returns:** New array
 
 ### butLast\_
 
@@ -145,7 +145,7 @@ Creates a new array from the initial one, without the last element.
 
 - `arr` Initial array
 
-Returns **any** New array
+**Returns:** New array
 
 ### clear\_
 
@@ -155,7 +155,7 @@ Creates a new, empty array.
 
 - `arr` Initial array
 
-Returns **any** New array
+**Returns:** New array
 
 ### concat
 
@@ -169,7 +169,7 @@ If the concatenated value is not an array, adds it as a last element.
 - `value` An array or single value to be concatenated
 - `arr` Initial array
 
-Returns **any** New array
+**Returns:** New array
 
 ### entries
 
@@ -181,7 +181,7 @@ Creates an iterable of index, value pairs for every entry in the array.
 
 - `arr` Initial array
 
-Returns **any** Iterable of index-value pairs
+**Returns:** Iterable of index-value pairs
 
 ### every
 
@@ -194,7 +194,7 @@ Determines whether all the members of an array satisfy the specified test.
 - `testFn` Test function
 - `arr` Initial array
 
-Returns **any** True if all elements satisfy test function, false otherwise
+**Returns:** True if all elements satisfy test function, false otherwise
 
 ### fill
 
@@ -209,7 +209,7 @@ Have built-in methods for common cases.
 - `value` Value with which selected section will be filled.
 - `arr` Initial array
 
-Returns **any** New array
+**Returns:** New array
 
 ### fill.all
 
@@ -220,7 +220,7 @@ Fill from the start to the end.
 - `value` Value with which selected section will be filled.
 - `arr` Initial array
 
-Returns **any** New array
+**Returns:** New array
 
 ### fill.end
 
@@ -232,7 +232,7 @@ Fill from the start to the specified index.
 - `value` Value with which selected section will be filled.
 - `arr` Initial array
 
-Returns **any** New array
+**Returns:** New array
 
 ### fill.start
 
@@ -244,7 +244,7 @@ Fill from the specified index to the end.
 - `value` Value with which selected section will be filled.
 - `arr` Initial array
 
-Returns **any** New array
+**Returns:** New array
 
 ### filter
 
@@ -258,7 +258,7 @@ that does not meet the condition specified in a filtering function.
 - `fn` Filtering function
 - `arr` Initial array
 
-Returns **any** New array
+**Returns:** New array
 
 ### filterNot\_
 
@@ -274,7 +274,7 @@ to manually wrap it in a function to negate its results.
 - `fn` Filtering function
 - `arr` initial array
 
-Returns **any** New array
+**Returns:** New array
 
 ### find
 
@@ -288,7 +288,7 @@ where predicate is true, and undefined otherwise.
 - `testFn` Test function
 - `arr` Initial array
 
-Returns **any** Item that matches predicate or undefined
+**Returns:** Item that matches predicate or undefined
 
 ### findIndex
 
@@ -302,7 +302,7 @@ where predicate is true, and -1 otherwise.
 - `testFn` Test function
 - `arr` Initial array
 
-Returns **any** Index of the matching element or -1
+**Returns:** Index of the matching element or -1
 
 ### first\_
 
@@ -312,7 +312,7 @@ Retrieves the first element of the array.
 
 - `arr` Initial array
 
-Returns **any** First element
+**Returns:** First element
 
 ### flat
 
@@ -326,7 +326,7 @@ concatenated into it recursively up to the specified depth.
 - `depth` Maximum recursion depth
 - `arr` Initial array
 
-Returns **any** New array
+**Returns:** New array
 
 ### flatMap
 
@@ -341,7 +341,7 @@ This is identical to a map followed by flat with depth 1.
 - `mappingFn` Mapping function
 - `arr` Initial array
 
-Returns **any** New array
+**Returns:** New array
 
 ### flatOne
 
@@ -354,7 +354,7 @@ concatenated into it recursively up to the specified depth.
 
 - `arr` Initial array
 
-Returns **any** New array
+**Returns:** New array
 
 ### forEach
 
@@ -367,7 +367,7 @@ Performs the specified side effect action for each element in an array.
 - `sideEffectFn` Side effect function
 - `arr` Initial array
 
-Returns **any** Nothing (undefined)
+**Returns:** Nothing (undefined)
 
 ### get\_
 
@@ -377,7 +377,7 @@ Retrieves an element at the specific index.
 
 - `index` Specific index
 
-Returns **any** Element at the specific index
+**Returns:** Element at the specific index
 
 ### groupBy\_
 
@@ -389,7 +389,7 @@ by field specified by grouping functions.
 - `groupingFn` Grouping function
 - `arr` Initial array of objects
 
-Returns **any** New array
+**Returns:** New array
 
 ### has\_
 
@@ -401,7 +401,7 @@ returning true or false as appropriate.
 - `index` Specific index
 - `arr` Initial array
 
-Returns **any** True if index exists, false otherwise
+**Returns:** True if index exists, false otherwise
 
 ### includes
 
@@ -413,7 +413,7 @@ returning true or false as appropriate.
 - `element` Searched element
 - `arr` Initial array
 
-Returns **any** True if element exists, false otherwise
+**Returns:** True if element exists, false otherwise
 
 ### indexOf
 
@@ -427,7 +427,7 @@ Retrieves the index of the first occurrence of a value in an array.
 - `fromIndex` The array index at which to begin the search
 - `arr` Initial array
 
-Returns **any** Index of the matching element or -1
+**Returns:** Index of the matching element or -1
 
 ### indexOf.all
 
@@ -438,7 +438,7 @@ Version with implicit fromIndex (0).
 - `element` The value to locate in the array
 - `arr` Initial array
 
-Returns **any** Index of the matching element or -1
+**Returns:** Index of the matching element or -1
 
 ### insert\_
 
@@ -452,7 +452,7 @@ If the index is out of bound of the array - adds a value as a last element.
 - `index` Specific index
 - `arr` Initial array
 
-Returns **any** New array
+**Returns:** New array
 
 ### join
 
@@ -465,7 +465,7 @@ Adds all the elements of an array separated by the specified separator string.
 - `separator` Separator
 - `arr` Initial array
 
-Returns **any** String of joined array elements.
+**Returns:** String of joined array elements.
 
 ### keys
 
@@ -477,7 +477,7 @@ Returns an iterable of keys in the array
 
 - `arr` Initial array
 
-Returns **any** Iterator
+**Returns:** Iterator
 
 ### last\_
 
@@ -487,7 +487,7 @@ Retrieves the last element of the array.
 
 - `arr` Initial array
 
-Returns **any** Last element (undefined for an empty array)
+**Returns:** Last element (undefined for an empty array)
 
 ### lastIndexOf
 
@@ -502,7 +502,7 @@ The array is searched backwards, starting at fromIndex.
 - `fromIndex` The array index at which to begin the search
 - `arr` Initial array
 
-Returns **any** Index of the matching element or -1
+**Returns:** Index of the matching element or -1
 
 ### lastIndexOf.all
 
@@ -513,7 +513,7 @@ Version with implicit fromIndex (arr.length - 1).
 - `element` The value to locate in the array
 - `arr` Initial array
 
-Returns **any** Index of the matching element or -1
+**Returns:** Index of the matching element or -1
 
 ### map
 
@@ -527,7 +527,7 @@ and returns an array that contains the results.
 - `mappingFn` Mapping function
 - `arr` Initial array
 
-Returns **any** New array
+**Returns:** New array
 
 ### prepend\_
 
@@ -539,7 +539,7 @@ Similar to Array.prototype.unshift, but immutable.
 - `value` Additional value
 - `arr` Initial array
 
-Returns **any** New array
+**Returns:** New array
 
 ### range\_
 
@@ -551,7 +551,7 @@ Creates an array of numbers in a provided range - ascending or descending.
 - `to` Ending number (excluded)
 - `step` Step (must be greater than zero) (optional, default `1`)
 
-Returns **any** Range array
+**Returns:** Range array
 
 ### reduce
 
@@ -567,7 +567,7 @@ and is provided as an argument in the next call to the reducing function.
 - `initialValue` Initial value of the accumulator
 - `arr` Initial array
 
-Returns **any** Final accumulator value
+**Returns:** Final accumulator value
 
 ### reduce.first
 
@@ -579,7 +579,7 @@ The first element of the array will be used as an initial accumulator.
 - `reducingFn` Reducing function
 - `arr` Initial array
 
-Returns **any** Final accumulator value
+**Returns:** Final accumulator value
 
 ### reduceRight
 
@@ -596,7 +596,7 @@ and is provided as an argument in the next call to the reducing function.
 - `initialValue` Initial value of the accumulator
 - `arr` Initial array
 
-Returns **any** Final accumulator value
+**Returns:** Final accumulator value
 
 ### reduceRight.first
 
@@ -608,7 +608,7 @@ The last element of the array will be used as an initial accumulator.
 - `reducingFn` Reducing function
 - `arr` Initial array
 
-Returns **any** Final accumulator value
+**Returns:** Final accumulator value
 
 ### remove\_
 
@@ -619,7 +619,7 @@ Creates a new array without an item at the provided index.
 - `index` Specific index
 - `arr` Initial array
 
-Returns **any** New array
+**Returns:** New array
 
 ### rest\_
 
@@ -629,7 +629,7 @@ Creates new array without the first element.
 
 - `arr` Initial array
 
-Returns **any** New array
+**Returns:** New array
 
 ### reverse
 
@@ -639,7 +639,7 @@ Creates a new array with reversed elements.
 
 - `arr` Initial array
 
-Returns **any** New array
+**Returns:** New array
 
 ### set\_
 
@@ -653,7 +653,7 @@ If the index is out of bound of the array throws an error.
 - `index` Specific index
 - `arr` Initial array
 
-Returns **any** New array
+**Returns:** New array
 
 ### setSize\_
 
@@ -666,7 +666,7 @@ additional indexes will be set to undefined.
 - `size` Required size
 - `arr` Initial array
 
-Returns **any** New array
+**Returns:** New array
 
 ### size\_
 
@@ -676,7 +676,7 @@ Retrieves the size (length) of the array.
 
 - `arr` Initial array
 
-Returns **any** Array size (length)
+**Returns:** Array size (length)
 
 ### slice
 
@@ -690,7 +690,7 @@ Creates a new array as a a section of an initial array.
 - `to` The end of the specified portion of the array.
 - `arr` Initial array
 
-Returns **any** New array
+**Returns:** New array
 
 ### slice.from
 
@@ -701,7 +701,7 @@ Version with implicit end index (arr.length).
 - `from` The beginning of the specified portion of the array.
 - `arr` Initial array
 
-Returns **any** New array
+**Returns:** New array
 
 ### slice.to
 
@@ -712,7 +712,7 @@ Version with implicit start index (0).
 - `to` The end of the specified portion of the array.
 - `arr` Initial array
 
-Returns **any** New array
+**Returns:** New array
 
 ### some
 
@@ -726,7 +726,7 @@ returns true for any element of an array.
 - `testFn` Test function
 - `arr` Initial array
 
-Returns **any** True if any element satisfies test function, false otherwise
+**Returns:** True if any element satisfies test function, false otherwise
 
 ### sort
 
@@ -738,7 +738,7 @@ Have built-in methods for sorting numerical and string arrays.
 - `compareFn` Compare function
 - `arr` Initial array
 
-Returns **any** New array
+**Returns:** New array
 
 ### sort.num
 
@@ -748,7 +748,7 @@ Sorts numerical arrays in an ascending order
 
 - `arr` Initial array
 
-Returns **any** New array
+**Returns:** New array
 
 ### sort.numDesc
 
@@ -758,7 +758,7 @@ Sorts numerical arrays in a descending order
 
 - `arr` Initial array
 
-Returns **any** New array
+**Returns:** New array
 
 ### sort.str
 
@@ -768,7 +768,7 @@ Sorts string arrays in an ascending order
 
 - `arr` Initial array
 
-Returns **any** New array
+**Returns:** New array
 
 ### sort.strDesc
 
@@ -778,7 +778,7 @@ Sorts string arrays in a descending order
 
 - `arr` Initial array
 
-Returns **any** New array
+**Returns:** New array
 
 ### sortBy\_
 
@@ -793,7 +793,7 @@ Have built-in methods for sorting numerical and alphabetical sorting.
 - `mappingFn` Mapping function
 - `arr` Initial array
 
-Returns **any** New array
+**Returns:** New array
 
 ### sortBy\_.num
 
@@ -804,7 +804,7 @@ Sorts numerical arrays in an ascending order
 - `mappingFn` Mapping function
 - `arr` Initial array
 
-Returns **any** New array
+**Returns:** New array
 
 ### sortBy\_.numDesc
 
@@ -815,7 +815,7 @@ Sorts numerical arrays in a descending order
 - `mappingFn` Mapping function
 - `arr` Initial array
 
-Returns **any** New array
+**Returns:** New array
 
 ### sortBy\_.str
 
@@ -826,7 +826,7 @@ Sorts string arrays in an ascending order
 - `mappingFn` Mapping function
 - `arr` Initial array
 
-Returns **any** New array
+**Returns:** New array
 
 ### sortBy\_.strDesc
 
@@ -837,7 +837,7 @@ Sorts string arrays in a descending order
 - `mappingFn` Mapping function
 - `arr` Initial array
 
-Returns **any** New array
+**Returns:** New array
 
 ### toLocaleString
 
@@ -850,7 +850,7 @@ The elements are converted to string using their toLocalString methods.
 
 - `arr` Initial array
 
-Returns **any** String representation
+**Returns:** String representation
 
 ### toString
 
@@ -862,7 +862,7 @@ Creates a string representation of an array.
 
 - `arr` Initial array
 
-Returns **any** String representation
+**Returns:** String representation
 
 ### update\_
 
@@ -877,7 +877,7 @@ If the index is out of bound of the array throws an error.
 - `index` Specific index
 - `arr` Initial array
 
-Returns **any** New array
+**Returns:** New array
 
 ### values
 
@@ -889,7 +889,7 @@ Creates an iterable of values in the array.
 
 - `arr` Initial array
 
-Returns **any** Iterator
+**Returns:** Iterator
 
 ### zip\_
 
@@ -902,7 +902,7 @@ Zips until the length of the shorter array is reached.
 - `otherArr` Array that you want to zip with initial array
 - `arr` Initial array
 
-Returns **any** New, zipped array
+**Returns:** New, zipped array
 
 ### zip\_.all
 
@@ -913,7 +913,7 @@ Zips until the length of the longer array is reached.
 - `otherArr` Array that you want to zip with initial array
 - `arr` Initial array
 
-Returns **any** New, zipped array
+**Returns:** New, zipped array
 
 ### zipWith\_
 
@@ -927,7 +927,7 @@ Zips until the length of the shorter array is reached.
 - `otherArr` Array that you want to zip with initial array
 - `arr` Initial array
 
-Returns **any** New, zipped array
+**Returns:** New, zipped array
 
 ### zipWith\_.all
 
@@ -939,7 +939,7 @@ Zips until the length of the longer array is reached.
 - `otherArr` Array that you want to zip with initial array
 - `arr` Initial array
 
-Returns **any** New, zipped array
+**Returns:** New, zipped array
 
 ## License
 

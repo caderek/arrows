@@ -74,8 +74,8 @@ import filter from '@arrows/array/filter'
 - [findIndex](#findindex)
 - [first\_](#first_)
 - [flat](#flat)
+- [flat.one](#flat.one)
 - [flatMap](#flatmap)
-- [flatOne](#flatone)
 - [forEach](#foreach)
 - [get\_](#get_)
 - [groupBy\_](#groupby_)
@@ -328,6 +328,16 @@ concatenated into it recursively up to the specified depth.
 
 **Returns:** New array
 
+### flat.one
+
+Version with default depth (1).
+
+#### Parameters
+
+- `arr` Initial array
+
+**Returns:** New array
+
 ### flatMap
 
 Functional wrapper for Array.prototype.flatMap
@@ -339,19 +349,6 @@ This is identical to a map followed by flat with depth 1.
 #### Parameters
 
 - `mappingFn` Mapping function
-- `arr` Initial array
-
-**Returns:** New array
-
-### flatOne
-
-Functional wrapper for Array.prototype.flat with default depth (1).
-
-Creates a new array with all sub-array elements
-concatenated into it recursively up to the specified depth.
-
-#### Parameters
-
 - `arr` Initial array
 
 **Returns:** New array

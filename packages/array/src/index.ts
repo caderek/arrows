@@ -12,7 +12,6 @@ import findIndex from './findIndex'
 import first_ from './first_'
 import flat from './flat'
 import flatMap from './flatMap'
-import flatOne from './flatOne'
 import forEach from './forEach'
 import get_ from './get_'
 import groupBy_ from './groupBy_'
@@ -61,7 +60,6 @@ export {
   first_,
   flat,
   flatMap,
-  flatOne,
   forEach,
   get_,
   groupBy_,
@@ -111,7 +109,6 @@ export default {
   first_,
   flat,
   flatMap,
-  flatOne,
   forEach,
   get_,
   groupBy_,

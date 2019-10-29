@@ -27,7 +27,8 @@
     "test": "jest",
     "prep": "node ../../scripts/prepare-lib.js",
     "coverage": "jest --coverage && codecov -F error",
-    "lint": "tslint -c tslint.json 'src/**/*.ts'"
+    "lint": "tslint -c tslint.json 'src/**/*.ts'",
+    "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
     "codecov": "^3.6.1",

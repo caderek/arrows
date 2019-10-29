@@ -25,7 +25,8 @@
     "test": "jest",
     "prep": "node ../../scripts/prepare-lib.js",
     "coverage": "jest --coverage && codecov -F dispatch",
-    "lint": "tslint -c tslint.json 'src/**/*.ts'"
+    "lint": "tslint -c tslint.json 'src/**/*.ts'",
+    "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
     "@types/jest": "^24.0.19",

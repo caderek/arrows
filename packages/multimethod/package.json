@@ -32,6 +32,7 @@
     "prep": "node ../../scripts/prepare-lib.js",
     "coverage": "jest --coverage && codecov -F multimethod",
     "lint": "tslint -c tslint.json 'src/**/*.ts'",
+    "typecheck": "tsc --noEmit",
     "benchmark": "ts-node benchmark"
   },
   "devDependencies": {

@@ -105,5 +105,3 @@ const zipWith_: ZipWith_ = Object.assign(curriedZipWith_, {
 
 export { zipWith_ }
 export default zipWith_
-
-const a = zipWith_((a: number, b: string) => a + b)([1, 2, 3], ['foo', 'bar'])

@@ -4,7 +4,7 @@
 #
 version: 2
 common_docker: &common_docker_anchor
-  - image: circleci/node:10.16.0
+  - image: circleci/node:12.13.0
 
 common_steps: &common_steps_anchor
   - checkout:
@@ -23,6 +23,8 @@ common_steps: &common_steps_anchor
       key: v1-dependencies-{{ checksum "package.json" }}
 
   - run: yarn coverage
+  - run: yarn lint
+  - run: yarn typecheck
 
 jobs:
   build-array:

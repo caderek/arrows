@@ -6,7 +6,7 @@ type _FilterNot2_ = <T>(fn: FilteringFn<T>) => (arr: T[]) => T[]
 type FilterNot_ = _FilterNot_ & _FilterNot2_
 
 const _filterNot_: _FilterNot_ = (fn, arr) =>
-  arr.filter((element, index, arr) => !fn(element, index, arr))
+  arr.filter((element, index, inputArr) => !fn(element, index, inputArr))
 
 /**
  * Creates a new array from the initial one, without the values

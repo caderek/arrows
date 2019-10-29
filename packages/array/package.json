@@ -11,7 +11,14 @@
     "functional",
     "fp",
     "array",
-    "utils"
+    "utils",
+    "currying",
+    "curried",
+    "composable",
+    "functions",
+    "types",
+    "ts",
+    "typescript"
   ],
   "author": "Maciej Cąderek",
   "scripts": {

@@ -1,11 +1,60 @@
 # Arrows - array
 
+![npm (scoped)](https://img.shields.io/npm/v/@arrows/array)
 ![CircleCI](https://img.shields.io/circleci/build/github/caderek/arrows)
 ![David (path)](https://img.shields.io/david/caderek/arrows?path=packages%2Farray)
 ![Codecov](https://img.shields.io/codecov/c/github/caderek/arrows?token=c6adb715d638431786fefe69ca08ab00)
 ![npm bundle size (scoped)](https://img.shields.io/bundlephobia/minzip/@arrows/array)
+![GitHub](https://img.shields.io/github/license/caderek/arrows)
 
-# API
+## Table of contents
+
+1. [Introduction](#introduction)
+2. [Installation](#installation)
+3. [API reference](#api-reference)
+4. [License](#license)
+
+## Introduction
+
+The purpose of the library is to provide functional wrappers for `Array.prototype methods` and provide some additional functions for common tasks.
+
+All wrappers try to mimic original methods as close as possible while providing composable, auto-curried versions of the array methods. One exception is that all functions do not mutate the input arrays (even `sort`, `reverse`, etc.).
+
+For convenience, some functions have additional methods to execute the most common use cases of the function. For example - `sort` function, in addition to the generic form, contains also static methods (that are also auto-curried, pure functions) like `sort.num`, `sort.numDesc`, etc.
+
+Functions that do not have a native equivalent have `_` suffix. That way we can implement native-like version in the future (if an equivalent method will be added to the language), without potentially breaking backward-compatibility of the library.
+
+The library has **built-in type definitions**, which provide an excellent IDE support.
+
+## Installation
+
+Via NPM:
+
+```sh
+npm i @arrows/array
+```
+
+Via Yarn:
+
+```sh
+yarn add @arrows/array
+```
+
+All modules can be imported independently (to reduce bundle size), here are some import methods (you can use either CommonJS or ES modules):
+
+```js
+import arr from '@arrows/array'
+```
+
+```js
+import { filter } from '@arrows/array'
+```
+
+```js
+import filter from '@arrows/array/filter'
+```
+
+## API reference
 
 ### Index
 
@@ -16,9 +65,9 @@
 - [entries](#entries)
 - [every](#every)
 - [fill](#fill)
-  - [all](#all)
-  - [end](#end)
-  - [start](#start)
+- [fill.all](#fill.all)
+- [fill.end](#fill.end)
+- [fill.start](#fill.start)
 - [filter](#filter)
 - [filterNot\_](#filternot_)
 - [find](#find)
@@ -33,20 +82,20 @@
 - [has\_](#has_)
 - [includes](#includes)
 - [indexOf](#indexof)
-  - [all](#all-1)
+- [indexOf.all](#indexof.all)
 - [insert\_](#insert_)
 - [join](#join)
 - [keys](#keys)
 - [last\_](#last_)
 - [lastIndexOf](#lastindexof)
-  - [all](#all-2)
+- [lastIndexOf.all](#lastindexof.all)
 - [map](#map)
 - [prepend\_](#prepend_)
 - [range\_](#range_)
 - [reduce](#reduce)
-  - [first](#first)
+- [reduce.first](#reduce.first)
 - [reduceRight](#reduceright)
-  - [first](#first-1)
+- [reduceRight.first](#reduceright.first)
 - [remove\_](#remove_)
 - [rest\_](#rest_)
 - [reverse](#reverse)
@@ -54,106 +103,106 @@
 - [setSize\_](#setsize_)
 - [size\_](#size_)
 - [slice](#slice)
-  - [from](#from)
-  - [to](#to)
+- [slice.from](#slice.from)
+- [slice.to](#slice.to)
 - [some](#some)
 - [sort](#sort)
-  - [num](#num)
-  - [numDesc](#numdesc)
-  - [str](#str)
-  - [strDesc](#strdesc)
+- [sort.num](#sort.num)
+- [sort.numDesc](#sort.numdesc)
+- [sort.str](#sort.str)
+- [sort.strDesc](#sort.strdesc)
 - [sortBy\_](#sortby_)
-  - [num](#num-1)
-  - [numDesc](#numdesc-1)
-  - [str](#str-1)
-  - [strDesc](#strdesc-1)
+- [sortBy\_.num](#sortby_.num)
+- [sortBy\_.numDesc](#sortby_.numdesc)
+- [sortBy\_.str](#sortby_.str)
+- [sortBy\_.strDesc](#sortby_.strdesc)
 - [toLocaleString](#tolocalestring)
 - [toString](#tostring)
 - [update\_](#update_)
 - [values](#values)
 - [zip\_](#zip_)
-  - [all](#all-3)
+- [zip\_.all](#zip_.all)
 - [zipWith\_](#zipwith_)
-  - [all](#all-4)
+- [zipWith\_.all](#zipwith_.all)
 
-## append\_
+### append\_
 
 Adds a value at the end of the array.
 Similar to Array.prototype.push, but immutable.
 
-### Parameters
+#### Parameters
 
 - `value` Additional value
 - `arr` Initial array
 
 Returns **any** New array
 
-## butLast\_
+### butLast\_
 
 Creates a new array from the initial one, without the last element.
 
-### Parameters
+#### Parameters
 
 - `arr` Initial array
 
 Returns **any** New array
 
-## clear\_
+### clear\_
 
 Creates a new, empty array.
 
-### Parameters
+#### Parameters
 
 - `arr` Initial array
 
 Returns **any** New array
 
-## concat
+### concat
 
 Functional wrapper for Array.prototype.concat
 
 Combines two arrays.
 If the concatenated value is not an array, adds it as a last element.
 
-### Parameters
+#### Parameters
 
 - `value` An array or single value to be concatenated
 - `arr` Initial array
 
 Returns **any** New array
 
-## entries
+### entries
 
 Functional wrapper for Array.prototype.entries
 
 Creates an iterable of index, value pairs for every entry in the array.
 
-### Parameters
+#### Parameters
 
 - `arr` Initial array
 
 Returns **any** Iterable of index-value pairs
 
-## every
+### every
 
 Functional wrapper for Array.prototype.every
 
 Determines whether all the members of an array satisfy the specified test.
 
-### Parameters
+#### Parameters
 
 - `testFn` Test function
 - `arr` Initial array
 
 Returns **any** True if all elements satisfy test function, false otherwise
 
-## fill
+### fill
 
 Creates a new array with section identified by start and end index
 filled with provided value.
 Have built-in methods for common cases.
 
-### Parameters
+#### Parameters
 
 - `startIndex` Start index (if undefined - fill from start)
 - `endIndex` End index (if undefined - fill to the end)
@@ -162,7 +211,7 @@ Have built-in methods for common cases.
 
 Returns **any** New array
 
-### .all
+### fill.all
 
 Fill from the start to the end.
 
@@ -173,7 +222,7 @@ Fill from the start to the end.
 
 Returns **any** New array
 
-### .end
+### fill.end
 
 Fill from the start to the specified index.
 
@@ -185,7 +234,7 @@ Fill from the start to the specified index.
 
 Returns **any** New array
 
-### .start
+### fill.start
 
 Fill from the specified index to the end.
 
@@ -197,21 +246,21 @@ Fill from the specified index to the end.
 
 Returns **any** New array
 
-## filter
+### filter
 
 Functional wrapper for Array.prototype.filter
 
 Creates a new array from the initial one, without the values
 that does not meet the condition specified in a filtering function.
 
-### Parameters
+#### Parameters
 
 - `fn` Filtering function
 - `arr` Initial array
 
 Returns **any** New array
 
-## filterNot\_
+### filterNot\_
 
 Creates a new array from the initial one, without the values
 that meet the condition specified in a filtering function.
@@ -220,66 +269,66 @@ It is useful when you have a ready-to-use filtering function,
 that you want to pass as an argument, otherwise you would have
 to manually wrap it in a function to negate its results.
 
-### Parameters
+#### Parameters
 
 - `fn` Filtering function
 - `arr` initial array
 
 Returns **any** New array
 
-## find
+### find
 
 Functional wrapper for Array.prototype.find
 
 Retrieves the value of the first element in the array
 where predicate is true, and undefined otherwise.
 
-### Parameters
+#### Parameters
 
 - `testFn` Test function
 - `arr` Initial array
 
 Returns **any** Item that matches predicate or undefined
 
-## findIndex
+### findIndex
 
 Functional wrapper for Array.prototype.findIndex
 
 Retrieves the index of the first element in the array
 where predicate is true, and -1 otherwise.
 
-### Parameters
+#### Parameters
 
 - `testFn` Test function
 - `arr` Initial array
 
 Returns **any** Index of the matching element or -1
 
-## first\_
+### first\_
 
 Retrieves the first element of the array.
 
-### Parameters
+#### Parameters
 
 - `arr` Initial array
 
 Returns **any** First element
 
-## flat
+### flat
 
 Functional wrapper for Array.prototype.flat with custom depth
 
 Creates a new array with all sub-array elements
 concatenated into it recursively up to the specified depth.
 
-### Parameters
+#### Parameters
 
 - `depth` Maximum recursion depth
 - `arr` Initial array
 
 Returns **any** New array
 
-## flatMap
+### flatMap
 
 Functional wrapper for Array.prototype.flatMap
 
@@ -287,92 +336,92 @@ Calls a defined mapping function on each element of an array.
 Then, flattens the result into a new array.
 This is identical to a map followed by flat with depth 1.
 
-### Parameters
+#### Parameters
 
 - `mappingFn` Mapping function
 - `arr` Initial array
 
 Returns **any** New array
 
-## flatOne
+### flatOne
 
 Functional wrapper for Array.prototype.flat with default depth (1).
 
 Creates a new array with all sub-array elements
 concatenated into it recursively up to the specified depth.
 
-### Parameters
+#### Parameters
 
 - `arr` Initial array
 
 Returns **any** New array
 
-## forEach
+### forEach
 
 Functional wrapper for Array.prototype.forEach
 
 Performs the specified side effect action for each element in an array.
 
-### Parameters
+#### Parameters
 
 - `sideEffectFn` Side effect function
 - `arr` Initial array
 
 Returns **any** Nothing (undefined)
 
-## get\_
+### get\_
 
 Retrieves an element at the specific index.
 
-### Parameters
+#### Parameters
 
 - `index` Specific index
 
 Returns **any** Element at the specific index
 
-## groupBy\_
+### groupBy\_
 
 Creates an object that groups array items
 by field specified by grouping functions.
 
-### Parameters
+#### Parameters
 
 - `groupingFn` Grouping function
 - `arr` Initial array of objects
 
 Returns **any** New array
 
-## has\_
+### has\_
 
 Determines whether an array has a certain index,
 returning true or false as appropriate.
 
-### Parameters
+#### Parameters
 
 - `index` Specific index
 - `arr` Initial array
 
 Returns **any** True if index exists, false otherwise
 
-## includes
+### includes
 
 Determines whether an array includes a certain element,
 returning true or false as appropriate.
 
-### Parameters
+#### Parameters
 
 - `element` Searched element
 - `arr` Initial array
 
 Returns **any** True if element exists, false otherwise
 
-## indexOf
+### indexOf
 
 Functional wrapper for Array.prototype.indexOf
 
 Retrieves the index of the first occurrence of a value in an array.
 
-### Parameters
+#### Parameters
 
 - `element` The value to locate in the array
 - `fromIndex` The array index at which to begin the search
@@ -380,7 +429,7 @@ Retrieves the index of the first occurrence of a value in an array.
 
 Returns **any** Index of the matching element or -1
 
-### .all
+### indexOf.all
 
 Version with implicit fromIndex (0).
 
@@ -391,13 +440,13 @@ Version with implicit fromIndex (0).
 
 Returns **any** Index of the matching element or -1
 
-## insert\_
+### insert\_
 
 Creates a new array with an additional value at the provided index.
 Shifts old values to the right.
 If the index is out of bound of the array - adds a value as a last element.
 
-### Parameters
+#### Parameters
 
 - `value` Additional value
 - `index` Specific index
@@ -405,49 +454,49 @@ If the index is out of bound of the array - adds a value as a last element.
 
 Returns **any** New array
 
-## join
+### join
 
 Functional wrapper for Array.prototype.join
 
 Adds all the elements of an array separated by the specified separator string.
 
-### Parameters
+#### Parameters
 
 - `separator` Separator
 - `arr` Initial array
 
 Returns **any** String of joined array elements.
 
-## keys
+### keys
 
 Functional wrapper for Array.prototype.keys
 
 Returns an iterable of keys in the array
 
-### Parameters
+#### Parameters
 
 - `arr` Initial array
 
 Returns **any** Iterator
 
-## last\_
+### last\_
 
 Retrieves the last element of the array.
 
-### Parameters
+#### Parameters
 
 - `arr` Initial array
 
 Returns **any** Last element (undefined for an empty array)
 
-## lastIndexOf
+### lastIndexOf
 
 Functional wrapper for Array.prototype.lastIndexOf
 
 Retrieves the index of the last occurrence of a specified value in an array.
 The array is searched backwards, starting at fromIndex.
 
-### Parameters
+#### Parameters
 
 - `element` The value to locate in the array
 - `fromIndex` The array index at which to begin the search
@@ -455,7 +504,7 @@ The array is searched backwards, starting at fromIndex.
 
 Returns **any** Index of the matching element or -1
 
-### .all
+### lastIndexOf.all
 
 Version with implicit fromIndex (arr.length - 1).
 
@@ -466,37 +515,37 @@ Version with implicit fromIndex (arr.length - 1).
 
 Returns **any** Index of the matching element or -1
 
-## map
+### map
 
 Functional wrapper for Array.prototype.map
 
 Calls a defined mapping function on each element of an array,
 and returns an array that contains the results.
 
-### Parameters
+#### Parameters
 
 - `mappingFn` Mapping function
 - `arr` Initial array
 
 Returns **any** New array
 
-## prepend\_
+### prepend\_
 
 Adds a value at the beginning of the array.
 Similar to Array.prototype.unshift, but immutable.
 
-### Parameters
+#### Parameters
 
 - `value` Additional value
 - `arr` Initial array
 
 Returns **any** New array
 
-## range\_
+### range\_
 
 Creates an array of numbers in a provided range - ascending or descending.
 
-### Parameters
+#### Parameters
 
 - `from` Starting number (included)
 - `to` Ending number (excluded)
@@ -504,7 +553,7 @@ Creates an array of numbers in a provided range - ascending or descending.
 
 Returns **any** Range array
 
-## reduce
+### reduce
 
 Functional wrapper for Array.prototype.reduce
 
@@ -512,7 +561,7 @@ Calls the specified reducing function for all the elements in an array.
 The return value of the reducing function is the accumulated result,
 and is provided as an argument in the next call to the reducing function.
 
-### Parameters
+#### Parameters
 
 - `reducingFn` Reducing function
 - `initialValue` Initial value of the accumulator
@@ -520,7 +569,7 @@ and is provided as an argument in the next call to the reducing function.
 
 Returns **any** Final accumulator value
 
-### .first
+### reduce.first
 
 Reduce without initializer.
 The first element of the array will be used as an initial accumulator.
@@ -532,7 +581,7 @@ The first element of the array will be used as an initial accumulator.
 
 Returns **any** Final accumulator value
 
-## reduceRight
+### reduceRight
 
 Functional wrapper for Array.prototype.reduceRight
 
@@ -541,7 +590,7 @@ in descending order.
 The return value of the reducing function is the accumulated result,
 and is provided as an argument in the next call to the reducing function.
 
-### Parameters
+#### Parameters
 
 - `reducingFn` Reducing function
 - `initialValue` Initial value of the accumulator
@@ -549,7 +598,7 @@ and is provided as an argument in the next call to the reducing function.
 
 Returns **any** Final accumulator value
 
-### .first
+### reduceRight.first
 
 Reduce without initializer.
 The last element of the array will be used as an initial accumulator.
@@ -561,44 +610,44 @@ The last element of the array will be used as an initial accumulator.
 
 Returns **any** Final accumulator value
 
-## remove\_
+### remove\_
 
 Creates a new array without an item at the provided index.
 
-### Parameters
+#### Parameters
 
 - `index` Specific index
 - `arr` Initial array
 
 Returns **any** New array
 
-## rest\_
+### rest\_
 
 Creates new array without the first element.
 
-### Parameters
+#### Parameters
 
 - `arr` Initial array
 
 Returns **any** New array
 
-## reverse
+### reverse
 
 Creates a new array with reversed elements.
 
-### Parameters
+#### Parameters
 
 - `arr` Initial array
 
 Returns **any** New array
 
-## set\_
+### set\_
 
 Creates a new array with a new value at the provided index.
 
 If the index is out of bound of the array throws an error.
 
-### Parameters
+#### Parameters
 
 - `value` New value
 - `index` Specific index
@@ -606,36 +655,36 @@ If the index is out of bound of the array throws an error.
 
 Returns **any** New array
 
-## setSize\_
+### setSize\_
 
 Creates a new array trimmed/extended to a provided size.
 If the new array is longer than the initial one,
 additional indexes will be set to undefined.
 
-### Parameters
+#### Parameters
 
 - `size` Required size
 - `arr` Initial array
 
 Returns **any** New array
 
-## size\_
+### size\_
 
 Retrieves the size (length) of the array.
 
-### Parameters
+#### Parameters
 
 - `arr` Initial array
 
 Returns **any** Array size (length)
 
-## slice
+### slice
 
 Functional wrapper for Array.prototype.slice
 
 Creates a new array as a a section of an initial array.
 
-### Parameters
+#### Parameters
 
 - `from` The beginning of the specified portion of the array.
 - `to` The end of the specified portion of the array.
@@ -643,7 +692,7 @@ Creates a new array as a a section of an initial array.
 
 Returns **any** New array
 
-### .from
+### slice.from
 
 Version with implicit end index (arr.length).
 
@@ -654,7 +703,7 @@ Version with implicit end index (arr.length).
 
 Returns **any** New array
 
-### .to
+### slice.to
 
 Version with implicit start index (0).
 
@@ -665,33 +714,33 @@ Version with implicit start index (0).
 
 Returns **any** New array
 
-## some
+### some
 
 Functional wrapper for Array.prototype.some
 
 Determines whether the specified test function
 returns true for any element of an array.
 
-### Parameters
+#### Parameters
 
 - `testFn` Test function
 - `arr` Initial array
 
 Returns **any** True if any element satisfies test function, false otherwise
 
-## sort
+### sort
 
 Creates a new, sorted array.
 Have built-in methods for sorting numerical and string arrays.
 
-### Parameters
+#### Parameters
 
 - `compareFn` Compare function
 - `arr` Initial array
 
 Returns **any** New array
 
-### .num
+### sort.num
 
 Sorts numerical arrays in an ascending order
 
@@ -701,7 +750,7 @@ Sorts numerical arrays in an ascending order
 
 Returns **any** New array
 
-### .numDesc
+### sort.numDesc
 
 Sorts numerical arrays in a descending order
 
@@ -711,7 +760,7 @@ Sorts numerical arrays in a descending order
 
 Returns **any** New array
 
-### .str
+### sort.str
 
 Sorts string arrays in an ascending order
 
@@ -721,7 +770,7 @@ Sorts string arrays in an ascending order
 
 Returns **any** New array
 
-### .strDesc
+### sort.strDesc
 
 Sorts string arrays in a descending order
 
@@ -731,14 +780,14 @@ Sorts string arrays in a descending order
 
 Returns **any** New array
 
-## sortBy\_
+### sortBy\_
 
 Creates a new, sorted array.
 Accepts mapping function that maps values before comparing
 (mapping does not affect actual values of the array).
 Have built-in methods for sorting numerical and alphabetical sorting.
 
-### Parameters
+#### Parameters
 
 - `compareFn` Compare function
 - `mappingFn` Mapping function
@@ -746,7 +795,7 @@ Have built-in methods for sorting numerical and alphabetical sorting.
 
 Returns **any** New array
 
-### .num
+### sortBy\_.num
 
 Sorts numerical arrays in an ascending order
 
@@ -757,7 +806,7 @@ Sorts numerical arrays in an ascending order
 
 Returns **any** New array
 
-### .numDesc
+### sortBy\_.numDesc
 
 Sorts numerical arrays in a descending order
 
@@ -768,7 +817,7 @@ Sorts numerical arrays in a descending order
 
 Returns **any** New array
 
-### .str
+### sortBy\_.str
 
 Sorts string arrays in an ascending order
 
@@ -779,7 +828,7 @@ Sorts string arrays in an ascending order
 
 Returns **any** New array
 
-### .strDesc
+### sortBy\_.strDesc
 
 Sorts string arrays in a descending order
 
@@ -790,39 +839,39 @@ Sorts string arrays in a descending order
 
 Returns **any** New array
 
-## toLocaleString
+### toLocaleString
 
 Functional wrapper for Array.prototype.toLocaleString
 
 Creates a string representation of an array.
 The elements are converted to string using their toLocalString methods.
 
-### Parameters
+#### Parameters
 
 - `arr` Initial array
 
 Returns **any** String representation
 
-## toString
+### toString
 
 Functional wrapper for Array.prototype.toString
 
 Creates a string representation of an array.
 
-### Parameters
+#### Parameters
 
 - `arr` Initial array
 
 Returns **any** String representation
 
-## update\_
+### update\_
 
 Creates a new array with a new value at the provided index,
 calculated by updater function that maps an old value into a new one.
 
 If the index is out of bound of the array throws an error.
 
-### Parameters
+#### Parameters
 
 - `value` New value
 - `index` Specific index
@@ -830,32 +879,32 @@ If the index is out of bound of the array throws an error.
 
 Returns **any** New array
 
-## values
+### values
 
 Functional wrapper for Array.prototype.values
 
 Creates an iterable of values in the array.
 
-### Parameters
+#### Parameters
 
 - `arr` Initial array
 
 Returns **any** Iterator
 
-## zip\_
+### zip\_
 
 Zips two arrays creating an array of pairs
 containing values on corresponding indexes.
 Zips until the length of the shorter array is reached.
 
-### Parameters
+#### Parameters
 
 - `otherArr` Array that you want to zip with initial array
 - `arr` Initial array
 
 Returns **any** New, zipped array
 
-### .all
+### zip\_.all
 
 Zips until the length of the longer array is reached.
 
@@ -866,13 +915,13 @@ Zips until the length of the longer array is reached.
 
 Returns **any** New, zipped array
 
-## zipWith\_
+### zipWith\_
 
 Zips two arrays producing new values with a zipping function,
 that takes elements with the same indexes.
 Zips until the length of the shorter array is reached.
 
-### Parameters
+#### Parameters
 
 - `zippingFn` Zipping function
 - `otherArr` Array that you want to zip with initial array
@@ -880,7 +929,7 @@ Zips until the length of the shorter array is reached.
 
 Returns **any** New, zipped array
 
-### .all
+### zipWith\_.all
 
 Zips until the length of the longer array is reached.
 
@@ -891,3 +940,7 @@ Zips until the length of the longer array is reached.
 - `arr` Initial array
 
 Returns **any** New, zipped array
+
+## License
+
+Project is under open, non-restrictive [ISC license](LICENSE).

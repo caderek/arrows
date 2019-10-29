@@ -4,6 +4,7 @@
 
 First stable release.
 
-## 1.0.1
+## 1.1.0
 
 - Improved README.
+- Added flatOne as a method of flat (flat.one).

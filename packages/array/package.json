@@ -18,7 +18,7 @@
     "build": "tsc",
     "test": "jest",
     "prep": "node ../../scripts/prepare-lib.js",
-    "coverage": "jest --coverage && codecov -F array"
+    "coverage": "jest --coverage --runInBand && codecov -F array"
   },
   "devDependencies": {
     "@types/jest": "^24.0.18",

@@ -6,8 +6,7 @@
 ## Packages docs
 
 - [@arrows/multimethod](packages/multimethod/README.md)
-- @arrows/array -> WIP
-- @arrows/object -> TODO
+- [@arrows/array](packages/array/README.md)
 - [@arrows/dispatch](packages/dispatch/README.md)
 - [@arrows/composition](packages/composition/README.md)
 - [@arrows/error](packages/error/README.md)

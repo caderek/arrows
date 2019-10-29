@@ -1,5 +1,17 @@
 import curry from '@arrows/composition/curry'
 
+type ReducingFirstFn<V> = (
+  accumulator: V,
+  currentValue: V,
+  index?: number,
+  arr?: V[],
+) => V
+
+type _ReduceFirst = <T>(reducingFn: ReducingFirstFn<T>, arr: T[]) => T
+type _ReduceFirst2 = <T>(reducingFn: ReducingFirstFn<T>) => (arr: T[]) => T
+
+type ReduceFirst = _ReduceFirst & _ReduceFirst2
+
 type ReducingFn<V, A> = (
   accumulator: A,
   currentValue: V,
@@ -25,10 +37,20 @@ type _Reduce = <T, X>(
   arr: T[],
 ) => X
 
-type Reduce = _Reduce & Curry3
+type CurriedReduce = _Reduce & Curry3
+
+type Reduce = CurriedReduce & {
+  first: ReduceFirst
+}
+
+const _reduceFirst: _ReduceFirst = (reducingFn, arr) => arr.reduce(reducingFn)
+
+const reduceFirst: ReduceFirst = curry(_reduceFirst)
 
 const _reduce: _Reduce = (reducingFn, initialValue, arr) =>
   arr.reduce(reducingFn, initialValue)
+
+const curriedReduce: CurriedReduce = curry(_reduce)
 
 /**
  * Functional wrapper for Array.prototype.reduce
@@ -41,8 +63,20 @@ const _reduce: _Reduce = (reducingFn, initialValue, arr) =>
  * @param initialValue Initial value of the accumulator
  * @param arr Initial array
  * @returns Final accumulator value
+ *
+ * @method first Reduce without initializer
  */
-const reduce: Reduce = curry(_reduce)
+const reduce: Reduce = Object.assign(curriedReduce, {
+  /**
+   * Reduce without initializer.
+   * The first element of the array will be used as an initial accumulator.
+   *
+   * @param reducingFn Reducing function
+   * @param arr Initial array
+   * @returns Final accumulator value
+   */
+  first: reduceFirst,
+})
 
 export { reduce }
 export default reduce

@@ -87,13 +87,36 @@ const curriedFill: CurriedFill = curry(_fill)
  * @param arr Initial array
  * @returns New array
  *
- * @property {Function} all Fill from the start to the end
- * @property {Function} end Fill from the start to the specified index
- * @property {Function} start Fill from the specified index to the end
+ * @method all Fill from the start to the end
+ * @method end Fill from the specified index to the end
+ * @method start Fill from the specified index to the end
  */
 const fill: Fill = Object.assign(curriedFill, {
+  /**
+   * Fill from the start to the end.
+   *
+   * @param value Value with which selected section will be filled.
+   * @param arr Initial array
+   * @returns New array
+   */
   all: curriedFill(0, undefined),
+  /**
+   * Fill from the start to the specified index.
+   *
+   * @param endIndex End index
+   * @param value Value with which selected section will be filled.
+   * @param arr Initial array
+   * @returns New array
+   */
   end: curriedFill(0),
+  /**
+   * Fill from the specified index to the end.
+   *
+   * @param startIndex Start index
+   * @param value Value with which selected section will be filled.
+   * @param arr Initial array
+   * @returns New array
+   */
   start: fillStart,
 })
 

@@ -26,15 +26,39 @@ const curriesSort: CurriedSort = curry(_sort)
  * @param arr Initial array
  * @returns New array
  *
- * @property {Function} num Sorts numerical arrays in an ascending order
- * @property {Function} numDesc Sorts numerical arrays in a descending order
- * @property {Function} str Sorts string arrays in an ascending order
- * @property {Function} strDesc Sorts string arrays in a descending order
+ * @method num Sorts numerical arrays in an ascending order
+ * @method numDesc Sorts numerical arrays in a descending order
+ * @method str Sorts string arrays in an ascending order
+ * @method strDesc Sorts string arrays in a descending order
  */
 const sort: Sort = Object.assign(curriesSort, {
+  /**
+   * Sorts numerical arrays in an ascending order
+   *
+   * @param arr Initial array
+   * @returns New array
+   */
   num: curriesSort((a: number, b: number) => a - b),
+  /**
+   * Sorts numerical arrays in a descending order
+   *
+   * @param arr Initial array
+   * @returns New array
+   */
   numDesc: curriesSort((a: number, b: number) => b - a),
+  /**
+   * Sorts string arrays in an ascending order
+   *
+   * @param arr Initial array
+   * @returns New array
+   */
   str: curriesSort((a: string, b: string) => (a > b ? 1 : -1)),
+  /**
+   * Sorts string arrays in a descending order
+   *
+   * @param arr Initial array
+   * @returns New array
+   */
   strDesc: curriesSort((a: string, b: string) => (b > a ? 1 : -1)),
 })
 

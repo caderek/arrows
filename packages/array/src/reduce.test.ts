@@ -18,4 +18,17 @@ describe('Array reduce', () => {
     expect(result).toEqual(result4)
     expect(result).toEqual(expected)
   })
+
+  it('provides functional wrapper for Array.prototype.reduce - no initial accumulator', () => {
+    const arr = [1, 2, 3]
+    const reducingFn = (acc, value) => acc + value
+
+    const result = reduce.first(reducingFn, arr)
+    const result2 = reduce.first(reducingFn)(arr)
+
+    const expected = arr.reduce(reducingFn)
+
+    expect(result).toEqual(result2)
+    expect(result).toEqual(expected)
+  })
 })

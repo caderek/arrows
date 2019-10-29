@@ -1,5 +1,17 @@
 import curry from '@arrows/composition/curry'
 
+type ReducingFirstFn<V> = (
+  accumulator: V,
+  currentValue: V,
+  index?: number,
+  arr?: V[],
+) => V
+
+type _ReduceRightFirst = <T>(reducingFn: ReducingFirstFn<T>, arr: T[]) => T
+type _ReduceRightFirst2 = <T>(reducingFn: ReducingFirstFn<T>) => (arr: T[]) => T
+
+type ReduceRightFirst = _ReduceRightFirst & _ReduceRightFirst2
+
 type ReducingFn<V, A> = (
   accumulator: A,
   currentValue: V,
@@ -25,15 +37,26 @@ type _ReduceRight = <T, X>(
   arr: T[],
 ) => X
 
-type ReduceRight = _ReduceRight & Curry3
+type CurriedReduceRight = _ReduceRight & Curry3
+
+type ReduceRight = CurriedReduceRight & {
+  first: ReduceRightFirst
+}
+
+const _reduceRightFirst: _ReduceRightFirst = (reducingFn, arr) =>
+  arr.reduce(reducingFn)
+
+const reduceRightFirst: ReduceRightFirst = curry(_reduceRightFirst)
 
 const _reduceRight: _ReduceRight = (reducingFn, initialValue, arr) =>
   arr.reduceRight(reducingFn, initialValue)
 
+const curriedReduceRight: CurriedReduceRight = curry(_reduceRight)
+
 /**
- * Functional wrapper for Array.prototype.reduce
+ * Functional wrapper for Array.prototype.reduceRight
  *
- * Calls the specified reducing function for all the elements in an array,
+ * Calls the specified callback function for all the elements in an array,
  * in descending order.
  * The return value of the reducing function is the accumulated result,
  * and is provided as an argument in the next call to the reducing function.
@@ -42,8 +65,20 @@ const _reduceRight: _ReduceRight = (reducingFn, initialValue, arr) =>
  * @param initialValue Initial value of the accumulator
  * @param arr Initial array
  * @returns Final accumulator value
+ *
+ * @method first Reduce without initializer
  */
-const reduceRight: ReduceRight = curry(_reduceRight)
+const reduceRight: ReduceRight = Object.assign(curriedReduceRight, {
+  /**
+   * Reduce without initializer.
+   * The last element of the array will be used as an initial accumulator.
+   *
+   * @param reducingFn Reducing function
+   * @param arr Initial array
+   * @returns Final accumulator value
+   */
+  first: reduceRightFirst,
+})
 
 export { reduceRight }
 export default reduceRight

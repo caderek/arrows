@@ -43,9 +43,16 @@ const curriedLastIndexOf: CurriedLastIndexOf = curry(_lastIndexOf)
  * @param arr Initial array
  * @returns Index of the matching element or -1
  *
- * @property {Function} all Version with implicit fromIndex (arr.length - 1)
+ * @method all Version with implicit fromIndex (arr.length - 1)
  */
 const lastIndexOf: LastIndexOf = Object.assign(curriedLastIndexOf, {
+  /**
+   * Version with implicit fromIndex (arr.length - 1).
+   *
+   * @param element The value to locate in the array
+   * @param arr Initial array
+   * @returns Index of the matching element or -1
+   */
   all: curry(lastIndexOfAll),
 })
 

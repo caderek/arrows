@@ -45,11 +45,25 @@ const curriedSlice: CurriesSlice = curry(_slice)
  * @param arr Initial array
  * @returns New array
  *
- * @property {Function} from Version with implicit end index (arr.length)
- * @property {Function} to Version with implicit start index (0)
+ * @method from Version with implicit end index (arr.length)
+ * @method to Version with implicit start index (0)
  */
 const slice: Slice = Object.assign(curriedSlice, {
+  /**
+   * Version with implicit end index (arr.length).
+   *
+   * @param from The beginning of the specified portion of the array.
+   * @param arr Initial array
+   * @returns New array
+   */
   from: curry(_sliceFrom),
+  /**
+   * Version with implicit start index (0).
+   *
+   * @param to The end of the specified portion of the array.
+   * @param arr Initial array
+   * @returns New array
+   */
   to: curry(_sliceTo),
 })
 

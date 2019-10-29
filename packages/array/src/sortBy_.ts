@@ -48,19 +48,47 @@ const curriedSortBy_ = curry(_sortBy_)
  * Have built-in methods for sorting numerical and alphabetical sorting.
  *
  * @param compareFn Compare function
- * @param mappingFN Mapping function
+ * @param mappingFn Mapping function
  * @param arr Initial array
  * @returns New array
  *
- * @property {Function} num Sorts numerical arrays in an ascending order
- * @property {Function} numDesc Sorts numerical arrays in a descending order
- * @property {Function} str Sorts string arrays in an ascending order
- * @property {Function} strDesc Sorts string arrays in a descending order
+ * @method num Sorts numerical arrays in an ascending order
+ * @method numDesc Sorts numerical arrays in a descending order
+ * @method str Sorts string arrays in an ascending order
+ * @method strDesc Sorts string arrays in a descending order
  */
 const sortBy_: SortBy_ = Object.assign(curriedSortBy_, {
+  /**
+   * Sorts numerical arrays in an ascending order
+   *
+   * @param mappingFn Mapping function
+   * @param arr Initial array
+   * @returns New array
+   */
   num: curriedSortBy_((a: number, b: number) => a - b),
+  /**
+   * Sorts numerical arrays in a descending order
+   *
+   * @param mappingFn Mapping function
+   * @param arr Initial array
+   * @returns New array
+   */
   numDesc: curriedSortBy_((a: number, b: number) => b - a),
+  /**
+   * Sorts string arrays in an ascending order
+   *
+   * @param mappingFn Mapping function
+   * @param arr Initial array
+   * @returns New array
+   */
   str: curriedSortBy_((a: string, b: string) => (a > b ? 1 : -1)),
+  /**
+   * Sorts string arrays in a descending order
+   *
+   * @param mappingFn Mapping function
+   * @param arr Initial array
+   * @returns New array
+   */
   strDesc: curriedSortBy_((a: string, b: string) => (b > a ? 1 : -1)),
 })
 

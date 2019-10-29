@@ -28,9 +28,7 @@ import map from './map'
 import prepend_ from './prepend_'
 import range_ from './range_'
 import reduce from './reduce'
-import reduceFirst from './reduceFirst'
 import reduceRight from './reduceRight'
-import reduceRightFirst from './reduceRightFirst'
 import remove_ from './remove_'
 import rest_ from './rest_'
 import reverse from './reverse'
@@ -46,9 +44,7 @@ import toString from './toString'
 import update_ from './update_'
 import values from './values'
 import zip_ from './zip_'
-import zipAll_ from './zipAll_'
 import zipWith_ from './zipWith_'
-import zipAllWith_ from './zipAllWith_'
 
 export {
   append_,
@@ -81,9 +77,7 @@ export {
   prepend_,
   range_,
   reduce,
-  reduceFirst,
   reduceRight,
-  reduceRightFirst,
   remove_,
   rest_,
   reverse,
@@ -99,9 +93,7 @@ export {
   update_,
   values,
   zip_,
-  zipAll_,
   zipWith_,
-  zipAllWith_,
 }
 
 export default {
@@ -135,9 +127,7 @@ export default {
   prepend_,
   range_,
   reduce,
-  reduceFirst,
   reduceRight,
-  reduceRightFirst,
   remove_,
   rest_,
   reverse,
@@ -153,7 +143,5 @@ export default {
   update_,
   values,
   zip_,
-  zipAll_,
   zipWith_,
-  zipAllWith_,
 }

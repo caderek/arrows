@@ -41,9 +41,16 @@ const curriedIndexOf: CurriedIndexOf = curry(_indexOf)
  * @param arr Initial array
  * @returns Index of the matching element or -1
  *
- * @property {Function} all Version with implicit fromIndex (0)
+ * @method all Version with implicit fromIndex (0).
  */
 const indexOf: IndexOf = Object.assign(curriedIndexOf, {
+  /**
+   * Version with implicit fromIndex (0).
+   *
+   * @param element The value to locate in the array
+   * @param arr Initial array
+   * @returns Index of the matching element or -1
+   */
   all: curry(indexOfAll),
 })
 

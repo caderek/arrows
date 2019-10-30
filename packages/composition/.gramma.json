@@ -2,7 +2,8 @@
   "api_url": "inherit",
   "api_key": "",
   "dictionary": [
-    "CHANGELOG"
+    "CHANGELOG",
+    "async"
   ],
   "language": "en-US",
   "rules": {

@@ -1,8 +1,15 @@
 import chainRight from './chainRight'
-import { Pipe } from './internal/common-types'
+import { Compose } from './internal/common-types'
 import wrap from './internal/wrap'
+import railRightAsync from './railRightAsync'
 
-const railRight: Pipe = chainRight(wrap)
+type RailRight = Compose & {
+  async: Compose
+}
+
+const railRight: RailRight = Object.assign(chainRight(wrap), {
+  async: railRightAsync,
+})
 
 export { railRight }
 export default railRight

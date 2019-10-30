@@ -4,5 +4,5 @@ import wrapAsync from './internal/wrapAsync'
 
 const railRightAsync: Compose = chainRight(wrapAsync)
 
-export { railRightAsync as railAsync }
+export { railRightAsync }
 export default railRightAsync

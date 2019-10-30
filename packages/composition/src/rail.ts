@@ -1,8 +1,15 @@
 import chainRight from './chain'
 import { Pipe } from './internal/common-types'
 import wrap from './internal/wrap'
+import railAsync from './railAsync'
 
-const railRight: Pipe = chainRight(wrap)
+type Rail = Pipe & {
+  async: Pipe
+}
 
-export { railRight as rail }
-export default railRight
+const rail: Rail = Object.assign(chainRight(wrap), {
+  async: railAsync,
+})
+
+export { rail }
+export default rail

@@ -18,9 +18,9 @@
    - [curry](#curry)
    - [pipe](#pipe)
    - [rail](#rail)
-   - [railAsync](#railAsync)
+   - [rail.async](#rail.async)
    - [railRight](#railRight)
-   - [railRightAsync](#railRightAsync)
+   - [railRight.async](#railRight.async)
    - [tap](#tap)
 4. [License](#license)
 
@@ -84,6 +84,8 @@ Arguments of a wrapping function:
 
 - `input` - current value
 
+- `isLast` - boolean flag indicating if a function is a last one in a chain
+
 #### Returns
 
 - Returns a final value.
@@ -137,7 +139,10 @@ Arguments listed below have to be passed separately, as segments.
 Arguments of a wrapping function:
 
 - `fn` - function in a chain
+
 - `input` - current value
+
+- `isLast` - boolean flag indicating if a function is a last one in a chain
 
 #### Returns
 
@@ -370,7 +375,7 @@ Saved user: Joe
 
 ---
 
-### railAsync
+### rail.async
 
 Works like [rail](#rail), but additionally, if argument is a promise - resolves that promise before passing to the next function.
 
@@ -431,7 +436,7 @@ main() // -> "Article id: 0"
 
 Works like [rail](#rail), but executes functions from right to left.
 
-### railRightAsync
+### railRight.async
 
 Works like [railAsync](#railAsync), but executes functions from right to left.
 

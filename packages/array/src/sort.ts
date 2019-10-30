@@ -49,17 +49,21 @@ const sort: Sort = Object.assign(curriesSort, {
   /**
    * Sorts string arrays in an ascending order
    *
-   * @param arr Initial array
-   * @returns New array
-   */
-  str: curriesSort((a: string, b: string) => (a > b ? 1 : -1)),
-  /**
-   * Sorts string arrays in a descending order
+   * Uses String.prototype.localeCompare
    *
    * @param arr Initial array
    * @returns New array
    */
-  strDesc: curriesSort((a: string, b: string) => (b > a ? 1 : -1)),
+  str: curriesSort((a: string, b: string) => a.localeCompare(b)),
+  /**
+   * Sorts string arrays in a descending order
+   *
+   * Uses String.prototype.localeCompare
+   *
+   * @param arr Initial array
+   * @returns New array
+   */
+  strDesc: curriesSort((a: string, b: string) => b.localeCompare(a)),
 })
 
 export { sort }

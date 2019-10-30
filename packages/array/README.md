@@ -739,7 +739,7 @@ Have built-in methods for sorting numerical and string arrays.
 
 ### sort.num
 
-Sorts numerical arrays in an ascending order
+Sorts numerical arrays in an ascending order.
 
 #### Parameters
 
@@ -749,7 +749,7 @@ Sorts numerical arrays in an ascending order
 
 ### sort.numDesc
 
-Sorts numerical arrays in a descending order
+Sorts numerical arrays in a descending order.
 
 #### Parameters
 
@@ -759,7 +759,9 @@ Sorts numerical arrays in a descending order
 
 ### sort.str
 
-Sorts string arrays in an ascending order
+Sorts string arrays in an ascending order.
+
+Uses `String.prototype.localeCompare`.
 
 #### Parameters
 
@@ -769,7 +771,9 @@ Sorts string arrays in an ascending order
 
 ### sort.strDesc
 
-Sorts string arrays in a descending order
+Sorts string arrays in a descending order.
+
+Uses `String.prototype.localeCompare`.
 
 #### Parameters
 
@@ -794,7 +798,7 @@ Have built-in methods for sorting numerical and alphabetical sorting.
 
 ### sortBy\_.num
 
-Sorts numerical arrays in an ascending order
+Sorts numerical arrays in an ascending order.
 
 #### Parameters
 
@@ -805,7 +809,7 @@ Sorts numerical arrays in an ascending order
 
 ### sortBy\_.numDesc
 
-Sorts numerical arrays in a descending order
+Sorts numerical arrays in a descending order.
 
 #### Parameters
 
@@ -816,7 +820,9 @@ Sorts numerical arrays in a descending order
 
 ### sortBy\_.str
 
-Sorts string arrays in an ascending order
+Sorts string arrays in an ascending order.
+
+Uses `String.prototype.localeCompare`.
 
 #### Parameters
 
@@ -827,7 +833,9 @@ Sorts string arrays in an ascending order
 
 ### sortBy\_.strDesc
 
-Sorts string arrays in a descending order
+Sorts string arrays in a descending order.
+
+Uses `String.prototype.localeCompare`.
 
 #### Parameters
 

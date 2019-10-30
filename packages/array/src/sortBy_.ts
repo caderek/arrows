@@ -75,21 +75,25 @@ const sortBy_: SortBy_ = Object.assign(curriedSortBy_, {
    */
   numDesc: curriedSortBy_((a: number, b: number) => b - a),
   /**
-   * Sorts string arrays in an ascending order
+   * Sorts string arrays in an ascending order.
+   *
+   * Uses String.prototype.localeCompare
    *
    * @param mappingFn Mapping function
    * @param arr Initial array
    * @returns New array
    */
-  str: curriedSortBy_((a: string, b: string) => (a > b ? 1 : -1)),
+  str: curriedSortBy_((a: string, b: string) => a.localeCompare(b)),
   /**
    * Sorts string arrays in a descending order
    *
+   * Uses String.prototype.localeCompare
+   *
    * @param mappingFn Mapping function
    * @param arr Initial array
    * @returns New array
    */
-  strDesc: curriedSortBy_((a: string, b: string) => (b > a ? 1 : -1)),
+  strDesc: curriedSortBy_((a: string, b: string) => b.localeCompare(a)),
 })
 
 export { sortBy_ }

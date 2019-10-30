@@ -80,4 +80,30 @@ describe('Array sortBy', () => {
     expect(result).toEqual(result2)
     expect(result).toEqual(expected)
   })
+
+  it('provides a method for locale alphabetical sort', () => {
+    const arr = [{ name: 'Lee' }, { name: 'Bob' }, { name: 'Joe' }]
+    const mappingFn = (x) => x.name
+
+    const result = sortBy_.locale(mappingFn, arr)
+    const result2 = sortBy_.locale(mappingFn, arr)
+
+    const expected = [{ name: 'Bob' }, { name: 'Joe' }, { name: 'Lee' }]
+
+    expect(result).toEqual(result2)
+    expect(result).toEqual(expected)
+  })
+
+  it('provides a method for locale alphabetical sort - descending', () => {
+    const arr = [{ name: 'Lee' }, { name: 'Bob' }, { name: 'Joe' }]
+    const mappingFn = (x) => x.name
+
+    const result = sortBy_.localeDesc(mappingFn, arr)
+    const result2 = sortBy_.localeDesc(mappingFn, arr)
+
+    const expected = [{ name: 'Lee' }, { name: 'Joe' }, { name: 'Bob' }]
+
+    expect(result).toEqual(result2)
+    expect(result).toEqual(expected)
+  })
 })

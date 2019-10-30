@@ -33,6 +33,8 @@ type SortBy_ = CurriedSortBy_ & {
   numDesc: PartiallyApplied
   str: PartiallyApplied
   strDesc: PartiallyApplied
+  locale: PartiallyApplied
+  localeDesc: PartiallyApplied
 }
 
 const _sortBy_: _SortBy_ = (compareFn, mappingFn, arr) => {
@@ -56,6 +58,8 @@ const curriedSortBy_ = curry(_sortBy_)
  * @method numDesc Sorts numerical arrays in a descending order
  * @method str Sorts string arrays in an ascending order
  * @method strDesc Sorts string arrays in a descending order
+ * @method locale Sorts string arrays in an ascending order using localeCompare
+ * @method localeDesc Sorts string arrays in a descending order  using localeCompare
  */
 const sortBy_: SortBy_ = Object.assign(curriedSortBy_, {
   /**
@@ -75,9 +79,7 @@ const sortBy_: SortBy_ = Object.assign(curriedSortBy_, {
    */
   numDesc: curriedSortBy_((a: number, b: number) => b - a),
   /**
-   * Sorts string arrays in an ascending order.
-   *
-   * Uses String.prototype.localeCompare
+   * Sorts string arrays in an ascending order using comparison operators.
    *
    * @param mappingFn Mapping function
    * @param arr Initial array
@@ -85,15 +87,29 @@ const sortBy_: SortBy_ = Object.assign(curriedSortBy_, {
    */
   str: curriedSortBy_((a: string, b: string) => a.localeCompare(b)),
   /**
-   * Sorts string arrays in a descending order
-   *
-   * Uses String.prototype.localeCompare
+   * Sorts string arrays in a descending order using comparison operators.
    *
    * @param mappingFn Mapping function
    * @param arr Initial array
    * @returns New array
    */
   strDesc: curriedSortBy_((a: string, b: string) => b.localeCompare(a)),
+  /**
+   * Sorts string arrays in an ascending order using `String.prototype.localeCompare`.
+   *
+   * @param mappingFn Mapping function
+   * @param arr Initial array
+   * @returns New array
+   */
+  locale: curriedSortBy_((a: string, b: string) => a.localeCompare(b)),
+  /**
+   * Sorts string arrays in a descending order using `String.prototype.localeCompare`.
+   *
+   * @param mappingFn Mapping function
+   * @param arr Initial array
+   * @returns New array
+   */
+  localeDesc: curriedSortBy_((a: string, b: string) => b.localeCompare(a)),
 })
 
 export { sortBy_ }

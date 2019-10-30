@@ -111,11 +111,15 @@ import filter from '@arrows/array/filter'
 - [sort.numDesc](#sort.numdesc)
 - [sort.str](#sort.str)
 - [sort.strDesc](#sort.strdesc)
+- [sort.locale](#sort.locale)
+- [sort.localeDesc](#sort.localedesc)
 - [sortBy\_](#sortby_)
 - [sortBy\_.num](#sortby_.num)
 - [sortBy\_.numDesc](#sortby_.numdesc)
 - [sortBy\_.str](#sortby_.str)
 - [sortBy\_.strDesc](#sortby_.strdesc)
+- [sortBy\_.locale](#sortby_.locale)
+- [sortBy\_.localeDesc](#sortby_.localedesc)
 - [toLocaleString](#tolocalestring)
 - [toString](#tostring)
 - [update\_](#update_)
@@ -759,9 +763,7 @@ Sorts numerical arrays in a descending order.
 
 ### sort.str
 
-Sorts string arrays in an ascending order.
-
-Uses `String.prototype.localeCompare`.
+Sorts string arrays in an ascending order using comparison operators.
 
 #### Parameters
 
@@ -771,9 +773,27 @@ Uses `String.prototype.localeCompare`.
 
 ### sort.strDesc
 
-Sorts string arrays in a descending order.
+Sorts string arrays in a descending order using comparison operators.
 
-Uses `String.prototype.localeCompare`.
+#### Parameters
+
+- `arr` Initial array
+
+**Returns:** New array
+
+### sort.locale
+
+Sorts string arrays in an ascending order using `String.prototype.localeCompare`.
+
+#### Parameters
+
+- `arr` Initial array
+
+**Returns:** New array
+
+### sort.localeDesc
+
+Sorts string arrays in a descending order using `String.prototype.localeCompare`.
 
 #### Parameters
 
@@ -820,9 +840,7 @@ Sorts numerical arrays in a descending order.
 
 ### sortBy\_.str
 
-Sorts string arrays in an ascending order.
-
-Uses `String.prototype.localeCompare`.
+Sorts string arrays in an ascending order using comparison operators.
 
 #### Parameters
 
@@ -833,9 +851,29 @@ Uses `String.prototype.localeCompare`.
 
 ### sortBy\_.strDesc
 
-Sorts string arrays in a descending order.
+Sorts string arrays in a descending order using comparison operators.
 
-Uses `String.prototype.localeCompare`.
+#### Parameters
+
+- `mappingFn` Mapping function
+- `arr` Initial array
+
+**Returns:** New array
+
+### sortBy\_.locale
+
+Sorts string arrays in an ascending order using `String.prototype.localeCompare`.
+
+#### Parameters
+
+- `mappingFn` Mapping function
+- `arr` Initial array
+
+**Returns:** New array
+
+### sortBy\_.localeDesc
+
+Sorts string arrays in a descending order using `String.prototype.localeCompare`.
 
 #### Parameters
 

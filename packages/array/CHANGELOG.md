@@ -11,4 +11,8 @@ First stable release.
 
 ## 1.1.1
 
-- Used `String.prototype.localeCompare` instead of manual comparison in sort methods.
+- Improved sorting methods for strings.
+
+## 1.2.0
+
+- Added sorting methods with `String.prototype.localeCompare`.

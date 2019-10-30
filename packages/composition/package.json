@@ -1,6 +1,6 @@
 {
   "name": "@arrows/composition",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "main": "index.js",
   "license": "ISC",
   "repository": "https://github.com/caderek/arrows/tree/master/packages/composition",

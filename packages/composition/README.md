@@ -377,7 +377,7 @@ Saved user: Joe
 
 ### rail.async
 
-Works like [rail](#rail), but additionally, if argument is a promise - resolves that promise before passing to the next function.
+Works similar to [rail](#rail), but additionally, if argument is a promise - resolves that promise before passing to the next function.
 
 #### Parameters
 
@@ -389,7 +389,7 @@ Arguments listed below have to be passed separately, as segments.
 
 #### Returns
 
-- Returns a final value.
+- Returns a final value wrapped in a promise.
 
 #### Interface
 

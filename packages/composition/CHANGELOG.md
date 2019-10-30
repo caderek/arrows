@@ -8,3 +8,7 @@ First stable release.
 
 - Added `.async` methods to `rail` and `railRight`.
 - Fixed bug: async functions now always return a promise.
+
+## 1.1.1
+
+- Updated README.

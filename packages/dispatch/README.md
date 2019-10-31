@@ -1,3 +1,5 @@
+![arrows - dispatch](https://raw.githubusercontent.com/caderek/arrows/master/assets/arrows-dispatch.svg?sanitize=true)
+
 # @arrows/dispatch
 
 ![npm (scoped)](https://img.shields.io/npm/v/@arrows/dispatch)

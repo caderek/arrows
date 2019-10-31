@@ -1,3 +1,5 @@
+![arrows - error](https://raw.githubusercontent.com/caderek/arrows/master/assets/arrows-error.svg?sanitize=true)
+
 # @arrows/error
 
 ![npm (scoped)](https://img.shields.io/npm/v/@arrows/error)

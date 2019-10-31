@@ -1,6 +1,6 @@
-![arrows - array](https://raw.githubusercontent.com/caderek/arrows/master/assets/arrows-array.svg)
+![arrows - array](https://raw.githubusercontent.com/caderek/arrows/master/assets/arrows-array.svg?sanitize=true)
 
-# Arrows - array
+# @arrows/array
 
 ![npm (scoped)](https://img.shields.io/npm/v/@arrows/array)
 ![CircleCI](https://img.shields.io/circleci/build/github/caderek/arrows)

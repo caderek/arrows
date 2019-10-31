@@ -1,3 +1,5 @@
+![arrows - multimethod](https://raw.githubusercontent.com/caderek/arrows/master/assets/arrows-multimethod.svg?sanitize=true)
+
 # @arrows/multimethod
 
 ![npm (scoped)](https://img.shields.io/npm/v/@arrows/multimethod)

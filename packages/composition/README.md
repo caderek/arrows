@@ -1,3 +1,5 @@
+![arrows - composition](https://raw.githubusercontent.com/caderek/arrows/master/assets/arrows-composition.svg?sanitize=true)
+
 # @arrows/composition
 
 ![npm (scoped)](https://img.shields.io/npm/v/@arrows/composition)

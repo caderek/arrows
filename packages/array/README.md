@@ -1,3 +1,5 @@
+![arrows - array](https://raw.githubusercontent.com/caderek/arrows/master/assets/arrows-array.svg)
+
 # Arrows - array
 
 ![npm (scoped)](https://img.shields.io/npm/v/@arrows/array)

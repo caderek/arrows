@@ -16,3 +16,7 @@ First stable release.
 ## 1.2.0
 
 - Added sorting methods with `String.prototype.localeCompare`.
+
+# 1.2.1
+
+- Fixed links in README.

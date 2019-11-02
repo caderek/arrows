@@ -15,11 +15,11 @@ describe('tap', () => {
       const fn = jest.fn((x) => {}) // tslint:disable-line
 
       const result = pipe(
-        (x) => x + 1,
+        (x: number) => x + 1,
         tap(fn),
-        (x) => x * 2,
+        (x: number) => x * 2,
         tap(fn),
-        (x) => x ** 2,
+        (x: number) => x ** 2,
       )(0)
 
       expect(result).toBe(4)

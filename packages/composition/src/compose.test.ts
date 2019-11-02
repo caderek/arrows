@@ -5,7 +5,7 @@ describe('compose', () => {
     it('returns new function that is a composition of supplied functions', () => {
       const fn = compose(
         (x) => x + 1,
-        (x) => x * 2,
+        (x: number) => x * 2,
       )
 
       expect(fn).toBeInstanceOf(Function)
@@ -14,7 +14,7 @@ describe('compose', () => {
     it('returned function has the arity of one', () => {
       const fn = compose(
         (x) => x + 1,
-        (x) => x * 2,
+        (x: number) => x * 2,
       )
 
       expect(fn.length).toBe(1)

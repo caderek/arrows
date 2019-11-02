@@ -24,7 +24,7 @@
     "gender_neutrality": true,
     "grammar": true,
     "misc": true,
-    "punctuation": true,
+    "punctuation": false,
     "redundancy": true,
     "regionalisms": true,
     "repetitions": true,

@@ -4,7 +4,7 @@ describe('pipe', () => {
   describe('when partially applied', () => {
     it('returns new function that is a composition of supplied functions', () => {
       const fn = pipe(
-        (x) => x + 1,
+        (x: number) => x + 1,
         (x) => x * 2,
       )
 
@@ -13,7 +13,7 @@ describe('pipe', () => {
 
     it('returned function has the arity of one', () => {
       const fn = pipe(
-        (x) => x + 1,
+        (x: number) => x + 1,
         (x) => x * 2,
       )
 

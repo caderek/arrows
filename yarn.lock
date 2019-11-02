@@ -2,6 +2,18 @@
 # yarn lockfile v1
 
 
+"@arrows/array@^1.2.1":
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/@arrows/array/-/array-1.2.1.tgz#3cb5bc7b94acd6a84c1a5442bfc53c0a51ed73b3"
+  integrity sha512-JdsApqtmfiU6KbwMeXQm0hTXYkFdYX/QPVA4vMOcZjAoZTJPWTVl9LjiuJGsRSh6L1KptH/URoQWvnpSel/6Cg==
+  dependencies:
+    "@arrows/composition" "^1.0.0"
+
+"@arrows/composition@^1.0.0", "@arrows/composition@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@arrows/composition/-/composition-1.1.1.tgz#d46f0c4e13219d7c862781e02fe3b1564458fad9"
+  integrity sha512-W3/sVvpn0TtVRZNd0frK3IpJIIAxLaiCPLQlzItGdlti5XRAjoET7mfxhLCvnT/Qi5IE+O0KDq4p+cNkmHdCcg==
+
 "@types/jest-diff@*":
   version "20.0.1"
   resolved "https://registry.yarnpkg.com/@types/jest-diff/-/jest-diff-20.0.1.tgz#35cc15b9c4f30a18ef21852e255fdb02f6d59b89"

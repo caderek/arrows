@@ -1,0 +1,350 @@
+export type Pipe20 = {
+  <T1, R>(fn1: (arg: T1) => R): (initialArg: T1) => R
+
+  <T1, T2, R>(fn1: (arg: T1) => T2, fn2: (arg: T2) => R): (initialArg: T1) => R
+
+  <T1, T2, T3, R>(
+    fn1: (arg: T1) => T2,
+    fn2: (arg: T2) => T3,
+    fn3: (arg: T3) => R,
+  ): (initialArg: T1) => R
+
+  <T1, T2, T3, T4, R>(
+    fn1: (arg: T1) => T2,
+    fn2: (arg: T2) => T3,
+    fn3: (arg: T3) => T4,
+    fn4: (arg: T4) => R,
+  ): (initialArg: T1) => R
+
+  <T1, T2, T3, T4, T5, R>(
+    fn1: (arg: T1) => T2,
+    fn2: (arg: T2) => T3,
+    fn3: (arg: T3) => T4,
+    fn4: (arg: T4) => T5,
+    fn5: (arg: T5) => R,
+  ): (initialArg: T1) => R
+
+  <T1, T2, T3, T4, T5, T6, R>(
+    fn1: (arg: T1) => T2,
+    fn2: (arg: T2) => T3,
+    fn3: (arg: T3) => T4,
+    fn4: (arg: T4) => T5,
+    fn5: (arg: T5) => T6,
+    fn6: (arg: T6) => R,
+  ): (initialArg: T1) => R
+
+  <T1, T2, T3, T4, T5, T6, T7, R>(
+    fn1: (arg: T1) => T2,
+    fn2: (arg: T2) => T3,
+    fn3: (arg: T3) => T4,
+    fn4: (arg: T4) => T5,
+    fn5: (arg: T5) => T6,
+    fn6: (arg: T6) => T7,
+    fn7: (arg: T7) => R,
+  ): (initialArg: T1) => R
+
+  <T1, T2, T3, T4, T5, T6, T7, T8, R>(
+    fn1: (arg: T1) => T2,
+    fn2: (arg: T2) => T3,
+    fn3: (arg: T3) => T4,
+    fn4: (arg: T4) => T5,
+    fn5: (arg: T5) => T6,
+    fn6: (arg: T6) => T7,
+    fn7: (arg: T7) => T8,
+    fn8: (arg: T8) => R,
+  ): (initialArg: T1) => R
+
+  <T1, T2, T3, T4, T5, T6, T7, T8, T9, R>(
+    fn1: (arg: T1) => T2,
+    fn2: (arg: T2) => T3,
+    fn3: (arg: T3) => T4,
+    fn4: (arg: T4) => T5,
+    fn5: (arg: T5) => T6,
+    fn6: (arg: T6) => T7,
+    fn7: (arg: T7) => T8,
+    fn8: (arg: T8) => T9,
+    fn9: (arg: T9) => R,
+  ): (initialArg: T1) => R
+
+  <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, R>(
+    fn1: (arg: T1) => T2,
+    fn2: (arg: T2) => T3,
+    fn3: (arg: T3) => T4,
+    fn4: (arg: T4) => T5,
+    fn5: (arg: T5) => T6,
+    fn6: (arg: T6) => T7,
+    fn7: (arg: T7) => T8,
+    fn8: (arg: T8) => T9,
+    fn9: (arg: T9) => T10,
+    fn10: (arg: T10) => R,
+  ): (initialArg: T1) => R
+
+  <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, R>(
+    fn1: (arg: T1) => T2,
+    fn2: (arg: T2) => T3,
+    fn3: (arg: T3) => T4,
+    fn4: (arg: T4) => T5,
+    fn5: (arg: T5) => T6,
+    fn6: (arg: T6) => T7,
+    fn7: (arg: T7) => T8,
+    fn8: (arg: T8) => T9,
+    fn9: (arg: T9) => T10,
+    fn10: (arg: T10) => T11,
+    fn11: (arg: T11) => R,
+  ): (initialArg: T1) => R
+
+  <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, R>(
+    fn1: (arg: T1) => T2,
+    fn2: (arg: T2) => T3,
+    fn3: (arg: T3) => T4,
+    fn4: (arg: T4) => T5,
+    fn5: (arg: T5) => T6,
+    fn6: (arg: T6) => T7,
+    fn7: (arg: T7) => T8,
+    fn8: (arg: T8) => T9,
+    fn9: (arg: T9) => T10,
+    fn10: (arg: T10) => T11,
+    fn11: (arg: T11) => T12,
+    fn12: (arg: T12) => R,
+  ): (initialArg: T1) => R
+
+  <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, R>(
+    fn1: (arg: T1) => T2,
+    fn2: (arg: T2) => T3,
+    fn3: (arg: T3) => T4,
+    fn4: (arg: T4) => T5,
+    fn5: (arg: T5) => T6,
+    fn6: (arg: T6) => T7,
+    fn7: (arg: T7) => T8,
+    fn8: (arg: T8) => T9,
+    fn9: (arg: T9) => T10,
+    fn10: (arg: T10) => T11,
+    fn11: (arg: T11) => T12,
+    fn12: (arg: T12) => T13,
+    fn13: (arg: T13) => R,
+  ): (initialArg: T1) => R
+
+  <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, R>(
+    fn1: (arg: T1) => T2,
+    fn2: (arg: T2) => T3,
+    fn3: (arg: T3) => T4,
+    fn4: (arg: T4) => T5,
+    fn5: (arg: T5) => T6,
+    fn6: (arg: T6) => T7,
+    fn7: (arg: T7) => T8,
+    fn8: (arg: T8) => T9,
+    fn9: (arg: T9) => T10,
+    fn10: (arg: T10) => T11,
+    fn11: (arg: T11) => T12,
+    fn12: (arg: T12) => T13,
+    fn13: (arg: T13) => T14,
+    fn14: (arg: T14) => R,
+  ): (initialArg: T1) => R
+
+  <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, R>(
+    fn1: (arg: T1) => T2,
+    fn2: (arg: T2) => T3,
+    fn3: (arg: T3) => T4,
+    fn4: (arg: T4) => T5,
+    fn5: (arg: T5) => T6,
+    fn6: (arg: T6) => T7,
+    fn7: (arg: T7) => T8,
+    fn8: (arg: T8) => T9,
+    fn9: (arg: T9) => T10,
+    fn10: (arg: T10) => T11,
+    fn11: (arg: T11) => T12,
+    fn12: (arg: T12) => T13,
+    fn13: (arg: T13) => T14,
+    fn14: (arg: T14) => T15,
+    fn15: (arg: T15) => R,
+  ): (initialArg: T1) => R
+
+  <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, R>(
+    fn1: (arg: T1) => T2,
+    fn2: (arg: T2) => T3,
+    fn3: (arg: T3) => T4,
+    fn4: (arg: T4) => T5,
+    fn5: (arg: T5) => T6,
+    fn6: (arg: T6) => T7,
+    fn7: (arg: T7) => T8,
+    fn8: (arg: T8) => T9,
+    fn9: (arg: T9) => T10,
+    fn10: (arg: T10) => T11,
+    fn11: (arg: T11) => T12,
+    fn12: (arg: T12) => T13,
+    fn13: (arg: T13) => T14,
+    fn14: (arg: T14) => T15,
+    fn15: (arg: T15) => T16,
+    fn16: (arg: T16) => R,
+  ): (initialArg: T1) => R
+
+  <
+    T1,
+    T2,
+    T3,
+    T4,
+    T5,
+    T6,
+    T7,
+    T8,
+    T9,
+    T10,
+    T11,
+    T12,
+    T13,
+    T14,
+    T15,
+    T16,
+    T17,
+    R
+  >(
+    fn1: (arg: T1) => T2,
+    fn2: (arg: T2) => T3,
+    fn3: (arg: T3) => T4,
+    fn4: (arg: T4) => T5,
+    fn5: (arg: T5) => T6,
+    fn6: (arg: T6) => T7,
+    fn7: (arg: T7) => T8,
+    fn8: (arg: T8) => T9,
+    fn9: (arg: T9) => T10,
+    fn10: (arg: T10) => T11,
+    fn11: (arg: T11) => T12,
+    fn12: (arg: T12) => T13,
+    fn13: (arg: T13) => T14,
+    fn14: (arg: T14) => T15,
+    fn15: (arg: T15) => T16,
+    fn16: (arg: T16) => T17,
+    fn17: (arg: T17) => R,
+  ): (initialArg: T1) => R
+
+  <
+    T1,
+    T2,
+    T3,
+    T4,
+    T5,
+    T6,
+    T7,
+    T8,
+    T9,
+    T10,
+    T11,
+    T12,
+    T13,
+    T14,
+    T15,
+    T16,
+    T17,
+    T18,
+    R
+  >(
+    fn1: (arg: T1) => T2,
+    fn2: (arg: T2) => T3,
+    fn3: (arg: T3) => T4,
+    fn4: (arg: T4) => T5,
+    fn5: (arg: T5) => T6,
+    fn6: (arg: T6) => T7,
+    fn7: (arg: T7) => T8,
+    fn8: (arg: T8) => T9,
+    fn9: (arg: T9) => T10,
+    fn10: (arg: T10) => T11,
+    fn11: (arg: T11) => T12,
+    fn12: (arg: T12) => T13,
+    fn13: (arg: T13) => T14,
+    fn14: (arg: T14) => T15,
+    fn15: (arg: T15) => T16,
+    fn16: (arg: T16) => T17,
+    fn17: (arg: T17) => T18,
+    fn18: (arg: T18) => R,
+  ): (initialArg: T1) => R
+
+  <
+    T1,
+    T2,
+    T3,
+    T4,
+    T5,
+    T6,
+    T7,
+    T8,
+    T9,
+    T10,
+    T11,
+    T12,
+    T13,
+    T14,
+    T15,
+    T16,
+    T17,
+    T18,
+    T19,
+    R
+  >(
+    fn1: (arg: T1) => T2,
+    fn2: (arg: T2) => T3,
+    fn3: (arg: T3) => T4,
+    fn4: (arg: T4) => T5,
+    fn5: (arg: T5) => T6,
+    fn6: (arg: T6) => T7,
+    fn7: (arg: T7) => T8,
+    fn8: (arg: T8) => T9,
+    fn9: (arg: T9) => T10,
+    fn10: (arg: T10) => T11,
+    fn11: (arg: T11) => T12,
+    fn12: (arg: T12) => T13,
+    fn13: (arg: T13) => T14,
+    fn14: (arg: T14) => T15,
+    fn15: (arg: T15) => T16,
+    fn16: (arg: T16) => T17,
+    fn17: (arg: T17) => T18,
+    fn18: (arg: T18) => T19,
+    fn19: (arg: T19) => R,
+  ): (initialArg: T1) => R
+
+  <
+    T1,
+    T2,
+    T3,
+    T4,
+    T5,
+    T6,
+    T7,
+    T8,
+    T9,
+    T10,
+    T11,
+    T12,
+    T13,
+    T14,
+    T15,
+    T16,
+    T17,
+    T18,
+    T19,
+    T20,
+    R
+  >(
+    fn1: (arg: T1) => T2,
+    fn2: (arg: T2) => T3,
+    fn3: (arg: T3) => T4,
+    fn4: (arg: T4) => T5,
+    fn5: (arg: T5) => T6,
+    fn6: (arg: T6) => T7,
+    fn7: (arg: T7) => T8,
+    fn8: (arg: T8) => T9,
+    fn9: (arg: T9) => T10,
+    fn10: (arg: T10) => T11,
+    fn11: (arg: T11) => T12,
+    fn12: (arg: T12) => T13,
+    fn13: (arg: T13) => T14,
+    fn14: (arg: T14) => T15,
+    fn15: (arg: T15) => T16,
+    fn16: (arg: T16) => T17,
+    fn17: (arg: T17) => T18,
+    fn18: (arg: T18) => T19,
+    fn19: (arg: T19) => T20,
+    fn20: (arg: T20) => R,
+  ): (initialArg: T1) => R
+
+  (...fns: Array<(arg: any) => any>): (initialArg: any) => unknown
+}

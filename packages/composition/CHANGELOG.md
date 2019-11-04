@@ -13,6 +13,6 @@ First stable release.
 
 - Updated README.
 
-## 1.1.2
+## 1.1.2 - 1.1.3
 
 - Improved typings (generic overloads) fro pipe and compose.

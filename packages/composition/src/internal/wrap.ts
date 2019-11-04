@@ -1,6 +1,6 @@
-import { ArityOneFn } from './common-types'
+type Wrap = <T, R>(fn: (arg: T) => R, input: T) => R | Error | T
 
-const wrap = (fn: ArityOneFn, input: any) => {
+const wrap: Wrap = (fn, input) => {
   if (input instanceof Error) {
     return input
   }

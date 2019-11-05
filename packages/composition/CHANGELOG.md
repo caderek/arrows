@@ -20,3 +20,7 @@ First stable release.
 ## 1.2.0
 
 - Added `pipe.now` method for instant evaluation of the pipe.
+
+## 1.2.1
+
+- Improved README.

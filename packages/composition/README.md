@@ -19,6 +19,7 @@
    - [compose](#compose)
    - [curry](#curry)
    - [pipe](#pipe)
+   - [pipe.now](#pipenow)
    - [rail](#rail)
    - [rail.async](#rail.async)
    - [railRight](#railRight)
@@ -291,9 +292,9 @@ addSuffixes('arrows') // -> "arrows-suffix1-suffix2"
 
 ### pipe.now
 
-Chains provided functions from left to right, takes initial value as a first argument.
+Chains provided functions from left to right, takes an initial value as a first argument.
 
-Provides a cleaner APi with better type inference for immediately evaluated calculations.
+Provides an alternative API with better type inference for immediately evaluated calculations.
 
 #### Parameters
 

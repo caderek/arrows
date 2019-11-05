@@ -289,6 +289,41 @@ addSuffixes('arrows') // -> "arrows-suffix1-suffix2"
 
 ---
 
+### pipe.now
+
+Chains provided functions from left to right, takes initial value as a first argument.
+
+Provides a cleaner APi with better type inference for immediately evaluated calculations.
+
+#### Parameters
+
+- `initialArg` - initial argument, passed to the first function in a chain
+- `...fns` - an arbitrary number of one-argument functions to be executed in a chain
+
+#### Returns
+
+- Returns a final value.
+
+#### Interface
+
+```
+(initial_value, fn, fn?, ..., fn?) => result
+```
+
+#### Example
+
+```javascript
+const { pipe } = require('@arrows/composition')
+
+const result = pipe.now(
+  'arrows',
+  (text) => `${text}-suffix1`,
+  (text) => `${text}-suffix2`,
+) // -> "arrows-suffix1-suffix2"
+```
+
+---
+
 ### rail
 
 Works like [pipe](#pipe), but additionally:

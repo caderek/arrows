@@ -16,3 +16,7 @@ First stable release.
 ## 1.1.2 - 1.1.3
 
 - Improved typings (generic overloads) fro pipe and compose.
+
+## 1.2.0
+
+- Added `pipe.now` method for instant evaluation of the pipe.

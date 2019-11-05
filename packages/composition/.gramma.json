@@ -1,7 +1,11 @@
 {
   "api_url": "inherit",
   "api_key": "",
-  "dictionary": ["CHANGELOG", "async"],
+  "dictionary": [
+    "CHANGELOG",
+    "README",
+    "async"
+  ],
   "language": "en-US",
   "rules": {
     "casing": true,

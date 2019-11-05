@@ -35,3 +35,13 @@ describe('pipe', () => {
     })
   })
 })
+
+describe('pipe.now', () => {
+  it('executes provided functions on provided argument top to bottom', () => {
+    const result = pipe.now('zero', (x) => `${x} one`, (x) => `${x} two`)
+
+    const expected = 'zero one two'
+
+    expect(result).toEqual(expected)
+  })
+})

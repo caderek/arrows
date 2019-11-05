@@ -1,19 +1,21 @@
-type Wrap = <T, R>(fn: (arg: T) => R, input: T) => R | Error | T
-
-const wrap: Wrap = (fn, input) => {
+const wrap = <T, R>(fn: (arg: T) => R, input: T) => {
   if (input instanceof Error) {
     return input
   }
 
-  let result
+  let result: Exclude<R, void>
 
   try {
-    result = fn(input)
+    result = fn(input) as Exclude<R, void>
   } catch (error) {
     result = error
   }
 
-  return typeof result === 'undefined' ? input : result
+  if (result === undefined) {
+    return input as T
+  }
+
+  return result as Exclude<R, void>
 }
 
 export { wrap }

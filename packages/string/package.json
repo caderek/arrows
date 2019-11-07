@@ -1,0 +1,47 @@
+{
+  "name": "@arrows/string",
+  "version": "0.1.0",
+  "main": "index.js",
+  "license": "ISC",
+  "repository": "https://github.com/caderek/arrows/tree/master/packages/string",
+  "homepage": "https://github.com/caderek/arrows/tree/master/packages/string",
+  "description": "Functional tools for JS strings",
+  "keywords": [
+    "arrows",
+    "functional",
+    "fp",
+    "string",
+    "strings",
+    "utils",
+    "currying",
+    "curried",
+    "composable",
+    "functions",
+    "types",
+    "ts",
+    "typescript"
+  ],
+  "author": "Maciej Cąderek",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest",
+    "prep": "node ../../scripts/prepare-lib.js",
+    "coverage": "jest --coverage --runInBand && codecov -F string",
+    "lint": "tslint -c tslint.json 'src/**/*.ts'",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/jest": "^24.0.18",
+    "@types/node": "^12.12.0",
+    "codecov": "^3.6.1",
+    "core-js": "^3.2.1",
+    "jest": "^24.9.0",
+    "ts-jest": "^24.1.0",
+    "tslint": "^5.20.0",
+    "tslint-config-prettier": "^1.18.0",
+    "typescript": "^3.6.3"
+  },
+  "dependencies": {
+    "@arrows/composition": "^1.2.1"
+  }
+}

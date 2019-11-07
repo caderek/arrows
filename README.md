@@ -7,11 +7,12 @@
 
 ## Packages docs
 
-- [@arrows/multimethod](packages/multimethod/README.md)
 - [@arrows/array](packages/array/README.md)
-- [@arrows/dispatch](packages/dispatch/README.md)
 - [@arrows/composition](packages/composition/README.md)
+- [@arrows/dispatch](packages/dispatch/README.md)
 - [@arrows/error](packages/error/README.md)
+- [@arrows/multimethod](packages/multimethod/README.md)
+- [@arrows/string](packages/string/README.md) (WIP!)
 
 ## License
 

@@ -91,22 +91,29 @@ import worker from "@arrows/worker"
 ```
 
 ```js
-import { work } from "@arrows/worker"
+import { spawn } from "@arrows/worker"
 ```
 
 ```js
-import work from "@arrows/worker/work"
+import spawn from "@arrows/worker/spawn"
 ```
 
 ## API reference
 
 ### Index
 
+Functions:
+
 - [worker](#worker)
 - [work](#worker)
 - [spawn](#worker)
 
-### worker
+Arguments:
+
+- [handler](#handler)
+- [config](#config)
+
+### `worker`
 
 Spawns workers and returns a function that handles messaging and returns responses as promises.
 
@@ -135,7 +142,7 @@ const config = {
 module.exports = worker(handler, config)
 ```
 
-### work
+### `work`
 
 Defines a worker that can be later used with `spawn` function.
 
@@ -159,7 +166,7 @@ const handler = (payload, workerData) => {
 work(handler)
 ```
 
-### spawn
+### `spawn`
 
 Spawns a workers pool from worker defined in a separate file, returns a function that handles messaging and returns responses as promises.
 
@@ -185,6 +192,30 @@ const config = {
 
 module.export = spawn(fileName, config)
 ```
+
+### `handler`
+
+Handler is a user-defined function passed to `worker` or `spawn` function.
+
+#### Parameters
+
+- `payload` Data received by worker.
+- `workerData` Data shared between workers, set via config object.
+
+**Returns:** Any value calculated by user (or void).
+
+### `config`
+
+Config is an optional object passed to `worker` or `spawn` function,
+that modifies default settings of the workers' pool.
+
+#### Available options
+
+- `poolSize` - size of the worker thread pool, must be greater than 0 (default: number of CPUs)
+
+- `workerData` - Data shared between workers, will be passed as a second argument of the handler.
+
+Additionally, you can pass any of the standard worker options, see: [worker threads docs](https://nodejs.org/api/worker_threads.html#worker_threads_new_worker_filename_options).
 
 ## License
 

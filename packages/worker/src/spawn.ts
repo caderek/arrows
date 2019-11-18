@@ -52,7 +52,7 @@ const spawn: Spawn = (fileName, config = {}) => {
     return promise
   }
 
-  const task: Task = Object.assign(fn, {
+  const task: Task<any, any> = Object.assign(fn, {
     ref() {
       workers.forEach((worker) => worker.ref())
     },

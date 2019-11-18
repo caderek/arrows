@@ -1,22 +1,28 @@
 import { WorkerOptions } from "worker_threads"
 
-type Config = Partial<
+type Config<T2> = Partial<
   WorkerOptions & {
     poolSize: number
+    workerData: T2
   }
 >
 
-export type Handler = (payload: any, workerData: any) => any
+type ExitCode = number
 
-export type Work = (handler: Handler) => void
+export type Handler<T1, T2, R> = (payload: T1, workerData: T2) => R
 
-export type Task = {
-  (payload: any): Promise<any>
+export type Work = (handler: Handler<any, any, any>) => void
+
+export type Task<T1, R> = {
+  (payload: T1): Promise<R>
   ref: () => void
   unref: () => void
-  terminate: () => Promise<number[]>
+  terminate: () => Promise<ExitCode[]>
 }
 
-export type Spawn = (fileName: string, config?: Config) => Task
+export type Spawn = (fileName: string, config?: Config<any>) => Task<any, any>
 
-export type Worker = (handler: Handler, config?: Config) => Task
+export type Worker = <T1, T2, R>(
+  handler: Handler<T1, T2, R>,
+  config?: Config<T2>,
+) => Task<T1, R>

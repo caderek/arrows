@@ -15,7 +15,10 @@ import * as getCallerFile from "get-caller-file"
 const worker: Worker = (handler, config = {}) => {
   const fileName = getCallerFile()
 
-  return (isMainThread ? spawn(fileName, config) : work(handler)) as Task
+  return (isMainThread ? spawn(fileName, config) : work(handler)) as Task<
+    any,
+    any
+  >
 }
 
 export { worker }

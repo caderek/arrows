@@ -10,7 +10,12 @@ export type Handler = (payload: any, workerData: any) => any
 
 export type Work = (handler: Handler) => void
 
-export type Task = (payload: any) => Promise<any>
+export type Task = {
+  (payload: any): Promise<any>
+  ref: () => void
+  unref: () => void
+  terminate: () => Promise<number[]>
+}
 
 export type Spawn = (fileName: string, config?: Config) => Task
 

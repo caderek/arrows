@@ -9,6 +9,8 @@ describe("worker", () => {
 
     expect(result).toBe(15)
     expect(directResult).toBe(15)
+
+    triple.terminate()
   })
 
   it("spawns workers pool and returns task function - custom config", async () => {
@@ -17,6 +19,8 @@ describe("worker", () => {
 
     expect(result).toBe(14)
     expect(directResult).toBe(14)
+
+    double.terminate()
   })
 
   it("if not in a main thread - defines worker thread", async () => {

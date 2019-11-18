@@ -1,6 +1,6 @@
 import { Worker } from "worker_threads"
 import { cpus } from "os"
-import { Spawn } from "./types"
+import { Spawn, Task } from "./types"
 
 const defaultConfig = {
   poolSize: cpus().length,
@@ -20,28 +20,8 @@ const spawn: Spawn = (fileName, config = {}) => {
   const cfg = { ...defaultConfig, ...config }
   const { poolSize, ...options } = cfg
 
-  if (poolSize < 0) {
-    throw new Error("Pool size has to be >= 0")
-  }
-
-  if (poolSize === 0) {
-    return (payload) => {
-      return new Promise((resolve, reject) => {
-        const worker = new Worker(fileName, options).on(
-          "message",
-          ([_, data, error]) => {
-            if (error) {
-              reject(error)
-            } else {
-              resolve(data)
-            }
-            worker.unref()
-          },
-        )
-
-        worker.postMessage([undefined, payload])
-      })
-    }
+  if (poolSize <= 0) {
+    throw new Error("Pool size has to be > 0")
   }
 
   const promises = new Map()
@@ -59,7 +39,7 @@ const spawn: Spawn = (fileName, config = {}) => {
 
   let workerIndex = 0
 
-  return (payload) => {
+  const fn = (payload: any) => {
     const id = process.hrtime.bigint()
 
     const promise = new Promise((resolve, reject) => {
@@ -71,6 +51,20 @@ const spawn: Spawn = (fileName, config = {}) => {
 
     return promise
   }
+
+  const task: Task = Object.assign(fn, {
+    ref() {
+      workers.forEach((worker) => worker.ref())
+    },
+    unref() {
+      workers.forEach((worker) => worker.unref())
+    },
+    terminate() {
+      return Promise.all(workers.map((worker) => worker.terminate()))
+    },
+  })
+
+  return task
 }
 
 export { spawn }

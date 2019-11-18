@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "target": "es2019",
+    "module": "commonjs",
+    "removeComments": false,
+    "declaration": true,
+    "outDir": "./lib",
+    "preserveConstEnums": true,
+    "allowJs": true
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", "src/**/*.test.ts", "src/**/*.temp.ts"]
+}

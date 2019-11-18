@@ -52,9 +52,19 @@ jobs:
     working_directory: ~/repo/packages/multimethod
     steps: *common_steps_anchor
 
+  build-server:
+    docker: *common_docker_anchor
+    working_directory: ~/repo/packages/server
+    steps: *common_steps_anchor
+
   build-string:
     docker: *common_docker_anchor
     working_directory: ~/repo/packages/string
+    steps: *common_steps_anchor
+
+  build-worker:
+    docker: *common_docker_anchor
+    working_directory: ~/repo/packages/worker
     steps: *common_steps_anchor
 
   build-arrows:
@@ -71,5 +81,7 @@ workflows:
       - build-dispatch
       - build-error
       - build-multimethod
+      # - build-server
       - build-string
+      # - build-worker
       - build-arrows

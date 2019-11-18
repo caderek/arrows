@@ -37,7 +37,7 @@ The library has **built-in type definitions**, which provide an excellent IDE su
 The library works with:
 
 - Node 10 LTS or higher - with `--experimental-worker` flag,
-- Node 12 LTS or higher - out of the box
+- Node 12 LTS or higher - out of the box.
 
 ## Quick example
 
@@ -438,7 +438,7 @@ main()
 
 ---
 
-\_Note: You can find an run all the examples listed above inside the [/examples](/examples) folder.
+_Note: You can find an run all the examples listed above inside the [/examples](/examples) folder._
 
 ## API reference
 

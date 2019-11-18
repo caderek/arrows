@@ -134,7 +134,7 @@ Combines `spawn` and `work` functions in a single file.
 - `handler` - Function that performs calculations inside worker threads ([see more](#handler)).
 - `config` - Configuration options ([see more](#config)).
 
-**Returns:** Async function that communicates with worker threads.
+**Returns:** Async function that communicates with worker threads ([see more](#task)).
 
 #### Example
 
@@ -191,7 +191,7 @@ Use when you want to separate worker definition from spawning a thread pool.
 - `fileName` - Path to a worker definition file created with `work` function.
 - `config` - Configuration options ([see more](#config)).
 
-**Returns:** Async function that communicates with worker threads.
+**Returns:** Async function that communicates with worker threads ([see more](#task)).
 
 #### Example
 

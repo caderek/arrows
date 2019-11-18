@@ -1,6 +1,6 @@
 ![arrows - worker](https://raw.githubusercontent.com/caderek/arrows/master/assets/arrows-worker.svg?sanitize=true)
 
-# @arrows/
+# @arrows/worker
 
 ![npm (scoped)](https://img.shields.io/npm/v/@arrows/worker)
 ![CircleCI](https://img.shields.io/circleci/build/github/caderek/arrows)

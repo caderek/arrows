@@ -13,7 +13,7 @@
 - [@arrows/error](packages/error/README.md)
 - [@arrows/multimethod](packages/multimethod/README.md)
 - [@arrows/string](packages/string/README.md) (WIP!)
-- [@arrows/worker](packages/worker/README.md) (WIP!)
+- [@arrows/worker](packages/worker/README.md)
 
 ## License
 

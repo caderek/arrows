@@ -1,4 +1,4 @@
-const { work } = require("../../lib/index")
+const { work } = require("@arrows/worker")
 
 work((payload) => {
   return payload * 2

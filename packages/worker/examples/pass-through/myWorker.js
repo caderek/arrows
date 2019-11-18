@@ -1,4 +1,4 @@
-const { worker } = require("../../lib/index")
+const { worker } = require("@arrows/worker")
 
 const handler = (data) => data
 

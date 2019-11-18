@@ -1,15 +1,28 @@
-import { double } from "./workers/double.worker.js"
-import { worker } from "../lib/index.js"
+import { double, doubleHandler } from "./workers/double.worker.js"
+import { triple, tripleHandler } from "./workers/triple.worker.js"
+import { identity, identityHandler } from "./workers/identity.worker.js"
 
 describe("worker", () => {
-  it("spawns workers pool and returns task function - sync operations", async () => {
-    const result = await double(7)
-    expect(result).toBe(14)
+  it("spawns workers pool and returns task function - default config", async () => {
+    const result = await triple(5)
+    const directResult = tripleHandler(5)
+
+    expect(result).toBe(15)
+    expect(directResult).toBe(15)
   })
 
-  it("throws when worker is not spawned in a separate file", () => {
-    const test = () => worker((x) => x)
+  it("spawns workers pool and returns task function - custom config", async () => {
+    const result = await double(7)
+    const directResult = doubleHandler(7)
 
-    expect(test).toThrowError("Worker must reside in a separate file.")
+    expect(result).toBe(14)
+    expect(directResult).toBe(14)
+  })
+
+  it("if not in a main thread - defines worker thread", async () => {
+    const directResult = identityHandler(7)
+
+    expect(identity).toBe(undefined)
+    expect(directResult).toBe(7)
   })
 })

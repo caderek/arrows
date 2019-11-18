@@ -4,6 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
+    "@arrows/worker": "^0.1.1",
     "express": "^4.17.1"
   }
 }

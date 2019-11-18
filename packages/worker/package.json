@@ -30,7 +30,7 @@
   "author": "Maciej Cąderek",
   "scripts": {
     "build": "tsc",
-    "test": "jest",
+    "test": "yarn build && jest",
     "prep": "node ../../scripts/prepare-lib.js",
     "coverage": "jest --coverage --runInBand && codecov -F worker",
     "lint": "tslint -c tslint.json 'src/**/*.ts'",
@@ -46,5 +46,8 @@
     "tslint": "^5.20.0",
     "tslint-config-prettier": "^1.18.0",
     "typescript": "^3.7.2"
+  },
+  "dependencies": {
+    "get-caller-file": "^2.0.5"
   }
 }

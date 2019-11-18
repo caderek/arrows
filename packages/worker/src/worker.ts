@@ -2,6 +2,7 @@ import { isMainThread } from "worker_threads"
 import spawn from "./spawn"
 import work from "./work"
 import { Worker, Task } from "./types"
+import * as getCallerFile from "get-caller-file"
 
 /**
  * Spawns workers and returns a function that handles messaging
@@ -12,11 +13,7 @@ import { Worker, Task } from "./types"
  * @returns Async function that communicates with worker threads.
  */
 const worker: Worker = (handler, config = {}) => {
-  const fileName = module?.parent?.parent?.filename
-
-  if (!fileName) {
-    throw new Error("Worker must reside in a separate file.")
-  }
+  const fileName = getCallerFile()
 
   return (isMainThread ? spawn(fileName, config) : work(handler)) as Task
 }

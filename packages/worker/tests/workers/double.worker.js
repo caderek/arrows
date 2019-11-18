@@ -1,3 +1,6 @@
 const { worker } = require("../../lib")
 
-exports.double = worker((payload) => payload * 2, { poolSize: 1 })
+const doubleHandler = (payload) => payload * 2
+
+exports.double = worker(doubleHandler, { poolSize: 1 })
+exports.doubleHandler = doubleHandler

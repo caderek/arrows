@@ -1,4 +1,4 @@
-const { spawn } = require("../../lib/index")
+const { spawn } = require("@arrows/worker")
 
 const fileName = `${module.parent.path}/myWorkerDefinition.js`
 

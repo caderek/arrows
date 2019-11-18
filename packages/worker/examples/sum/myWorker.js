@@ -1,4 +1,4 @@
-const { worker } = require("../../lib")
+const { worker } = require("@arrows/worker")
 
 /**
  * Let's create our handler for some CPU-intensive task.

@@ -1,4 +1,4 @@
-import { parentPort, workerData } from "worker_threads"
+import { parentPort, workerData, MessagePort } from "worker_threads"
 import { Work } from "./types"
 
 /**
@@ -11,15 +11,17 @@ import { Work } from "./types"
  */
 const work: Work = (handler) => {
   if (parentPort === null) {
-    throw new Error("This code should only run in worker thread.")
+    throw new Error("This code should not run in the main thread.")
   }
 
-  parentPort.on("message", async ([id, payload]) => {
+  const port = parentPort as MessagePort
+
+  port.on("message", async ([id, payload]) => {
     try {
       const result = await handler(payload, workerData)
-      parentPort?.postMessage([id, result])
+      port.postMessage([id, result])
     } catch (error) {
-      parentPort?.postMessage([id, payload, error])
+      port.postMessage([id, payload, error])
     }
   })
 }

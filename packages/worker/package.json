@@ -1,6 +1,6 @@
 {
   "name": "@arrows/worker",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "main": "index.js",
   "license": "ISC",
   "repository": "https://github.com/caderek/arrows/tree/master/packages/worker",

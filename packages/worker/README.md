@@ -21,6 +21,12 @@
 
 Library provides simple, promise-based API on top of the Node.js native [worker_threads module](https://nodejs.org/api/worker_threads.html#). It allows you to use thread pools, and treat thread messages as simple promises, without worrying about about underlying events.
 
+Main benefits:
+
+- using worker pools is as simple as calling functions that return a promises,
+- worker pools are spawned and managed automatically,
+- errors inside workers are automatically catched and passed as rejected promises.
+
 The library has **built-in type definitions**, which provide an excellent IDE support.
 
 ## Quick example
@@ -107,11 +113,14 @@ Functions:
 - [worker](#worker)
 - [work](#worker)
 - [spawn](#worker)
+- [task](#task)
 
 Arguments:
 
 - [handler](#handler)
 - [config](#config)
+
+---
 
 ### `worker`
 
@@ -121,8 +130,8 @@ Combines `spawn` and `work` functions in a single file.
 
 #### Parameters
 
-- `handler` Function that performs calculations inside worker threads.
-- `config` Configuration options.
+- `handler` - Function that performs calculations inside worker threads ([see more](#handler)).
+- `config` - Configuration options ([see more](#config)).
 
 **Returns:** Async function that communicates with worker threads.
 
@@ -142,6 +151,8 @@ const config = {
 module.exports = worker(handler, config)
 ```
 
+---
+
 ### `work`
 
 Defines a worker that can be later used with `spawn` function.
@@ -150,7 +161,7 @@ Use when you want to separate worker definition from spawning a thread pool.
 
 #### Parameters
 
-- `handler` Function that performs calculations inside worker threads.
+- `handler` - Function that performs calculations inside worker threads ([see more](#handler)).
 
 **Returns:** Nothing, just defines a worker for use with `spawn` function.
 
@@ -166,6 +177,8 @@ const handler = (payload, workerData) => {
 work(handler)
 ```
 
+---
+
 ### `spawn`
 
 Spawns a workers pool from worker defined in a separate file, returns a function that handles messaging and returns responses as promises.
@@ -174,8 +187,8 @@ Use when you want to separate worker definition from spawning a thread pool.
 
 #### Parameters
 
-- `fileName` Path to a worker definition file created with `work` function.
-- `config` Configuration options.
+- `fileName` - Path to a worker definition file created with `work` function.
+- `config` - Configuration options ([see more](#config)).
 
 **Returns:** Async function that communicates with worker threads.
 
@@ -193,16 +206,37 @@ const config = {
 module.export = spawn(fileName, config)
 ```
 
+---
+
+### `task`
+
+A task is a function returned by calling `worker` or `spawn` function,
+it passes a payload to the workers pool and returns a promise with the result.
+
+#### Parameters
+
+- `payload` - Payload that will be passed to automatically selected worker from a pool.
+
+**Returns:** The result of running a worker handler on the provided payload (as a promise).
+
+---
+
 ### `handler`
 
 Handler is a user-defined function passed to `worker` or `spawn` function.
 
+Errors thrown inside handlers will be automatically catched and converted to rejected promises.
+
+Handler can be an `async` function, can return promise.
+
 #### Parameters
 
-- `payload` Data received by worker.
-- `workerData` Data shared between workers, set via config object.
+- `payload` - Data received by worker.
+- `workerData` - Data shared between workers, set via config object.
 
 **Returns:** Any value calculated by user (or void).
+
+---
 
 ### `config`
 

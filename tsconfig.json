@@ -7,6 +7,6 @@
     "outDir": "./lib",
     "preserveConstEnums": true
   },
-  "include": ["src"],
+  "include": ["scripts"],
   "exclude": ["node_modules", "src/**/*.test.ts", "src/**/*.temp.ts"]
 }

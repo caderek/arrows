@@ -19,13 +19,14 @@
 
 ## Introduction
 
-Library provides simple, promise-based API on top of the Node.js native [worker_threads module](https://nodejs.org/api/worker_threads.html#). It allows you to use thread pools, and treat thread messages as simple promises, without worrying about about underlying events.
+The library provides simple, promise-based API on top of the Node.js native [worker_threads module](https://nodejs.org/api/worker_threads.html#). It allows you to use thread pools, and treat thread messages as simple promises, without worrying about underlying events.
 
 Main benefits:
 
-- using worker pools is as simple as calling functions that return a promises,
+- no boilerplate,
+- using worker pools is as simple as calling functions that return promises,
 - worker pools are spawned and managed automatically,
-- errors inside workers are automatically catched and passed as rejected promises.
+- errors inside workers are automatically caught and passed as rejected promises.
 
 The library has **built-in type definitions**, which provide an excellent IDE support.
 
@@ -38,11 +39,11 @@ Create worker file:
 const { worker } = require("@arrows/worker")
 
 /**
- * Let's create our handler for some CPU-intensive task.
- * Returned value will be passed as a promise to our caller
+ * Let's create our handler for a CPU-intensive task.
+ * The returned value will be passed as a promise to our caller
  * (we don't have to if it's a fire-and-forget task).
  *
- * For example, let's calculate sum of integers from 0 to provided value:
+ * For example, let's calculate the sum of integers from 0 to provided value:
  */
 const handler = (payload) => {
   return Array.from({ length: payload }, (_, i) => i).reduce((a, b) => a + b)
@@ -53,7 +54,7 @@ const handler = (payload) => {
  * that will set up worker threads for us.
  *
  * We can pass custom configuration as a second argument,
- * but in this case we will use the default one (one worker per CPU).
+ * but in this case, we will use the default one (one worker per CPU).
  */
 module.exports = worker(handler)
 ```
@@ -211,7 +212,7 @@ module.export = spawn(fileName, config)
 ### `task`
 
 A task is a function returned by calling `worker` or `spawn` function,
-it passes a payload to the workers pool and returns a promise with the result.
+it passes a payload to the workers' pool and returns a promise with the result.
 
 #### Parameters
 
@@ -223,11 +224,11 @@ it passes a payload to the workers pool and returns a promise with the result.
 
 ### `handler`
 
-Handler is a user-defined function passed to `worker` or `spawn` function.
+A handler is a user-defined function passed to `worker` or `spawn` function.
 
-Errors thrown inside handlers will be automatically catched and converted to rejected promises.
+Errors thrown inside handlers will be automatically caught and converted to rejected promises.
 
-Handler can be an `async` function, can return promise.
+The handler can be an `async` function, can return a promise.
 
 #### Parameters
 

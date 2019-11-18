@@ -32,7 +32,7 @@
     "build": "tsc",
     "test": "yarn build && jest",
     "prep": "node ../../scripts/prepare-lib.js",
-    "coverage": "jest --coverage --runInBand && codecov -F worker",
+    "coverage": "yarn build && jest --coverage --runInBand && codecov -F worker",
     "lint": "tslint -c tslint.json 'src/**/*.ts'",
     "typecheck": "tsc --noEmit"
   },

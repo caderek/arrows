@@ -14,8 +14,12 @@
 1. [Introduction](#introduction)
 2. [Quick example](#quick-example)
 3. [Installation](#installation)
-4. [API reference](#api-reference)
-5. [License](#license)
+4. [Rationale](#rationale)
+5. [Usage](#usage)
+   1. [Single-file worker](#single-file-worker)
+   2. [Separating worker declaration and spawning](#separating-worker-declaration-and-spawning)
+6. [API reference](#api-reference)
+7. [License](#license)
 
 ## Introduction
 
@@ -29,6 +33,11 @@ Main benefits:
 - errors inside workers are automatically caught and passed as rejected promises.
 
 The library has **built-in type definitions**, which provide an excellent IDE support.
+
+The library works with:
+
+- Node 10 LTS or higher - with `--experimental-worker` flag,
+- Node 12 LTS or higher - out of the box
 
 ## Quick example
 
@@ -104,6 +113,332 @@ import { spawn } from "@arrows/worker"
 ```js
 import spawn from "@arrows/worker/spawn"
 ```
+
+## Rationale
+
+_Note: If you're not interested in implementation details, you can jump right into the [usage](#usage) section._
+
+Starting from version 12 LTS, Node.js comes with a stable version of the `worker_threads` module. It's a long-anticipated functionality that complements the existing `cluster` module (multi-processes) with native multi-threading solution.
+
+The built-in API is fairly low-level, and while being powerful, it is rather awkward to work with promises. That comes from the fact that worker communication is event-based, so we have multiple events that we want to marry with promises that can only resolve once. If we create a worker per request that fairly straightforward:
+
+```js
+/* myWorker.js */
+const { Worker, isMainThread, parentPort } = require("worker_threads")
+
+if (isMainThread) {
+  module.exports = (payload) => {
+    return new Promise((resolve, reject) => {
+      const worker = new Worker(__filename)
+        .once("message", resolve)
+        .once("error", reject)
+
+      worker.postMessage(payload)
+    })
+  }
+} else {
+  parentPort.once("message", (payload) => {
+    // Do some CPU-intensive calculations.
+    // For now we will keep it simple:
+    const result = payload * 2
+    parentPort.postMessage(result)
+  })
+}
+```
+
+```js
+const myWorker = require("./myWorker")
+
+const main = async () => {
+  const result = await myWorker(7)
+  console.log(result) // -> 14
+}
+
+main()
+```
+
+In addition to being verbose, the code above has a big disadvantage - if we try to call the task many times (which, in case of a server route, can by many thousand times per second) the overhead of creating new worker on each call will slow down the application to the point that it became useless.
+
+So what's the solution? Use raw events instead? We could try, but I cannot think of a clean way to do this when it comes to integrating it with other event-based code (server!).
+
+Fortunately, there is a quite easy solution that takes advantages of two things:
+
+- promises can be resolved from outside if we assign references to `resolve` and `reject` to variables in the outer scope,
+- each message can be traced back to a corresponding promise if we add a unique identifier to each message.
+
+We can also do this with many workers in a pool by adding some scheduling strategy. And the best part - we can abstract away all that complexity and present a clean, simple API.
+
+That's the way that this library is implemented, we have:
+
+- thread pools with workers selected by simple round-robin algorithm,
+- `resolve` and `reject` references stored in a `Map` with unique message identifiers as keys,
+- all the above (and couple other things) completely opaque to the user.
+
+Additionally, the goal of the library is to make simple things truly simple, and complex stuff bearable.
+
+## Usage
+
+### Single-file worker
+
+A single-file worker is created by the `worker` function. As the name suggests, it should be defined in a separate file, with only the code that is necessary for it to do its job. It should be your default choice (over `work` + `spawn` pair), it has a couple of advantages:
+
+- it automatically handles `isMainThread` logic,
+- it automatically sets the script path for the worker,
+- has best IDE support - has generic type definition with god inference,
+  thanks to having all logic in one place.
+
+One disadvantage is that we cannot easily create an ad-hoc instance with different configs (different pool sizes or different shared data) - all is set up at once. In that case, you can use instructions from the next section.
+
+Examples:
+
+```js
+const { worker } = require("@arrows/worker")
+const { writeFile } = require("fs")
+
+/**
+ * Fire-and-forget handler that does not return anything.
+ * Could be used for processing and saving/sending non-critical data, etc.
+ *
+ * @param {number[]} payload - some data series
+ */
+const handler = (payload) => {
+  const stats = {
+    average: payload.reduce((a, b) => a + b) / payload.length,
+    min: Math.min(...payload),
+    max: Math.max(...payload),
+    // ...other stats
+  }
+
+  const fileName = `${Date.now()}.json`
+  const data = JSON.stringify(stats, null, 2)
+
+  writeFile(fileName, data, (error) => {
+    if (!error) {
+      console.log("Done!")
+    }
+  })
+}
+
+module.exports = worker(handler)
+```
+
+```js
+const myWorker = require("./myWorker")
+
+const main = async () => {
+  myWorker([1, 2, 3, 4, 5, 6, 7, 8, 9])
+}
+
+main() // -> "Done!"
+
+/*
+Generated file:
+{
+  "average": 5,
+  "min": 1,
+  "max": 9
+}
+*/
+```
+
+---
+
+```js
+const { worker } = require("@arrows/worker")
+const seedrandom = require("seedrandom")
+
+/**
+ * A good example of utilizing worker threads
+ * - generating pseudo-random data.
+ *
+ * @param {Object} payload
+ * @param {string} payload.seed
+ * @param {number} payload.width
+ * @param {number} payload.height
+ */
+const generateWorld = ({ seed, width, height }) => {
+  const rng = seedrandom(seed)
+  const map = []
+
+  for (let i = 0; i < height; i++) {
+    const row = []
+    for (let j = 0; j < width; j++) {
+      const isWall = rng() > 0.7 ? "💣 " : "🌳 "
+      row.push(isWall)
+    }
+    map.push(row)
+  }
+
+  return map
+}
+
+module.exports = worker(generateWorld)
+```
+
+```js
+const myWorker = require("./myWorker")
+
+const main = async () => {
+  const world = await myWorker({ seed: "hello", width: 15, height: 10 })
+
+  const render = world.map((row) => row.join("")).join("\n")
+
+  console.log(render)
+}
+
+main()
+
+/*
+Result:
+🌳 🌳 🌳 💣 🌳 💣 💣 🌳 💣 🌳 🌳 🌳 🌳 💣 🌳 
+💣 🌳 💣 🌳 🌳 🌳 🌳 🌳 🌳 🌳 🌳 🌳 🌳 💣 🌳 
+🌳 🌳 💣 🌳 🌳 💣 💣 🌳 🌳 🌳 💣 🌳 🌳 🌳 💣 
+🌳 🌳 🌳 🌳 💣 🌳 🌳 🌳 💣 🌳 💣 🌳 🌳 🌳 💣 
+🌳 💣 🌳 🌳 🌳 💣 💣 🌳 🌳 🌳 💣 💣 🌳 🌳 🌳 
+💣 💣 🌳 🌳 🌳 🌳 💣 🌳 🌳 🌳 🌳 🌳 🌳 🌳 🌳 
+🌳 🌳 💣 🌳 🌳 🌳 💣 🌳 🌳 🌳 🌳 🌳 🌳 🌳 🌳 
+🌳 🌳 🌳 💣 🌳 🌳 🌳 🌳 💣 💣 🌳 🌳 💣 🌳 🌳 
+🌳 💣 💣 🌳 💣 💣 💣 💣 💣 🌳 🌳 💣 🌳 🌳 🌳 
+💣 🌳 🌳 💣 🌳 🌳 🌳 💣 🌳 🌳 💣 💣 🌳 🌳 🌳  
+*/
+```
+
+---
+
+```js
+const { worker } = require("@arrows/worker")
+
+/**
+ * Another example - complex mathematical operations.
+ *
+ * @param {number} iterations
+ * @returns {number} PI approximation
+ */
+const calculatePI = (iterations) => {
+  let pi = 0
+  for (let i = 0; i < iterations; i++) {
+    let temp = 4 / (i * 2 + 1)
+    pi += i % 2 === 0 ? temp : -temp
+  }
+  return pi
+}
+
+/**
+ * Note that in some cases you may want to decrease
+ * the number of workers in the pool.
+ * For example, if a system runs many application, full CPU load
+ * can be less performant (cost of switching between applications).
+ */
+module.exports = worker(calculatePI, { poolSize: 2 })
+```
+
+```js
+const myWorker = require("./myWorker")
+
+const main = async () => {
+  const result = await myWorker(1000000)
+  console.log(result) // -> 3.1415916535897743
+}
+
+main()
+```
+
+### Separating worker declaration and spawning
+
+In some cases, you may want to prepare separate worker definition (via `work` function) to spawn it multiple times with different shared data and pool size (via `spawn` function).
+
+It allows you to optimize execution time (shared data is serialized and deserialized once per each pool).
+
+Example:
+
+```js
+/* myWorkerDefinition.js */
+const { work } = require("@arrows/worker")
+const { validate } = require("json-schema")
+
+/**
+ * Worker definition only, no export required.
+ *
+ * @param {Object} payload
+ * @param {Object} workerData
+ */
+const validateWithSchema = (payload, workerData) => {
+  return validate(payload, workerData).valid
+}
+
+work(validateWithSchema)
+```
+
+```js
+/* myWorkers.js */
+const { spawn } = require("@arrows/worker")
+
+const userSchema = {
+  $schema: "http://json-schema.org/draft-04/schema#",
+  type: "object",
+  properties: {
+    firstName: {
+      type: "string",
+    },
+    lastName: {
+      type: "string",
+    },
+  },
+}
+
+const postSchema = {
+  $schema: "http://json-schema.org/draft-04/schema#",
+  type: "object",
+  properties: {
+    title: {
+      type: "string",
+    },
+    content: {
+      type: "string",
+    },
+  },
+}
+
+/**
+ * Spawn separate worker pools for validating users and posts,
+ * witch their own schemas as shared `workerData`.
+ */
+
+exports.validateUser = spawn("./myWorkerDefinition.js", {
+  workerData: userSchema,
+  poolSize: 4,
+})
+
+exports.validatePost = spawn("./myWorkerDefinition.js", {
+  workerData: postSchema,
+  poolSize: 3,
+})
+```
+
+```js
+const { validateUser, validatePost } = require("./myWorkers")
+
+const main = async () => {
+  const userValidationResult = await validateUser({
+    firstName: "John",
+    lastName: "Doe",
+  })
+
+  const postValidationResult = await validatePost({
+    title: "Worker Threads",
+    content: Date.now(),
+  })
+
+  console.log({ userValidationResult, postValidationResult })
+  // -> { userValidationResult: true, postValidationResult: false }
+}
+
+main()
+```
+
+---
+
+\_Note: You can find an run all the examples listed above inside the [/examples](/examples) folder.
 
 ## API reference
 

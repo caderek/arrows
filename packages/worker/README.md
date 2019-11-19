@@ -438,7 +438,7 @@ main()
 
 ---
 
-_Note: You can find an run all the examples listed above inside the [/examples](/examples) folder._
+_Note: You can find an run all the examples listed above inside the [/examples](/packages/worker/examples) folder._
 
 ## API reference
 

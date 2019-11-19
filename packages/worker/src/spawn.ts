@@ -1,4 +1,4 @@
-import { Worker } from "worker_threads"
+import { Worker, MessagePort } from "worker_threads"
 import { cpus } from "os"
 import { Spawn, Task } from "./types"
 
@@ -39,14 +39,14 @@ const spawn: Spawn = (fileName, config = {}) => {
 
   let workerIndex = 0
 
-  const fn = (payload: any) => {
+  const fn = (payload: any, transferList?: (ArrayBuffer | MessagePort)[]) => {
     const id = process.hrtime.bigint()
 
     const promise = new Promise((resolve, reject) => {
       promises.set(id, { resolve, reject })
     })
 
-    workers[workerIndex].postMessage([id, payload])
+    workers[workerIndex].postMessage([id, payload], transferList)
     workerIndex = (workerIndex + 1) % poolSize
 
     return promise

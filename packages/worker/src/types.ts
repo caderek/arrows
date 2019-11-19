@@ -1,4 +1,4 @@
-import { WorkerOptions } from "worker_threads"
+import { WorkerOptions, MessagePort } from "worker_threads"
 
 type Config<T2> = Partial<
   WorkerOptions & {
@@ -14,7 +14,7 @@ export type Handler<T1, T2, R> = (payload: T1, workerData: T2) => R
 export type Work = (handler: Handler<any, any, any>) => void
 
 export type Task<T1, R> = {
-  (payload: T1): Promise<R>
+  (payload: T1, transferList?: (ArrayBuffer | MessagePort)[]): Promise<R>
   ref: () => void
   unref: () => void
   terminate: () => Promise<ExitCode[]>

@@ -29,8 +29,10 @@ const main = async () => {
    * so as long as the pool has a size of two or more,
    * the tasks will be performed in parallel!
    */
-  await myWorker({ sharedData, from: 0, to: 5 })
-  await myWorker({ sharedData, from: 5, to: 10 })
+  await Promise.all([
+    myWorker({ sharedData, from: 0, to: 5 }),
+    myWorker({ sharedData, from: 5, to: 10 }),
+  ])
 
   console.log(sharedData)
   // -> Uint8Array [10, 11, 12, 13, 14, 15, 16, 17, 18, 19]

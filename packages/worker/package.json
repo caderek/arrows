@@ -8,8 +8,6 @@
   "description": "Simple, promise-based API for native worker threads (with pools)",
   "keywords": [
     "arrows",
-    "functional",
-    "fp",
     "worker",
     "workers",
     "thread",
@@ -23,6 +21,8 @@
     "node",
     "native",
     "functions",
+    "functional",
+    "fp",
     "types",
     "ts",
     "typescript"

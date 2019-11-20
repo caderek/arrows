@@ -4,7 +4,7 @@ const { worker } = require("@arrows/worker")
  * Perform some operations on shared data.
  *
  * In this example we will add 10 to each element of the shared array
- * within te provided range.
+ * within the provided range.
  *
  * @param {Object} payload
  * @param {Uint8Array} payload.sharedData

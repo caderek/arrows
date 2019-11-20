@@ -263,8 +263,8 @@ const generateWorld = ({ seed, width, height }) => {
   for (let i = 0; i < height; i++) {
     const row = []
     for (let j = 0; j < width; j++) {
-      const isWall = rng() > 0.7 ? "💣 " : "🌳 "
-      row.push(isWall)
+      const tile = rng() > 0.7 ? "💣 " : "🌳 "
+      row.push(tile)
     }
     map.push(row)
   }

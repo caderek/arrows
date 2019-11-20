@@ -1,16 +1,7 @@
 const myWorker = require("./myWorker")
 
 /**
- * Transfer list usage example.
- *
- * If the payload contains an ArrayBuffer instances,
- * created either directly or used by TypedArray instance,
- * you can use the second argument of the task function
- * (function returned by `worker` or `spawn` function) to list those buffers,
- * so their memory is moved instead of cloned.
- *
- * It is much faster than default behavior (serializing and deserializing),
- * but makes a buffer (and TypedArray that uses it) unusable in the main thread.
+ * Shared memory example.
  */
 const main = async () => {
   /**

@@ -552,8 +552,15 @@ it passes a payload to the workers' pool and returns a promise with the result.
 #### Parameters
 
 - `payload` - Payload that will be passed to automatically selected worker from a pool.
+- `transferList` - An optional array that contains references to ArrayBuffers whose memory should be moved, rather than cloned.
 
 **Returns:** The result of running a worker handler on the provided payload (as a promise).
+
+#### Examples
+
+Using `transferList` to move memory -> [see example](/packages/worker/examples/src/transfer-list)
+
+Using `SharedArrayBuffer` to share memory -> [see example](/packages/worker/examples/src/shared-memory)
 
 ---
 

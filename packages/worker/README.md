@@ -401,7 +401,7 @@ const postSchema = {
 
 /**
  * Spawn separate worker pools for validating users and posts,
- * witch their own schemas as shared `workerData`.
+ * with their own schemas as shared `workerData`.
  */
 
 exports.validateUser = spawn("./myWorkerDefinition.js", {
@@ -438,7 +438,7 @@ main()
 
 ---
 
-_Note: You can find an run all the examples listed above inside the [/examples](/examples) folder._
+_Note: You can find an run all the examples listed above inside the [/examples](/packages/worker/examples/src) folder._
 
 ## API reference
 

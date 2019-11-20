@@ -5,7 +5,7 @@
   "license": "ISC",
   "repository": "https://github.com/caderek/arrows/tree/master/packages/worker",
   "homepage": "https://github.com/caderek/arrows/tree/master/packages/worker",
-  "description": "Native Node worker threads utils",
+  "description": "Simple, promise-based API for native worker threads (with pools)",
   "keywords": [
     "arrows",
     "functional",

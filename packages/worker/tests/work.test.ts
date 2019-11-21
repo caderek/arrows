@@ -1,6 +1,4 @@
-import { workerData } from "worker_threads"
-import { parentPort } from "worker_threads"
-import { work } from "../lib"
+import { work, transfer } from "../lib"
 import * as workerThreads from "worker_threads"
 
 describe("work", () => {
@@ -9,54 +7,82 @@ describe("work", () => {
     expect(test).toThrowError("This code should not run in the main thread.")
   })
 
-  it("when run in worker thread", () => {
-    const parentPortSave = workerThreads.parentPort
+  describe("when tun in a worker thread", () => {
+    it("sends the result along with the task id to the main thread", () => {
+      const savedParentPort = workerThreads.parentPort
 
-    const spy = jest.fn()
-
-    // @ts-ignore
-    workerThreads.parentPort = {
-      on(eventType, callback) {
-        if (eventType === "message") {
-          callback(["some_id", 3])
-        }
-      },
-      postMessage(message) {
-        expect(message).toEqual(["some_id", 15])
-      },
-    }
-
-    work((x) => x * 5)
-
-    // @ts-ignore
-    workerThreads.parentPort = parentPortSave
-  })
-
-  it("when run in worker thread", () => {
-    const parentPortSave = workerThreads.parentPort
-
-    const spy = jest.fn()
-    const errorStub = new Error("Oops!")
-
-    // @ts-ignore
-    workerThreads.parentPort = {
-      on(eventType, callback) {
-        if (eventType === "message") {
-          callback(["some_id", "foo"])
-        }
-      },
-      postMessage(message) {
-        expect(message).toEqual(["some_id", "foo", errorStub])
-      },
-    }
-
-    work((x) => {
-      if (typeof x !== "number") {
-        throw errorStub
+      // @ts-ignore
+      workerThreads.parentPort = {
+        on(eventType, callback) {
+          if (eventType === "message") {
+            callback(["some_id", 3])
+          }
+        },
+        postMessage(message) {
+          expect(message).toEqual(["some_id", 15])
+        },
       }
+
+      work((x) => x * 5)
+
+      // @ts-ignore
+      workerThreads.parentPort = savedParentPort
     })
 
-    // @ts-ignore
-    workerThreads.parentPort = parentPortSave
+    it("sends the error along with the task id to the main thread", () => {
+      const savedParentPort = workerThreads.parentPort
+
+      const errorStub = new Error("Oops!")
+
+      // @ts-ignore
+      workerThreads.parentPort = {
+        on(eventType, callback) {
+          if (eventType === "message") {
+            callback(["some_id", "foo"])
+          }
+        },
+        postMessage(message) {
+          expect(message).toEqual(["some_id", "foo", errorStub])
+        },
+      }
+
+      work((x) => {
+        if (typeof x !== "number") {
+          throw errorStub
+        }
+      })
+
+      // @ts-ignore
+      workerThreads.parentPort = savedParentPort
+    })
+
+    it("sends the result along with the task id and transferList to the main thread", () => {
+      const savedParentPort = workerThreads.parentPort
+
+      // @ts-ignore
+      workerThreads.parentPort = {
+        on(eventType, callback) {
+          if (eventType === "message") {
+            callback(["some_id", new Uint8Array([1, 2, 3])])
+          }
+        },
+        postMessage(message, transferList) {
+          expect(message).toEqual(["some_id", new Uint8Array([1, 2, 3])])
+          expect(transferList.length).toBe(1)
+          expect(transferList[0]).toBeInstanceOf(ArrayBuffer)
+          expect(transferList[0].byteLength).toBe(3)
+        },
+      }
+
+      const wrappedHandler = transfer(
+        (payload: Uint8Array) => payload,
+        (result: Uint8Array) => [result.buffer],
+      )
+
+      work(wrappedHandler)
+
+      // @ts-ignore
+      workerThreads.parentPort = savedParentPort
+    })
   })
 })

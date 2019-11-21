@@ -1,5 +1,5 @@
 import { parentPort, workerData, MessagePort } from "worker_threads"
-import { Work } from "./types"
+import { Work, transferKey } from "./types"
 
 /**
  * Defines a worker that can be later used with `spawn` function.
@@ -18,8 +18,19 @@ const work: Work = (handler) => {
 
   port.on("message", async ([id, payload]) => {
     try {
-      const result = await handler(payload, workerData)
-      port.postMessage([id, result])
+      const response = await handler(payload, workerData)
+
+      let result
+      let transferList
+
+      if (response && response[transferKey]) {
+        result = response.result
+        transferList = response[transferKey]
+      } else {
+        result = response
+      }
+
+      port.postMessage([id, result], transferList)
     } catch (error) {
       port.postMessage([id, payload, error])
     }

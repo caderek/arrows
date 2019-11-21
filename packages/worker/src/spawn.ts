@@ -18,7 +18,7 @@ const defaultConfig = {
  */
 const spawn: Spawn = (fileName, config = {}) => {
   const cfg = { ...defaultConfig, ...config }
-  const { poolSize, ...options } = cfg
+  const { poolSize, transfer, ...options } = cfg
 
   if (poolSize <= 0) {
     throw new Error("Pool size has to be > 0")

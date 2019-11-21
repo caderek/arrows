@@ -2,13 +2,15 @@ import { work, transfer } from "../lib"
 import * as workerThreads from "worker_threads"
 
 describe("work", () => {
-  it("throws if run in the main thread", () => {
-    const test = () => work((x) => x)
-    expect(test).toThrowError("This code should not run in the main thread.")
+  it("does nothing if run in the main thread", () => {
+    const result = work((x) => x)
+    expect(result).toBe(undefined)
   })
 
   describe("when tun in a worker thread", () => {
     it("sends the result along with the task id to the main thread", () => {
+      // @ts-ignore
+      workerThreads.isMainThread = false
       const savedParentPort = workerThreads.parentPort
 
       // @ts-ignore
@@ -27,9 +29,13 @@ describe("work", () => {
 
       // @ts-ignore
       workerThreads.parentPort = savedParentPort
+      // @ts-ignore
+      workerThreads.isMainThread = true
     })
 
     it("sends the error along with the task id to the main thread", () => {
+      // @ts-ignore
+      workerThreads.isMainThread = false
       const savedParentPort = workerThreads.parentPort
 
       const errorStub = new Error("Oops!")
@@ -54,9 +60,13 @@ describe("work", () => {
 
       // @ts-ignore
       workerThreads.parentPort = savedParentPort
+      // @ts-ignore
+      workerThreads.isMainThread = true
     })
 
     it("sends the result along with the task id and transferList to the main thread", () => {
+      // @ts-ignore
+      workerThreads.isMainThread = false
       const savedParentPort = workerThreads.parentPort
 
       // @ts-ignore
@@ -83,6 +93,8 @@ describe("work", () => {
 
       // @ts-ignore
       workerThreads.parentPort = savedParentPort
+      // @ts-ignore
+      workerThreads.isMainThread = true
     })
   })
 })

@@ -1,6 +1,7 @@
 node_modules
 lib
 coverage
+playground
 .history
 */**/*.temp.*
 *.temp.*

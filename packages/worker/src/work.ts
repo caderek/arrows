@@ -1,4 +1,9 @@
-import { parentPort, workerData, MessagePort } from "worker_threads"
+import {
+  isMainThread,
+  parentPort,
+  workerData,
+  MessagePort,
+} from "worker_threads"
 import { Work, transferKey } from "./types"
 
 /**
@@ -10,8 +15,8 @@ import { Work, transferKey } from "./types"
  * @returns Nothing, just defines a worker for use with `spawn` function
  */
 const work: Work = (handler) => {
-  if (parentPort === null) {
-    throw new Error("This code should not run in the main thread.")
+  if (isMainThread) {
+    return
   }
 
   const port = parentPort as MessagePort

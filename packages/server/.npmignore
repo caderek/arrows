@@ -1,5 +1,7 @@
 coverage
 node_modules
+playground
+.history
 *.temp.*
 *.log.*
 *.log

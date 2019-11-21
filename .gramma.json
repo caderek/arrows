@@ -3,6 +3,7 @@
   "api_key": "",
   "dictionary": [
     "CHANGELOG",
+    "JSDocs",
     "Multimethod",
     "README",
     "codecov",

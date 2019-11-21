@@ -21,3 +21,7 @@ First stable release.
 ## 1.1.1
 
 - Improved docs, updated dependencies, improved project description.
+
+## 1.2.0
+
+- Added `transfer` function, so the worker result memory can be also moved rather than cloned.

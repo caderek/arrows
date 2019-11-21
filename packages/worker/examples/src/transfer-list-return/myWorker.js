@@ -1,4 +1,4 @@
-const { worker, transfer } = require("../../../lib")
+const { worker, transfer } = require("@arrows/worker")
 
 /**
  * This payload is not cloned, the underlying memory is moved,

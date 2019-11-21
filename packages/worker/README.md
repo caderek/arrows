@@ -438,7 +438,7 @@ main()
 
 ---
 
-_Note: You can find an run all the examples listed above inside the [/examples](/packages/worker/examples/src) folder._
+_Note: You can find an run all the examples listed above inside the [/examples](https://github.com/caderek/arrows/tree/master/packages/worker/examples/src) folder._
 
 ## API reference
 
@@ -447,8 +447,9 @@ _Note: You can find an run all the examples listed above inside the [/examples](
 Functions:
 
 - [worker](#worker)
-- [work](#worker)
-- [spawn](#worker)
+- [work](#work)
+- [spawn](#spawn)
+- [transfer](#transfer)
 - [task](#task)
 
 Arguments:
@@ -544,6 +545,37 @@ module.export = spawn(fileName, config)
 
 ---
 
+### `transfer`
+
+Wraps a worker handler so you can add a transfer list for the result.
+It is a separate function so the handler can be fully decoupled from transferring logic (that way you can use existing functions as handlers).
+
+Works only if the result is an instance of a Buffer or a TypedArray.
+
+#### Parameters
+
+- `handler` - Handler function
+- `mapperFn` - Takes the result and should produce a transfer list.
+
+**Returns:** A wrapped handler whose result will be moved rather than cloned.
+
+#### Example
+
+```js
+const { worker, transfer } = require("@arrows/worker")
+
+const handler = (payload) => {
+  /* Do some CPU-intensive task */
+  return result // Result as a typed array
+}
+
+const wrappedHandler = transfer(handler, (result) => [result.buffer])
+
+module.export = worker(fileName, config)
+```
+
+---
+
 ### `task`
 
 A task is a function returned by calling `worker` or `spawn` function,
@@ -558,9 +590,11 @@ it passes a payload to the workers' pool and returns a promise with the result.
 
 #### Examples
 
-Using `transferList` to move memory -> [see example](/packages/worker/examples/src/transfer-list)
+Using `transferList` to move memory (payload) -> [see example](https://github.com/caderek/arrows/tree/master/packages/worker/examples/src/transfer-list)
 
-Using `SharedArrayBuffer` to share memory -> [see example](/packages/worker/examples/src/shared-memory)
+Using `transferList` to move memory (payload and return value) -> [see example](https://github.com/caderek/arrows/tree/master/packages/worker/examples/src/transfer-list-return)
+
+Using `SharedArrayBuffer` to share memory -> [see example](https://github.com/caderek/arrows/tree/master/packages/worker/examples/src/shared-memory)
 
 ---
 

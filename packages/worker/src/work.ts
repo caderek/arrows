@@ -21,9 +21,17 @@ const work: Work = (handler) => {
 
   const port = parentPort as MessagePort
 
-  port.on("message", async ([id, payload]) => {
+  port.on("message", async ([id, payload, method]) => {
     try {
-      const response = await handler(payload, workerData)
+      let response
+
+      if (typeof handler === "function") {
+        response = await handler(payload, workerData)
+      } else if (method && handler[method]) {
+        response = await handler[method](payload, workerData)
+      } else {
+        throw new Error("No such method")
+      }
 
       let result
       let transferList

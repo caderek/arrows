@@ -10,7 +10,8 @@
     "variable-name": false,
     "array-type": false,
     "object-literal-sort-keys": false,
-    "ordered-imports": false
+    "ordered-imports": false,
+    "forin": false
   },
   "rulesDirectory": []
 }

@@ -1,13 +1,22 @@
+import { WorkerDefinition } from "./../src/types"
 import { work, transfer } from "../lib"
 import * as workerThreads from "worker_threads"
 
 describe("work", () => {
-  it("does nothing if run in the main thread", () => {
-    const result = work((x) => x)
-    expect(result).toBe(undefined)
+  describe("when run in the main thread", () => {
+    it("returns worker definition", () => {
+      const handler = (x) => x
+      const result = work(handler) as WorkerDefinition<
+        number,
+        undefined,
+        number
+      >
+      expect(result.fileName).toBe(__filename)
+      expect(result.handler).toBe(handler)
+    })
   })
 
-  describe("when tun in a worker thread", () => {
+  describe("when run in a worker thread with the handler as a function", () => {
     it("sends the result along with the task id to the main thread", () => {
       // @ts-ignore
       workerThreads.isMainThread = false
@@ -25,7 +34,7 @@ describe("work", () => {
         },
       }
 
-      work((x) => x * 5)
+      work((x: number) => x * 5)
 
       // @ts-ignore
       workerThreads.parentPort = savedParentPort
@@ -33,7 +42,7 @@ describe("work", () => {
       workerThreads.isMainThread = true
     })
 
-    it("sends the error along with the task id to the main thread", () => {
+    it("if the handler throws - sends the error along with the task id to the main thread", () => {
       // @ts-ignore
       workerThreads.isMainThread = false
       const savedParentPort = workerThreads.parentPort
@@ -48,7 +57,10 @@ describe("work", () => {
           }
         },
         postMessage(message) {
-          expect(message).toEqual(["some_id", "foo", errorStub])
+          const [id, _, error] = message
+          expect(id).toBe("some_id")
+          expect(error).toBeInstanceOf(Error)
+          expect(error.message).toEqual("Oops!")
         },
       }
 
@@ -90,6 +102,64 @@ describe("work", () => {
       )
 
       work(wrappedHandler)
+
+      // @ts-ignore
+      workerThreads.parentPort = savedParentPort
+      // @ts-ignore
+      workerThreads.isMainThread = true
+    })
+  })
+
+  describe("when run in a worker thread with the handler as an object", () => {
+    it("sends the result along with the task id to the main thread", () => {
+      // @ts-ignore
+      workerThreads.isMainThread = false
+      const savedParentPort = workerThreads.parentPort
+
+      // @ts-ignore
+      workerThreads.parentPort = {
+        on(eventType, callback) {
+          if (eventType === "message") {
+            callback(["some_id", 3, "timesFive"])
+          }
+        },
+        postMessage(message) {
+          expect(message).toEqual(["some_id", 15])
+        },
+      }
+
+      work({ timesFive: (x: number) => x * 5 })
+
+      // @ts-ignore
+      workerThreads.parentPort = savedParentPort
+      // @ts-ignore
+      workerThreads.isMainThread = true
+    })
+
+    it("if the method does not exist - sends the error along with the task id to the main thread", () => {
+      // @ts-ignore
+      workerThreads.isMainThread = false
+      const savedParentPort = workerThreads.parentPort
+
+      // @ts-ignore
+      workerThreads.parentPort = {
+        on(eventType, callback) {
+          if (eventType === "message") {
+            callback(["some_id", 3, "nonExistentMethod"])
+          }
+        },
+        postMessage(message) {
+          const [id, _, error] = message
+
+          expect(id).toBe("some_id")
+          expect(error).toBeInstanceOf(Error)
+          expect(error.message).toBe(
+            'The worker does not have "nonExistentMethod" method.',
+          )
+        },
+      }
+
+      work({ timesFive: (x: number) => x * 5 })
 
       // @ts-ignore
       workerThreads.parentPort = savedParentPort

@@ -524,7 +524,7 @@ Use when you want to separate worker definition from spawning a thread pool.
 
 #### Parameters
 
-- `fileName` - Path to a worker definition file created with `work` function.
+- `workerDefinition` - Path to a worker definition file created with `work` function or worker definition
 - `config` - Configuration options ([see more](#config)).
 
 **Returns:** Async function that communicates with worker threads ([see more](#task)).

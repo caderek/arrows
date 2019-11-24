@@ -4,7 +4,8 @@ import {
   workerData,
   MessagePort,
 } from "worker_threads"
-import { Work, transferKey } from "./types"
+import { Work, transferKey, TransferResult, WorkerDefinition } from "./types"
+import * as getCallerFile from "get-caller-file"
 
 /**
  * Defines a worker that can be later used with `spawn` function.
@@ -16,21 +17,24 @@ import { Work, transferKey } from "./types"
  */
 const work: Work = (handler) => {
   if (isMainThread) {
-    return
+    return {
+      fileName: getCallerFile(),
+      handler,
+    }
   }
 
   const port = parentPort as MessagePort
 
   port.on("message", async ([id, payload, method]) => {
     try {
-      let response
+      let response: TransferResult<any> | any
 
       if (typeof handler === "function") {
         response = await handler(payload, workerData)
       } else if (method && handler[method]) {
         response = await handler[method](payload, workerData)
       } else {
-        throw new Error("No such method")
+        throw new Error(`The worker does not have "${method}" method.`)
       }
 
       let result
@@ -45,9 +49,11 @@ const work: Work = (handler) => {
 
       port.postMessage([id, result], transferList)
     } catch (error) {
-      port.postMessage([id, payload, error])
+      port.postMessage([id, undefined, error])
     }
   })
+
+  return (undefined as unknown) as WorkerDefinition<any, any, any>
 }
 
 export { work }

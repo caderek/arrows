@@ -5,7 +5,7 @@ const { spawn } = require("../../lib")
 
 cpusCount = cpus().length
 
-const poolSize = Math.floor(cpusCount / 2)
+const poolSize = 6 //Math.floor(cpusCount / 2)
 const clusterSize = cpusCount - poolSize
 
 const sumWorker = spawn("./benchmark/src/myWorker.js", { poolSize })

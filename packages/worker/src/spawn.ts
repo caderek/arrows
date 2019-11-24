@@ -12,13 +12,18 @@ const defaultConfig = {
  *
  * Use when you want to separate worker definition from spawning a thread pool.
  *
- * @param fileName Path to a worker definition file created with `work` function
+ * @param workerDefinition Path to a worker definition file created with `work` function or worker definition
  * @param config Configuration options
  * @returns Async function that communicates with worker threads
  */
-const spawn: Spawn = (fileName, config = {}) => {
+const spawn: Spawn = (workerDefinition, config = {}) => {
   const cfg = { ...defaultConfig, ...config }
   const { poolSize, transfer, ...options } = cfg
+
+  const fileName =
+    typeof workerDefinition === "string"
+      ? workerDefinition
+      : workerDefinition.fileName
 
   if (poolSize <= 0) {
     throw new Error("Pool size has to be > 0")

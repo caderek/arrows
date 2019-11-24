@@ -23,7 +23,7 @@ describe("worker", () => {
     double.terminate()
   })
 
-  it("if not in a main thread - defines worker thread", async () => {
+  it("if not in a main thread - defines worker thread, and returns nothing", () => {
     const directResult = identityHandler(7)
 
     expect(identity).toBe(undefined)

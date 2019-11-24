@@ -1,7 +1,7 @@
 const { createServer } = require("http")
 const { spawn } = require("../../lib")
 
-const sumWorker = spawn("./benchmark/src/myWorker.js")
+const sumWorker = spawn("./benchmark/src/myWorker.js", { poolSize: 7 })
 
 createServer(async (req, res) => {
   if (req.url === "/") {

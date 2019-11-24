@@ -1,4 +1,8 @@
 import { spawn } from "../lib"
+import {
+  identityDefinition,
+  identityHandler,
+} from "./workers/identityDefinition.worker"
 
 describe("spawn", () => {
   it("spawns workers pool and returns task function - default config", async () => {
@@ -45,5 +49,19 @@ describe("spawn", () => {
     triple.unref()
     triple.ref()
     triple.terminate()
+  })
+
+  describe("works with definition instead of file path", () => {
+    it("spawns workers pool and returns task function", async () => {
+      const identity = spawn(identityDefinition)
+
+      const directResult = identityHandler(7)
+      const result = await identity(7)
+
+      expect(directResult).toBe(7)
+      expect(result).toBe(7)
+
+      identity.unref()
+    })
   })
 })

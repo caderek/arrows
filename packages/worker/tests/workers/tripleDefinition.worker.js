@@ -1,6 +1,6 @@
 const { work } = require("../../lib")
 
-work((payload) => {
+exports.tripleDefinition = work((payload) => {
   if (typeof payload !== "number") {
     throw new Error("Number required.")
   }

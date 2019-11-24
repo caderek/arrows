@@ -12,7 +12,7 @@ type Config<T2, R> = Partial<
 
 type ExitCode = number
 
-type TransferResult<R> = {
+export type TransferResult<R> = {
   result: R
   [transferKey]: Array<ArrayBuffer | MessagePort>
 }
@@ -25,7 +25,14 @@ export type Handler<T1, T2, R> =
       [method: string]: HandlerFn<T1, T2, R>
     }
 
-export type Work = (handler: Handler<any, any, any>) => void
+export type WorkerDefinition<T1, T2, R> = {
+  fileName: string
+  handler: Handler<T1, T2, R>
+}
+
+export type Work = <T1, T2, R>(
+  handler: Handler<T1, T2, R>,
+) => WorkerDefinition<T1, T2, R>
 
 export type Task<T1, R> = {
   (payload: T1, transferList?: (ArrayBuffer | MessagePort)[]): Promise<R>
@@ -35,7 +42,7 @@ export type Task<T1, R> = {
 }
 
 export type Spawn = (
-  fileName: string,
+  fileName: string | WorkerDefinition<any, any, any>,
   config?: Config<any, any>,
 ) => Task<any, any>
 
@@ -53,11 +60,7 @@ export type WrappedHandlerObj<T1, T2, R> = {
   [method: string]: WrappedHandlerFn<T1, T2, R>
 }
 
-export type WrappedHandler<T1, T2, R> =
-  | WrappedHandlerFn<T1, T2, R>
-  | WrappedHandlerObj<T1, T2, R>
-
 export type Transfer = <T1, T2, R>(
-  handler: Handler<T1, T2, R>,
+  handler: HandlerFn<T1, T2, R>,
   mapperFn: (result: R) => Array<ArrayBuffer | MessagePort>,
-) => WrappedHandler<T1, T2, R>
+) => WrappedHandlerFn<T1, T2, R>

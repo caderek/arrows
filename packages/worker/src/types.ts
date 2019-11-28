@@ -12,15 +12,6 @@ export type Config<T2, R> = Partial<
 
 type ExitCode = number
 
-export type FirstParameter<T> = T extends (
-  payload: infer T,
-  ...args: any[]
-) => any
-  ? T
-  : never
-
-export type ReturnType<T> = T extends (...args: any[]) => infer T ? T : never
-
 export type TransferResult<R> = {
   result: R
   [transferKey]: Array<ArrayBuffer | MessagePort>

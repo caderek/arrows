@@ -1,6 +1,6 @@
 import { Worker, MessagePort } from "worker_threads"
 import { cpus } from "os"
-import { Spawn, Task, FirstParameter, ReturnType } from "./types"
+import { Spawn, Task } from "./types"
 
 const defaultConfig = {
   poolSize: cpus().length,

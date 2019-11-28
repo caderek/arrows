@@ -2,7 +2,7 @@ import { WorkerOptions, MessagePort } from "worker_threads"
 
 export const transferKey = Symbol("transfer")
 
-type Config<T2, R> = Partial<
+export type Config<T2, R> = Partial<
   WorkerOptions & {
     poolSize: number
     workerData: T2
@@ -12,12 +12,21 @@ type Config<T2, R> = Partial<
 
 type ExitCode = number
 
+export type FirstParameter<T> = T extends (
+  payload: infer T,
+  ...args: any[]
+) => any
+  ? T
+  : never
+
+export type ReturnType<T> = T extends (...args: any[]) => infer T ? T : never
+
 export type TransferResult<R> = {
   result: R
   [transferKey]: Array<ArrayBuffer | MessagePort>
 }
 
-export type HandlerFn<T1, T2, R> = (payload?: T1, workerData?: T2) => R
+export type HandlerFn<T1, T2, R> = (payload: T1, workerData?: T2) => R
 
 export type Handler<T1, T2, R> =
   | HandlerFn<T1, T2, R>
@@ -41,10 +50,10 @@ export type Task<T1, R> = {
   terminate: () => Promise<ExitCode[]>
 }
 
-export type Spawn = (
-  fileName: string | WorkerDefinition<any, any, any>,
-  config?: Config<any, any>,
-) => Task<any, any>
+export type Spawn = <T1, T2, R>(
+  workerDefinition: string | WorkerDefinition<T1, T2, R>,
+  config?: Config<T2, R>,
+) => Task<T1, R>
 
 export type Worker = <T1, T2, R>(
   handler: Handler<T1, T2, R>,

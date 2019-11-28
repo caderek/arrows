@@ -1,9 +1,37 @@
 import { Worker, MessagePort } from "worker_threads"
 import { cpus } from "os"
-import { Spawn, Task } from "./types"
+import { Spawn, Task, FirstParameter, ReturnType } from "./types"
 
 const defaultConfig = {
   poolSize: cpus().length,
+}
+
+type CreateTask<T> = (
+  promises: Map<
+    bigint,
+    { resolve: (value?: unknown) => void; reject: (reason?: any) => void }
+  >,
+  workers: Worker[],
+  currentWorker: { index: number },
+  poolSize: number,
+) => (payload: T, transferList?: (ArrayBuffer | MessagePort)[]) => Promise<any>
+
+const createTask: CreateTask<any> = (
+  promises,
+  workers,
+  currentWorker,
+  poolSize,
+) => (payload, transferList) => {
+  const id = process.hrtime.bigint()
+
+  const promise = new Promise((resolve, reject) => {
+    promises.set(id, { resolve, reject })
+  })
+
+  workers[currentWorker.index].postMessage([id, payload], transferList)
+  currentWorker.index = (currentWorker.index + 1) % poolSize
+
+  return promise
 }
 
 /**
@@ -25,6 +53,9 @@ const spawn: Spawn = (workerDefinition, config = {}) => {
       ? workerDefinition
       : workerDefinition.fileName
 
+  const handler =
+    typeof workerDefinition === "string" ? null : workerDefinition.handler
+
   if (poolSize <= 0) {
     throw new Error("Pool size has to be > 0")
   }
@@ -42,22 +73,11 @@ const spawn: Spawn = (workerDefinition, config = {}) => {
     }),
   )
 
-  let workerIndex = 0
+  const currentWorker = { index: 0 }
 
-  const fn = (payload: any, transferList?: (ArrayBuffer | MessagePort)[]) => {
-    const id = process.hrtime.bigint()
+  const baseTask = createTask(promises, workers, currentWorker, poolSize)
 
-    const promise = new Promise((resolve, reject) => {
-      promises.set(id, { resolve, reject })
-    })
-
-    workers[workerIndex].postMessage([id, payload], transferList)
-    workerIndex = (workerIndex + 1) % poolSize
-
-    return promise
-  }
-
-  const task: Task<any, any> = Object.assign(fn, {
+  const task: Task<any, any> = Object.assign(baseTask, {
     ref() {
       workers.forEach((worker) => worker.ref())
     },

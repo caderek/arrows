@@ -1,4 +1,4 @@
-const worker = require("@arrows/worker").default
+const { worker } = require("@arrows/worker")
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 

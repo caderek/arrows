@@ -12,16 +12,25 @@ const serverFiles = readdirSync(`${__dirname}/src`).filter(
 
 const payload = 10000
 
+const config = {
+  connections: 10,
+  pipelining: 1,
+  duration: 10,
+}
+
 const main = async () => {
   const cases = []
 
   for (const file of serverFiles) {
+    console.log(
+      `Running "${file}" benchmark, it will take about ${config.duration} seconds.`,
+    )
     const app = spawn("node", [`${__dirname}/src/${file}`])
     await delay(1000)
 
     const outputs = await Promise.all([
-      autocannon({ url: `http://localhost:3000` }),
-      autocannon({ url: `http://localhost:3000/${payload}` }),
+      autocannon({ ...config, url: `http://localhost:3000` }),
+      autocannon({ ...config, url: `http://localhost:3000/${payload}` }),
     ])
 
     const results = outputs.map((output) => {

@@ -21,6 +21,11 @@
   resolved "https://registry.yarnpkg.com/@arrows/composition/-/composition-1.0.0.tgz#8f285fbdd96d42229a0a7689da661b8b5ff52c14"
   integrity sha512-6Lzg41Pkwf2JrJfnMsgDH8tnJ/KL4yXuxPZr3qnCqMSF7cEWDjXBuBh+ShmNNb0O8Ou/Haf0wqIj9GwuVHwoaw==
 
+"@arrows/composition@^1.2.1":
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/@arrows/composition/-/composition-1.2.1.tgz#6b386ae7a5d7f66f0d473e89a64c180b701823ce"
+  integrity sha512-dLO+ZnvbtU55eIO+m9nRMpzM8ZQuawOp1qaSNlZnjHNQlbLfetdb1kxXYI33JIliE8Sf3vSFWX+JTYvEI3TKmA==
+
 "@arrows/dispatch@^1.0.2":
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/@arrows/dispatch/-/dispatch-1.0.2.tgz#80f2af6ec02e0cb0f51a671ce9921bf54da7bfcc"
@@ -42,6 +47,13 @@
     "@arrows/composition" "^1.0.0"
     "@arrows/error" "^1.0.2"
     fast-deep-equal "^2.0.1"
+
+"@arrows/worker@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@arrows/worker/-/worker-1.2.0.tgz#280531688c88f22f2f73a00eb821f9206dafca1d"
+  integrity sha512-fwBVv283yvz3gbyz/MdP3EkNewdZMDL6JBn48texX9+00FycWKSRR9iCDpo6ZpnnoajIGbqjQgec/l2lT2lhyQ==
+  dependencies:
+    get-caller-file "^2.0.5"
 
 "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.5.5":
   version "7.5.5"
@@ -1322,7 +1334,7 @@ gauge@~2.7.3:
     strip-ansi "^3.0.1"
     wide-align "^1.1.0"
 
-get-caller-file@^2.0.1:
+get-caller-file@^2.0.1, get-caller-file@^2.0.5:
   version "2.0.5"
   resolved "https://registry.yarnpkg.com/get-caller-file/-/get-caller-file-2.0.5.tgz#4f94412a82db32f36e3b0b9741f8a97feb031f7e"
   integrity sha512-DyFP3BM/3YHTQOCUL/w0OZHR0lpKeGrxotcHWcqNEdnltqFwXVfhEBQ94eIo34AfQpo0rGki4cyIiftY06h2Fg==

@@ -16,44 +16,48 @@ import * as getCallerFile from "get-caller-file"
  * @returns Nothing, just defines a worker for use with `spawn` function
  */
 const work: Work = (handler) => {
-  if (isMainThread) {
-    return {
-      fileName: getCallerFile(),
-      handler,
-    }
+  return {
+    fileName: getCallerFile(),
+    handler,
   }
+  // if (isMainThread) {
+  //   return {
+  //     fileName: getCallerFile(),
+  //     handler,
+  //   }
+  // }
 
-  const port = parentPort as MessagePort
+  // const port = parentPort as MessagePort
 
-  port.on("message", async ([id, payload, method]) => {
-    try {
-      let response: TransferResult<any> | any
+  // port.on("message", async ([id, payload, method]) => {
+  //   try {
+  //     let response: TransferResult<any> | any
 
-      if (typeof handler === "function") {
-        response = await handler(payload, workerData)
-      } else if (method && handler[method]) {
-        response = await handler[method](payload, workerData)
-      } else {
-        throw new Error(`The worker does not have "${method}" method.`)
-      }
+  //     if (typeof handler === "function") {
+  //       response = await handler(payload, workerData)
+  //     } else if (method && handler[method]) {
+  //       response = await handler[method](payload, workerData)
+  //     } else {
+  //       throw new Error(`The worker does not have "${method}" method.`)
+  //     }
 
-      let result
-      let transferList
+  //     let result
+  //     let transferList
 
-      if (response && response[transferKey]) {
-        result = response.result
-        transferList = response[transferKey]
-      } else {
-        result = response
-      }
+  //     if (response && response[transferKey]) {
+  //       result = response.result
+  //       transferList = response[transferKey]
+  //     } else {
+  //       result = response
+  //     }
 
-      port.postMessage([id, result], transferList)
-    } catch (error) {
-      port.postMessage([id, undefined, error])
-    }
-  })
+  //     port.postMessage([id, result], transferList)
+  //   } catch (error) {
+  //     port.postMessage([id, undefined, error])
+  //   }
+  // })
 
-  return (undefined as unknown) as WorkerDefinition<any, any, any>
+  // return (undefined as unknown) as WorkerDefinition<any, any, any>
 }
 
 export { work }

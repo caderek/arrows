@@ -25,14 +25,14 @@ export type Handler<T1, T2, R> =
       [method: string]: HandlerFn<T1, T2, R>
     }
 
-export type WorkerDefinition<T1, T2, R> = {
+export type WorkerDefinition<T> = {
   fileName: string
-  handler: Handler<T1, T2, R>
+  handler: T
 }
 
-export type Work = <T1, T2, R>(
-  handler: Handler<T1, T2, R>,
-) => WorkerDefinition<T1, T2, R>
+export type Work = <T>(
+  handler: T,
+) => WorkerDefinition<T>
 
 export type Task<T1, R> = {
   (payload: T1, transferList?: (ArrayBuffer | MessagePort)[]): Promise<R>
@@ -41,8 +41,8 @@ export type Task<T1, R> = {
   terminate: () => Promise<ExitCode[]>
 }
 
-export type Spawn = <T1, T2, R>(
-  workerDefinition: string | WorkerDefinition<T1, T2, R>,
+export type Spawn = <T1, T2>(
+  workerDefinition: string | WorkerDefinition<T1>,
   config?: Config<T2, R>,
 ) => Task<T1, R>
 

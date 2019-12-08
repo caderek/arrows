@@ -22,6 +22,8 @@ This package is a meta-package, it contains all @arrows libraries. It is a handy
 - [@arrows/dispatch](../dispatch/README.md) as `dis`,
 - [@arrows/error](../error/README.md) as `err`,
 - [@arrows/multimethod](../multimethod/README.md) as `mul`.
+- [@arrows/string](../string/README.md) as `str`.
+- [@arrows/worker](../worker/README.md) as `wor`.
 
 ## Installation
 

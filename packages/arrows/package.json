@@ -1,6 +1,6 @@
 {
   "name": "@arrows/arrows",
-  "version": "0.3.0",
+  "version": "0.5.0",
   "main": "index.js",
   "license": "ISC",
   "repository": "https://github.com/caderek/arrows/tree/master/packages/arrows",

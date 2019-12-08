@@ -1,4 +1,4 @@
-import curry from '@arrows/composition/curry'
+import curry from "@arrows/composition/curry"
 
 type _Join = <T>(separator: string, arr: T[]) => string
 type _Join2 = <T>(separator: string) => (arr: T[]) => string

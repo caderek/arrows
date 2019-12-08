@@ -1,7 +1,7 @@
-import { forEach } from './index'
+import { forEach } from "./index"
 
-describe('Array forEach', () => {
-  it('provides functional wrapper for Array.prototype.forEach', () => {
+describe("Array forEach", () => {
+  it("provides functional wrapper for Array.prototype.forEach", () => {
     const arr = [1, 2, 3]
     const sideEffectFn = (x) => x + 1
 

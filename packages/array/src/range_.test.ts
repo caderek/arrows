@@ -1,7 +1,7 @@
-import { range_ } from './index'
+import { range_ } from "./index"
 
-describe('Array range', () => {
-  it('returns an empty array of from equals to', () => {
+describe("Array range", () => {
+  it("returns an empty array of from equals to", () => {
     const from = 0
     const to = 0
 
@@ -12,17 +12,17 @@ describe('Array range', () => {
     expect(result).toEqual(expected)
   })
 
-  it('throws an error is step is not a positive integer', () => {
+  it("throws an error is step is not a positive integer", () => {
     const from = 0
     const to = 10
     const step = -2
 
     const call = () => range_(from, to, step)
 
-    expect(call).toThrowError('Step must be greater than zero.')
+    expect(call).toThrowError("Step must be greater than zero.")
   })
 
-  it('creates an array of positive integers', () => {
+  it("creates an array of positive integers", () => {
     const from = 0
     const to = 10
 
@@ -33,7 +33,7 @@ describe('Array range', () => {
     expect(result).toEqual(expected)
   })
 
-  it('creates an array of positive integers - custom step and start', () => {
+  it("creates an array of positive integers - custom step and start", () => {
     const from = 5
     const to = 20
     const step = 3
@@ -45,7 +45,7 @@ describe('Array range', () => {
     expect(result).toEqual(expected)
   })
 
-  it('creates an array of negative integers', () => {
+  it("creates an array of negative integers", () => {
     const from = 0
     const to = -10
 
@@ -56,7 +56,7 @@ describe('Array range', () => {
     expect(result).toEqual(expected)
   })
 
-  it('creates an array of negative integers - custom step and start', () => {
+  it("creates an array of negative integers - custom step and start", () => {
     const from = -5
     const to = -20
     const step = 3
@@ -68,7 +68,7 @@ describe('Array range', () => {
     expect(result).toEqual(expected)
   })
 
-  it('creates an array of mixed integers - ascending', () => {
+  it("creates an array of mixed integers - ascending", () => {
     const from = -10
     const to = 10
     const step = 3
@@ -80,7 +80,7 @@ describe('Array range', () => {
     expect(result).toEqual(expected)
   })
 
-  it('creates an array of mixed integers - descending', () => {
+  it("creates an array of mixed integers - descending", () => {
     const from = 10
     const to = -10
     const step = 3
@@ -92,7 +92,7 @@ describe('Array range', () => {
     expect(result).toEqual(expected)
   })
 
-  it('works for fractions - ascending', () => {
+  it("works for fractions - ascending", () => {
     const from = -1.5
     const to = 1.5
     const step = 0.5
@@ -104,7 +104,7 @@ describe('Array range', () => {
     expect(result).toEqual(expected)
   })
 
-  it('works for fractions - descending', () => {
+  it("works for fractions - descending", () => {
     const from = 1.5
     const to = -1.5
     const step = 0.5

@@ -1,4 +1,4 @@
-import curry from '@arrows/composition/curry'
+import curry from "@arrows/composition/curry"
 
 type Curry1<T> = (arr: T[]) => T[]
 
@@ -18,7 +18,7 @@ type Set_ = _Set_ & Curry3
 
 const _set_: _Set_ = (value, index, arr) => {
   if (index > arr.length - 1) {
-    throw new Error('The provided index is out of bound of the array.')
+    throw new Error("The provided index is out of bound of the array.")
   }
 
   const newArr = [...arr]

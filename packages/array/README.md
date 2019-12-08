@@ -45,15 +45,15 @@ yarn add @arrows/array
 All modules can be imported independently (to reduce bundle size), here are some import methods (you can use either CommonJS or ES modules):
 
 ```js
-import arr from '@arrows/array'
+import arr from "@arrows/array"
 ```
 
 ```js
-import { filter } from '@arrows/array'
+import { filter } from "@arrows/array"
 ```
 
 ```js
-import filter from '@arrows/array/filter'
+import filter from "@arrows/array/filter"
 ```
 
 ## API reference
@@ -62,6 +62,7 @@ import filter from '@arrows/array/filter'
 
 - [append\_](#append_)
 - [butLast\_](#butlast_)
+- [chunk\_](#chunk_)
 - [clear\_](#clear_)
 - [concat](#concat)
 - [entries](#entries)
@@ -152,6 +153,17 @@ Creates a new array from the initial one, without the last element.
 - `arr` Initial array
 
 **Returns:** New array
+
+### chunk\_
+
+Splits the array into chunks of a provided size.
+
+#### Parameters
+
+- `chunkSize` Chunk size
+- `arr` Initial array
+
+**Returns:** New array of chunks
 
 ### clear\_
 

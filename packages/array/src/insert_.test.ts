@@ -1,7 +1,7 @@
-import { insert_ } from './index'
+import { insert_ } from "./index"
 
-describe('Array insert', () => {
-  it('returns array with additional element on provided index', () => {
+describe("Array insert", () => {
+  it("returns array with additional element on provided index", () => {
     const arr = [1, 2, 3]
     const value = 4
     const index = 1
@@ -19,7 +19,7 @@ describe('Array insert', () => {
     expect(result).toEqual(expected)
   })
 
-  it('when index is out of bound adds new element at the end', () => {
+  it("when index is out of bound adds new element at the end", () => {
     const arr = [1, 2, 3]
     const value = 4
     const index = 10
@@ -37,7 +37,7 @@ describe('Array insert', () => {
     expect(result).toEqual(expected)
   })
 
-  it('always returns a new array', () => {
+  it("always returns a new array", () => {
     const arr = [1]
     const value = 2
     const index = 0

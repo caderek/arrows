@@ -1,4 +1,4 @@
-import curry from '@arrows/composition/curry'
+import curry from "@arrows/composition/curry"
 
 type CompareFn<V> = (a: V, b: V) => number
 type MappingFn<T, V> = (element: T) => V

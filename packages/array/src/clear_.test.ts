@@ -1,7 +1,7 @@
-import { clear_ } from './index'
+import { clear_ } from "./index"
 
-describe('Array clearX', () => {
-  it('always returns a new, empty array', () => {
+describe("Array clearX", () => {
+  it("always returns a new, empty array", () => {
     const arr = [1]
 
     const result = clear_(arr)

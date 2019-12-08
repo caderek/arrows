@@ -1,4 +1,4 @@
-import curry from '@arrows/composition/curry'
+import curry from "@arrows/composition/curry"
 
 type _Remove_ = <T>(index: number, arr: T[]) => T[]
 type _Remove2_ = <T>(index: number) => (arr: T[]) => T[]

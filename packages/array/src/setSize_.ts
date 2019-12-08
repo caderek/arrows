@@ -1,4 +1,4 @@
-import curry from '@arrows/composition/curry'
+import curry from "@arrows/composition/curry"
 
 type _SetSize_ = <T>(size: number, arr: T[]) => (T | undefined)[]
 type _SetSize2_ = <T>(size: number) => (arr: T[]) => (T | undefined)[]

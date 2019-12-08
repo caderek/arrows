@@ -1,7 +1,7 @@
-import { includes } from './index'
+import { includes } from "./index"
 
-describe('Array includes', () => {
-  it('provides functional wrapper for Array.prototype.includes - match', () => {
+describe("Array includes", () => {
+  it("provides functional wrapper for Array.prototype.includes - match", () => {
     const arr = [1, 2, 3]
     const value = 2
 
@@ -13,7 +13,7 @@ describe('Array includes', () => {
     expect(result).toEqual(expected)
   })
 
-  it('provides functional wrapper for Array.prototype.includes - no match', () => {
+  it("provides functional wrapper for Array.prototype.includes - no match", () => {
     const arr = [1, 2, 3]
     const value = 4
 

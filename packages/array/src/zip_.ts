@@ -1,6 +1,6 @@
-import curry from '@arrows/composition/curry'
+import curry from "@arrows/composition/curry"
 
-type Pairs<T, V> = [(T | undefined), (V | undefined)][]
+type Pairs<T, V> = [T | undefined, V | undefined][]
 type _ZipAll_ = <T, V>(otherArr: V[], arr: T[]) => Pairs<T, V>
 type _ZipAll2_ = <T, V>(otherArr: V[]) => (arr: T[]) => Pairs<T, V>
 type ZipAll_ = _ZipAll_ & _ZipAll2_

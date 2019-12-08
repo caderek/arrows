@@ -1,4 +1,4 @@
-import curry from '@arrows/composition/curry'
+import curry from "@arrows/composition/curry"
 
 type FlatOne = <T>(arr: T[]) => T[]
 type _Flat = <T>(depth: number, arr: T[]) => unknown[]

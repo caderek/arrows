@@ -1,7 +1,7 @@
-import { append_ } from './index'
+import { append_ } from "./index"
 
-describe('Array append', () => {
-  it('returns array with additional element at the end', () => {
+describe("Array append", () => {
+  it("returns array with additional element at the end", () => {
     const arr = [1, 2, 3]
 
     const result = append_(4, arr)
@@ -13,7 +13,7 @@ describe('Array append', () => {
     expect(result).toEqual(expected)
   })
 
-  it('always returns a new array', () => {
+  it("always returns a new array", () => {
     const arr = [1]
 
     const result = append_(2, arr)

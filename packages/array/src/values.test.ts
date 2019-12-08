@@ -1,7 +1,7 @@
-import { values } from './index'
+import { values } from "./index"
 
-describe('Array values', () => {
-  it('provides functional wrapper for Array.prototype.values', () => {
+describe("Array values", () => {
+  it("provides functional wrapper for Array.prototype.values", () => {
     const arr = [1, 2, 3]
 
     const result = values(arr)

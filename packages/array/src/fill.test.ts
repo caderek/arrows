@@ -1,7 +1,7 @@
-import { fill } from './index'
+import { fill } from "./index"
 
-describe('Array fill', () => {
-  it('provides functional wrapper for Array.prototype.filter - fill all', () => {
+describe("Array fill", () => {
+  it("provides functional wrapper for Array.prototype.filter - fill all", () => {
     const arr = [1, 2, 3]
     const value = 7
     const start = 0
@@ -29,7 +29,7 @@ describe('Array fill', () => {
     expect(result).toEqual(expected)
   })
 
-  it('provides functional wrapper for Array.prototype.filter - fill.all method', () => {
+  it("provides functional wrapper for Array.prototype.filter - fill.all method", () => {
     const arr = [1, 2, 3]
     const value = 7
 
@@ -43,7 +43,7 @@ describe('Array fill', () => {
     expect(result).toEqual(expected)
   })
 
-  it('provides functional wrapper for Array.prototype.filter - fill end', () => {
+  it("provides functional wrapper for Array.prototype.filter - fill end", () => {
     const arr = [1, 2, 3]
     const value = 7
     const start = 0
@@ -71,7 +71,7 @@ describe('Array fill', () => {
     expect(result).toEqual(expected)
   })
 
-  it('provides functional wrapper for Array.prototype.filter - fill.end method', () => {
+  it("provides functional wrapper for Array.prototype.filter - fill.end method", () => {
     const arr = [1, 2, 3]
     const value = 7
     const start = 0
@@ -91,7 +91,7 @@ describe('Array fill', () => {
     expect(result).toEqual(expected)
   })
 
-  it('provides functional wrapper for Array.prototype.filter - fill start', () => {
+  it("provides functional wrapper for Array.prototype.filter - fill start", () => {
     const arr = [1, 2, 3]
     const value = 7
     const start = 1
@@ -119,7 +119,7 @@ describe('Array fill', () => {
     expect(result).toEqual(expected)
   })
 
-  it('provides functional wrapper for Array.prototype.filter - fill.start method', () => {
+  it("provides functional wrapper for Array.prototype.filter - fill.start method", () => {
     const arr = [1, 2, 3]
     const value = 7
     const start = 1
@@ -139,7 +139,7 @@ describe('Array fill', () => {
     expect(result).toEqual(expected)
   })
 
-  it('provides functional wrapper for Array.prototype.filter - custom fill', () => {
+  it("provides functional wrapper for Array.prototype.filter - custom fill", () => {
     const arr = [1, 2, 3]
     const value = 7
     const start = 1

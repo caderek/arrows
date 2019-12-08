@@ -1,7 +1,7 @@
-import { some } from './index'
+import { some } from "./index"
 
-describe('Array some', () => {
-  it('provides functional wrapper for Array.prototype.some - true', () => {
+describe("Array some", () => {
+  it("provides functional wrapper for Array.prototype.some - true", () => {
     const arr = [1, 2, 3]
     const testFn = (x) => x > 2
 
@@ -15,7 +15,7 @@ describe('Array some', () => {
     expect(result).toEqual(expected)
   })
 
-  it('provides functional wrapper for Array.prototype.some - false', () => {
+  it("provides functional wrapper for Array.prototype.some - false", () => {
     const arr = [1, 2, 3]
     const testFn = (x) => x > 3
 

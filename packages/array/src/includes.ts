@@ -1,4 +1,4 @@
-import curry from '@arrows/composition/curry'
+import curry from "@arrows/composition/curry"
 
 type _Includes = <T>(element: T, arr: T[]) => boolean
 type _Includes2 = <T>(element: T) => (arr: T[]) => boolean

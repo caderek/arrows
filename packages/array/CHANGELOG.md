@@ -20,3 +20,7 @@ First stable release.
 # 1.2.1
 
 - Fixed links in README.
+
+# 1.3.0
+
+- Added `chunk_` function.

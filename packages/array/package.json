@@ -27,7 +27,8 @@
     "prep": "node ../../scripts/prepare-lib.js",
     "coverage": "jest --coverage --runInBand && codecov -F array",
     "lint": "tslint -c tslint.json 'src/**/*.ts'",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "format": "prettier src/** --write"
   },
   "devDependencies": {
     "@types/jest": "^24.0.18",
@@ -35,6 +36,7 @@
     "codecov": "^3.6.1",
     "core-js": "^3.2.1",
     "jest": "^24.9.0",
+    "prettier": "^1.19.1",
     "ts-jest": "^24.1.0",
     "tslint": "^5.20.0",
     "tslint-config-prettier": "^1.18.0",

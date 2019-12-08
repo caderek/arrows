@@ -1,7 +1,7 @@
-import { reduceRight } from './index'
+import { reduceRight } from "./index"
 
-describe('Array reduceRight', () => {
-  it('provides functional wrapper for Array.prototype.reduceRight', () => {
+describe("Array reduceRight", () => {
+  it("provides functional wrapper for Array.prototype.reduceRight", () => {
     const arr = [1, 2, 3]
     const reducingFn = (acc, value) => acc + value
     const initialValue = 0
@@ -19,7 +19,7 @@ describe('Array reduceRight', () => {
     expect(result).toEqual(expected)
   })
 
-  it('provides functional wrapper for Array.prototype.reduce - no initial accumulator', () => {
+  it("provides functional wrapper for Array.prototype.reduce - no initial accumulator", () => {
     const arr = [1, 2, 3]
     const reducingFn = (acc, value) => acc + value
 

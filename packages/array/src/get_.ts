@@ -1,4 +1,4 @@
-import curry from '@arrows/composition/curry'
+import curry from "@arrows/composition/curry"
 
 type _Get_ = <T>(index: number, arr: T[]) => T | undefined
 type _Get2_ = <T>(index: number) => (arr: T[]) => T | undefined

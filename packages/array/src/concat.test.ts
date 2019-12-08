@@ -1,7 +1,7 @@
-import { concat } from './index'
+import { concat } from "./index"
 
-describe('Array concat', () => {
-  it('provides functional wrapper for Array.prototype.concat - concat array', () => {
+describe("Array concat", () => {
+  it("provides functional wrapper for Array.prototype.concat - concat array", () => {
     const arr = [1, 2, 3]
     const otherArr = [4, 5]
 
@@ -14,7 +14,7 @@ describe('Array concat', () => {
     expect(result).toEqual(expected)
   })
 
-  it('provides functional wrapper for Array.prototype.concat - concat other values', () => {
+  it("provides functional wrapper for Array.prototype.concat - concat other values", () => {
     const arr = [1, 2, 3]
     const value = 4
 

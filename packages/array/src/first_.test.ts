@@ -1,7 +1,7 @@
-import { first_ } from './index'
+import { first_ } from "./index"
 
-describe('Array firstX', () => {
-  it('returns first element of the array', () => {
+describe("Array firstX", () => {
+  it("returns first element of the array", () => {
     const arr = [1, 2, 3, 4]
 
     const result = first_(arr)
@@ -10,7 +10,7 @@ describe('Array firstX', () => {
     expect(result).toEqual(expected)
   })
 
-  it('returns undefined if array is empty', () => {
+  it("returns undefined if array is empty", () => {
     const arr = []
 
     const result = first_(arr)

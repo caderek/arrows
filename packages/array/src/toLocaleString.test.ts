@@ -1,7 +1,7 @@
-import { toLocaleString } from './index'
+import { toLocaleString } from "./index"
 
-describe('Array toLocaleString', () => {
-  it('provides functional wrapper for Array.prototype.toLocaleString', () => {
+describe("Array toLocaleString", () => {
+  it("provides functional wrapper for Array.prototype.toLocaleString", () => {
     const arr = [1, 2, 3]
 
     const result = toLocaleString(arr)

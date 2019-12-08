@@ -1,7 +1,7 @@
-import { lastIndexOf } from './index'
+import { lastIndexOf } from "./index"
 
-describe('Array lastIndexOf', () => {
-  it('provides functional wrapper for Array.prototype.lastIndexOf', () => {
+describe("Array lastIndexOf", () => {
+  it("provides functional wrapper for Array.prototype.lastIndexOf", () => {
     const arr = [4, 1, 2, 3, 4, 5]
     const element = 4
     const fromIndex = -3
@@ -20,7 +20,7 @@ describe('Array lastIndexOf', () => {
     expect(result).toEqual(expected)
   })
 
-  it('provides functional wrapper for Array.prototype.lastIndexOf - .all method', () => {
+  it("provides functional wrapper for Array.prototype.lastIndexOf - .all method", () => {
     const arr = [4, 1, 2, 3, 4, 5]
     const element = 4
 

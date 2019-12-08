@@ -1,4 +1,4 @@
-import curry from '@arrows/composition/curry'
+import curry from "@arrows/composition/curry"
 
 type UpdaterFn<T> = (value: T) => T
 
@@ -20,7 +20,7 @@ type Update_ = _Update_ & Curry3
 
 const _update_: _Update_ = (updaterFn, index, arr) => {
   if (index > arr.length - 1) {
-    throw new Error('The provided index is out of bound of the array.')
+    throw new Error("The provided index is out of bound of the array.")
   }
 
   const newArr = [...arr]

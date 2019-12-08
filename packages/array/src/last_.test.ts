@@ -1,7 +1,7 @@
-import { last_ } from './index'
+import { last_ } from "./index"
 
-describe('Array last', () => {
-  it('returns last element of the array', () => {
+describe("Array last", () => {
+  it("returns last element of the array", () => {
     const arr = [1, 2, 3, 4]
 
     const result = last_(arr)
@@ -10,7 +10,7 @@ describe('Array last', () => {
     expect(result).toEqual(expected)
   })
 
-  it('returns undefined if array is empty', () => {
+  it("returns undefined if array is empty", () => {
     const arr = []
 
     const result = last_(arr)

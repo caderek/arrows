@@ -1,7 +1,7 @@
-import { remove_ } from './index'
+import { remove_ } from "./index"
 
-describe('Array remove', () => {
-  it('returns array without element on provided index - first index', () => {
+describe("Array remove", () => {
+  it("returns array without element on provided index - first index", () => {
     const arr = [1, 2, 3]
 
     const result = remove_(0, arr)
@@ -13,7 +13,7 @@ describe('Array remove', () => {
     expect(result).toEqual(expected)
   })
 
-  it('returns array without element on provided index - middle index', () => {
+  it("returns array without element on provided index - middle index", () => {
     const arr = [1, 2, 3]
 
     const result = remove_(1, arr)
@@ -25,7 +25,7 @@ describe('Array remove', () => {
     expect(result).toEqual(expected)
   })
 
-  it('returns array without element on provided index - last index', () => {
+  it("returns array without element on provided index - last index", () => {
     const arr = [1, 2, 3]
 
     const result = remove_(2, arr)
@@ -37,7 +37,7 @@ describe('Array remove', () => {
     expect(result).toEqual(expected)
   })
 
-  it('returns copy of the array if index is out of bound', () => {
+  it("returns copy of the array if index is out of bound", () => {
     const arr = [1, 2, 3]
 
     const result = remove_(10, arr)
@@ -49,7 +49,7 @@ describe('Array remove', () => {
     expect(result).toEqual(expected)
   })
 
-  it('always returns a new array', () => {
+  it("always returns a new array", () => {
     const arr = [1]
 
     const result = remove_(0, arr)

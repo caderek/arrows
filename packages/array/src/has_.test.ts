@@ -1,7 +1,7 @@
-import { has_ } from './index'
+import { has_ } from "./index"
 
-describe('Array flat', () => {
-  it('returns true if the array has provided index', () => {
+describe("Array flat", () => {
+  it("returns true if the array has provided index", () => {
     const arr = [1, 2, 3, 4]
     const index = 2
 
@@ -13,7 +13,7 @@ describe('Array flat', () => {
     expect(result).toEqual(expected)
   })
 
-  it('returns false if the array does not have provided index', () => {
+  it("returns false if the array does not have provided index", () => {
     const arr = [1, 2, 3, 4]
     const index = 10
 

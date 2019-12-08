@@ -1,46 +1,56 @@
-import { zip_ } from './index'
+import { zip_ } from "./index"
 
-describe('Array zip', () => {
-  it('returns correct pairs for arrays with equal length', () => {
+describe("Array zip", () => {
+  it("returns correct pairs for arrays with equal length", () => {
     const arr = [1, 2, 3]
     const otherArr = [3, 4, 5]
 
     const result = zip_(otherArr, arr)
     const result2 = zip_(otherArr)(arr)
 
-    const expected = [[1, 3], [2, 4], [3, 5]]
+    const expected = [
+      [1, 3],
+      [2, 4],
+      [3, 5],
+    ]
 
     expect(result).toEqual(result2)
     expect(result).toEqual(expected)
   })
 
-  it('returns correct pairs for when base array is shorter', () => {
+  it("returns correct pairs for when base array is shorter", () => {
     const arr = [1, 2]
     const otherArr = [3, 4, 5]
 
     const result = zip_(otherArr, arr)
     const result2 = zip_(otherArr)(arr)
 
-    const expected = [[1, 3], [2, 4]]
+    const expected = [
+      [1, 3],
+      [2, 4],
+    ]
 
     expect(result).toEqual(result2)
     expect(result).toEqual(expected)
   })
 
-  it('returns correct pairs for when base array is longer', () => {
+  it("returns correct pairs for when base array is longer", () => {
     const arr = [1, 2, 3]
     const otherArr = [3, 4]
 
     const result = zip_(otherArr, arr)
     const result2 = zip_(otherArr)(arr)
 
-    const expected = [[1, 3], [2, 4]]
+    const expected = [
+      [1, 3],
+      [2, 4],
+    ]
 
     expect(result).toEqual(result2)
     expect(result).toEqual(expected)
   })
 
-  it('always returns a new array', () => {
+  it("always returns a new array", () => {
     const arr = []
     const otherArr = []
     const result = zip_(otherArr)(arr)
@@ -49,47 +59,59 @@ describe('Array zip', () => {
   })
 })
 
-describe('Array zip all', () => {
-  it('returns correct pairs for arrays with equal length', () => {
+describe("Array zip all", () => {
+  it("returns correct pairs for arrays with equal length", () => {
     const arr = [1, 2, 3]
     const otherArr = [3, 4, 5]
 
     const result = zip_.all(otherArr, arr)
     const result2 = zip_.all(otherArr)(arr)
 
-    const expected = [[1, 3], [2, 4], [3, 5]]
+    const expected = [
+      [1, 3],
+      [2, 4],
+      [3, 5],
+    ]
 
     expect(result).toEqual(result2)
     expect(result).toEqual(expected)
   })
 
-  it('returns correct pairs for when base array is shorter', () => {
+  it("returns correct pairs for when base array is shorter", () => {
     const arr = [1, 2]
     const otherArr = [3, 4, 5]
 
     const result = zip_.all(otherArr, arr)
     const result2 = zip_.all(otherArr)(arr)
 
-    const expected = [[1, 3], [2, 4], [undefined, 5]]
+    const expected = [
+      [1, 3],
+      [2, 4],
+      [undefined, 5],
+    ]
 
     expect(result).toEqual(result2)
     expect(result).toEqual(expected)
   })
 
-  it('returns correct pairs for when base array is longer', () => {
+  it("returns correct pairs for when base array is longer", () => {
     const arr = [1, 2, 3]
     const otherArr = [3, 4]
 
     const result = zip_.all(otherArr, arr)
     const result2 = zip_.all(otherArr)(arr)
 
-    const expected = [[1, 3], [2, 4], [3, undefined]]
+    const expected = [
+      [1, 3],
+      [2, 4],
+      [3, undefined],
+    ]
 
     expect(result).toEqual(result2)
     expect(result).toEqual(expected)
   })
 
-  it('always returns a new array', () => {
+  it("always returns a new array", () => {
     const arr = []
     const otherArr = []
     const result = zip_.all(otherArr)(arr)

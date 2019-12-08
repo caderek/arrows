@@ -1,7 +1,7 @@
-import { toString } from './index'
+import { toString } from "./index"
 
-describe('Array toString', () => {
-  it('provides functional wrapper for Array.prototype.toString', () => {
+describe("Array toString", () => {
+  it("provides functional wrapper for Array.prototype.toString", () => {
     const arr = [1, 2, 3]
 
     const result = toString(arr)

@@ -1,4 +1,4 @@
-import curry from '@arrows/composition/curry'
+import curry from "@arrows/composition/curry"
 
 type CurryFill1<T, V> = (arr: T[]) => (T | V)[]
 

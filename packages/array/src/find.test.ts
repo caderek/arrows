@@ -1,7 +1,7 @@
-import { find } from './index'
+import { find } from "./index"
 
-describe('Array find', () => {
-  it('provides functional wrapper for Array.prototype.find', () => {
+describe("Array find", () => {
+  it("provides functional wrapper for Array.prototype.find", () => {
     const arr = [1, 2, 3]
     const testFn = (x) => x > 2
 

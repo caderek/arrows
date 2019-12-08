@@ -1,7 +1,7 @@
-import { get_ } from './index'
+import { get_ } from "./index"
 
-describe('Array get', () => {
-  it('returns element on provided index', () => {
+describe("Array get", () => {
+  it("returns element on provided index", () => {
     const arr = [1, 2, 3, 4]
     const index = 2
 
@@ -14,7 +14,7 @@ describe('Array get', () => {
     expect(result).toEqual(expected)
   })
 
-  it('returns undefined if an index is out of bound of the array', () => {
+  it("returns undefined if an index is out of bound of the array", () => {
     const arr = [1, 2, 3, 4]
     const index = 10
 

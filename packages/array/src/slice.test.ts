@@ -1,7 +1,7 @@
-import { slice } from './index'
+import { slice } from "./index"
 
-describe('Array slice', () => {
-  it('provides functional wrapper for Array.prototype.slice', () => {
+describe("Array slice", () => {
+  it("provides functional wrapper for Array.prototype.slice", () => {
     const arr = [1, 2, 3, 4, 5]
     const from = 2
     const to = 4
@@ -20,7 +20,7 @@ describe('Array slice', () => {
     expect(result).toEqual(expected)
   })
 
-  it('provides a method with default end', () => {
+  it("provides a method with default end", () => {
     const arr = [1, 2, 3, 4, 5]
     const from = 2
 
@@ -34,7 +34,7 @@ describe('Array slice', () => {
     expect(result).toEqual(expected)
   })
 
-  it('provides a method with default end', () => {
+  it("provides a method with default end", () => {
     const arr = [1, 2, 3, 4, 5]
     const to = 4
 

@@ -1,7 +1,7 @@
-import { rest_ } from './index'
+import { rest_ } from "./index"
 
-describe('Array rest', () => {
-  it('returns the array without first element', () => {
+describe("Array rest", () => {
+  it("returns the array without first element", () => {
     const arr = [1, 2, 3, 4]
 
     const result = rest_(arr)
@@ -10,7 +10,7 @@ describe('Array rest', () => {
     expect(result).toEqual(expected)
   })
 
-  it('returns empty array if there is no tail', () => {
+  it("returns empty array if there is no tail", () => {
     const arr = []
 
     const result = rest_(arr)
@@ -19,7 +19,7 @@ describe('Array rest', () => {
     expect(result).toEqual(expected)
   })
 
-  it('always returns a new array', () => {
+  it("always returns a new array", () => {
     const arr = []
 
     const result = rest_(arr)

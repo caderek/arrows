@@ -1,5 +1,5 @@
-import curry from '@arrows/composition/curry'
-import { cursorTo } from 'readline'
+import curry from "@arrows/composition/curry"
+import { cursorTo } from "readline"
 
 type CompareFn<T> = (a: T, b: T) => number
 

@@ -1,4 +1,4 @@
-import curry from '@arrows/composition/curry'
+import curry from "@arrows/composition/curry"
 
 type _Has_ = (index: number, arr: unknown[]) => boolean
 type _Has2_ = (index: number) => (arr: unknown[]) => boolean

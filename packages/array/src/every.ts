@@ -1,4 +1,4 @@
-import curry from '@arrows/composition/curry'
+import curry from "@arrows/composition/curry"
 
 type TestFn<T> = (element: T, index: number, arr: T[]) => boolean
 

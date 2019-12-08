@@ -1,4 +1,4 @@
-import curry from '@arrows/composition/curry'
+import curry from "@arrows/composition/curry"
 
 type MappingFn<V> = (currentValue: V, index?: number, array?: V[]) => unknown
 type _FlatMap = <T>(mappingFn: MappingFn<T>, arr: T[]) => unknown[]

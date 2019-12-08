@@ -1,7 +1,7 @@
-import { filter } from './index'
+import { filter } from "./index"
 
-describe('Array filter', () => {
-  it('provides functional wrapper for Array.prototype.filter', () => {
+describe("Array filter", () => {
+  it("provides functional wrapper for Array.prototype.filter", () => {
     const arr = [1, 2, 3]
     const filteringFn = (x) => x === 1
 

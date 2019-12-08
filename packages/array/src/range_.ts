@@ -14,7 +14,7 @@ const range_: Range_ = (from, to, step = 1) => {
   }
 
   if (step <= 0) {
-    throw new Error('Step must be greater than zero..')
+    throw new Error("Step must be greater than zero..")
   }
 
   const arr = []

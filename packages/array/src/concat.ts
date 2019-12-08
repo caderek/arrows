@@ -1,4 +1,4 @@
-import curry from '@arrows/composition/curry'
+import curry from "@arrows/composition/curry"
 
 type _Concat = <T>(value: T | T[], arr: T[]) => T[]
 type _Concat2 = <T>(value: T | T[]) => (arr: T[]) => T[]

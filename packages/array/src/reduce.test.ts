@@ -1,7 +1,7 @@
-import { reduce } from './index'
+import { reduce } from "./index"
 
-describe('Array reduce', () => {
-  it('provides functional wrapper for Array.prototype.reduce', () => {
+describe("Array reduce", () => {
+  it("provides functional wrapper for Array.prototype.reduce", () => {
     const arr = [1, 2, 3]
     const reducingFn = (acc, value) => acc + value
     const initialValue = 0
@@ -19,7 +19,7 @@ describe('Array reduce', () => {
     expect(result).toEqual(expected)
   })
 
-  it('provides functional wrapper for Array.prototype.reduce - no initial accumulator', () => {
+  it("provides functional wrapper for Array.prototype.reduce - no initial accumulator", () => {
     const arr = [1, 2, 3]
     const reducingFn = (acc, value) => acc + value
 

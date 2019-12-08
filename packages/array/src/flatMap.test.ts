@@ -1,7 +1,7 @@
-import { flatMap } from './index'
+import { flatMap } from "./index"
 
-describe('Array flatMap', () => {
-  it('provides functional wrapper for Array.prototype.flatMap', () => {
+describe("Array flatMap", () => {
+  it("provides functional wrapper for Array.prototype.flatMap", () => {
     const arr = [1, 2, 3]
     const mappingFn = (x) => [x, x + 1]
 

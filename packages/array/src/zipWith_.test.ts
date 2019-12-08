@@ -1,7 +1,7 @@
-import { zipWith_ } from './index'
+import { zipWith_ } from "./index"
 
-describe('Array zipAll', () => {
-  it('returns correct pairs for arrays with equal length', () => {
+describe("Array zipAll", () => {
+  it("returns correct pairs for arrays with equal length", () => {
     const arr = [1, 2, 3]
     const otherArr = [3, 4, 5]
     const zippingFn = (a, b) => a + b
@@ -19,7 +19,7 @@ describe('Array zipAll', () => {
     expect(result).toEqual(expected)
   })
 
-  it('returns correct pairs for when base array is shorter', () => {
+  it("returns correct pairs for when base array is shorter", () => {
     const arr = [1, 2]
     const otherArr = [3, 4, 5]
     const zippingFn = (a, b) => a + b
@@ -37,7 +37,7 @@ describe('Array zipAll', () => {
     expect(result).toEqual(expected)
   })
 
-  it('returns correct pairs for when base array is longer', () => {
+  it("returns correct pairs for when base array is longer", () => {
     const arr = [1, 2, 3]
     const otherArr = [3, 4]
     const zippingFn = (a, b) => a + b
@@ -55,7 +55,7 @@ describe('Array zipAll', () => {
     expect(result).toEqual(expected)
   })
 
-  it('always returns a new array', () => {
+  it("always returns a new array", () => {
     const arr = []
     const otherArr = []
     const zippingFn = (a, b) => a + b
@@ -66,8 +66,8 @@ describe('Array zipAll', () => {
   })
 })
 
-describe('Array zipWith all', () => {
-  it('returns correct pairs for arrays with equal length', () => {
+describe("Array zipWith all", () => {
+  it("returns correct pairs for arrays with equal length", () => {
     const arr = [1, 2, 3]
     const otherArr = [3, 4, 5]
     const zippingFn = (a, b) => a + b
@@ -85,7 +85,7 @@ describe('Array zipWith all', () => {
     expect(result).toEqual(expected)
   })
 
-  it('returns correct pairs for when base array is shorter', () => {
+  it("returns correct pairs for when base array is shorter", () => {
     const arr = [1, 2]
     const otherArr = [3, 4, 5]
     const zippingFn = (a = 0, b = 0) => a + b
@@ -103,7 +103,7 @@ describe('Array zipWith all', () => {
     expect(result).toEqual(expected)
   })
 
-  it('returns correct pairs for when base array is longer', () => {
+  it("returns correct pairs for when base array is longer", () => {
     const arr = [1, 2, 3]
     const otherArr = [3, 4]
     const zippingFn = (a = 0, b = 0) => a + b
@@ -121,7 +121,7 @@ describe('Array zipWith all', () => {
     expect(result).toEqual(expected)
   })
 
-  it('always returns a new array', () => {
+  it("always returns a new array", () => {
     const arr = []
     const otherArr = []
     const zippingFn = (a, b) => a + b

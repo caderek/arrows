@@ -1,7 +1,7 @@
-import { filterNot_ } from './index'
+import { filterNot_ } from "./index"
 
-describe('Array filterNotX', () => {
-  it('works like filter, but result of filtering function is negated', () => {
+describe("Array filterNotX", () => {
+  it("works like filter, but result of filtering function is negated", () => {
     const arr = [1, 2, 3]
     const filteringFn = (x) => x === 1
 

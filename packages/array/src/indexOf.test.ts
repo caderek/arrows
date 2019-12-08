@@ -1,7 +1,7 @@
-import { indexOf } from './index'
+import { indexOf } from "./index"
 
-describe('Array indexOf', () => {
-  it('provides functional wrapper for Array.prototype.indexOf', () => {
+describe("Array indexOf", () => {
+  it("provides functional wrapper for Array.prototype.indexOf", () => {
     const arr = [4, 1, 2, 3, 4, 5]
     const element = 4
     const fromIndex = 2
@@ -20,7 +20,7 @@ describe('Array indexOf', () => {
     expect(result).toEqual(expected)
   })
 
-  it('provides functional wrapper for Array.prototype.indexOf - .all method', () => {
+  it("provides functional wrapper for Array.prototype.indexOf - .all method", () => {
     const arr = [4, 1, 2, 3, 4, 5]
     const element = 4
 

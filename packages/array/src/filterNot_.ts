@@ -1,4 +1,4 @@
-import curry from '@arrows/composition/curry'
+import curry from "@arrows/composition/curry"
 
 type FilteringFn<V> = (element: V, index: number, arr: V[]) => boolean
 type _FilterNot_ = <T>(fn: FilteringFn<T>, arr: T[]) => T[]

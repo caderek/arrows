@@ -1,4 +1,4 @@
-import curry from '@arrows/composition/curry'
+import curry from "@arrows/composition/curry"
 
 type _Prepend_ = <T>(value: T, arr: T[]) => T[]
 type _Prepend2_ = <T>(value: T) => (arr: T[]) => T[]

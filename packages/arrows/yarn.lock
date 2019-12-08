@@ -9,6 +9,13 @@
   dependencies:
     "@arrows/composition" "^1.0.0"
 
+"@arrows/array@^1.3.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@arrows/array/-/array-1.3.0.tgz#ffbcd788560a02192c128a5aa77d2d6c84a0913d"
+  integrity sha512-1hC+gNj8aWS22WTP5LTYDpYEYei/ODsta6Prku5BbFi3NC5SN1g7pjX/NM45mdwN9RgucIdNNGYoyMUiIsk/Cw==
+  dependencies:
+    "@arrows/composition" "^1.0.0"
+
 "@arrows/composition@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@arrows/composition/-/composition-1.0.0.tgz#8f285fbdd96d42229a0a7689da661b8b5ff52c14"

@@ -41,10 +41,12 @@
     "typescript": "^3.6.3"
   },
   "dependencies": {
-    "@arrows/array": "^1.0.0",
-    "@arrows/composition": "^1.0.0",
+    "@arrows/array": "^1.2.1",
+    "@arrows/composition": "^1.2.1",
     "@arrows/dispatch": "^1.0.2",
     "@arrows/error": "^1.0.2",
-    "@arrows/multimethod": "^1.1.6"
+    "@arrows/multimethod": "^1.1.6",
+    "@arrows/string": "^0.1.0",
+    "@arrows/worker": "^1.2.0"
   }
 }

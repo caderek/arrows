@@ -29,16 +29,16 @@
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "@types/jest": "^24.0.19",
+    "@types/jest": "^24.9.0",
     "codecov": "^3.6.1",
-    "jest": "^24.9.0",
-    "ts-jest": "^24.1.0",
-    "ts-node": "^8.4.1",
-    "tslint": "^5.20.0",
+    "jest": "^25.1.0",
+    "ts-jest": "^24.3.0",
+    "ts-node": "^8.6.2",
+    "tslint": "^6.0.0",
     "tslint-config-prettier": "^1.18.0",
-    "typescript": "^3.6.4"
+    "typescript": "^3.7.5"
   },
   "dependencies": {
-    "@arrows/composition": "^1.0.0"
+    "@arrows/composition": "^1.2.2"
   }
 }

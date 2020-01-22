@@ -7,7 +7,8 @@
     "no-var-requires": false,
     "max-classes-per-file": false,
     "callable-types": false,
-    "ordered-imports": false
+    "ordered-imports": false,
+    "array-type": false
   },
   "rulesDirectory": []
 }

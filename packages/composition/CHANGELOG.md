@@ -24,3 +24,7 @@ First stable release.
 ## 1.2.1
 
 - Improved README.
+
+## 1.2.2
+
+- Updated dependencies

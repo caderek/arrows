@@ -6,7 +6,8 @@
     "interface-over-type-literal": false,
     "no-var-requires": false,
     "max-classes-per-file": false,
-    "callable-types": false
+    "callable-types": false,
+    "array-type": false
   },
   "rulesDirectory": []
 }

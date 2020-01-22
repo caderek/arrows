@@ -1,7 +1,7 @@
-import compose from '@arrows/composition/compose'
-import { NoArgumentsError, NotMethodError, NotMultimethodError } from './errors'
-import { areMethodsValid, multimethodKey } from './internal/multimethod'
-import { MethodFn, Multimethod } from './internal/types'
+import compose from "@arrows/composition/compose"
+import { NoArgumentsError, NotMethodError, NotMultimethodError } from "./errors"
+import { areMethodsValid, multimethodKey } from "./internal/multimethod"
+import { MethodFn, Multimethod } from "./internal/types"
 
 type FromMulti = (
   ...methods: MethodFn[]
@@ -20,11 +20,11 @@ const fromMulti: FromMulti = (...methods) => (multimethod) => {
     throw new NotMethodError()
   }
 
-  if (typeof multimethod !== 'function' || !multimethod[multimethodKey]) {
+  if (typeof multimethod !== "function" || !multimethod[multimethodKey]) {
     throw new NotMultimethodError()
   }
 
-  return compose(...methods)(multimethod)
+  return compose(...methods)(multimethod) as Multimethod
 }
 
 export { fromMulti }

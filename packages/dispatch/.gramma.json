@@ -1,0 +1,28 @@
+{
+  "api_url": "inherit",
+  "api_key": "",
+  "dictionary": [
+    "CHANGELOG",
+    "README",
+    "async"
+  ],
+  "language": "en-US",
+  "rules": {
+    "casing": true,
+    "colloquialisms": true,
+    "compounding": true,
+    "confused_words": true,
+    "false_friends": true,
+    "gender_neutrality": true,
+    "grammar": true,
+    "misc": true,
+    "punctuation": false,
+    "redundancy": true,
+    "regionalisms": true,
+    "repetitions": true,
+    "semantics": true,
+    "style": true,
+    "typography": true,
+    "typos": true
+  }
+}

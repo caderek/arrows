@@ -1,6 +1,6 @@
 {
   "name": "@arrows/dispatch",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "main": "index.js",
   "license": "ISC",
   "repository": "https://github.com/caderek/arrows/tree/master/packages/dispatch",

@@ -1,6 +1,6 @@
 import { chunk_ } from "./index"
 
-describe("Array butLast_", () => {
+describe("Array chunk_", () => {
   it("returns the array of equal size chunks", () => {
     const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
@@ -28,18 +28,6 @@ describe("Array butLast_", () => {
       [4, 5, 6],
       [7, 8],
     ]
-
-    expect(result).toEqual(result2)
-    expect(result).toEqual(expected)
-  })
-
-  it("returns empty array if there is less than two elements", () => {
-    const arr = []
-
-    const result = chunk_(2, arr)
-    const result2 = chunk_(2)(arr)
-
-    const expected = []
 
     expect(result).toEqual(result2)
     expect(result).toEqual(expected)

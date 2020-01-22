@@ -1,3 +1,4 @@
+import aperture_ from "./aperture_"
 import append_ from "./append_"
 import butLast_ from "./butLast_"
 import chunk_ from "./chunk_"
@@ -47,6 +48,7 @@ import zip_ from "./zip_"
 import zipWith_ from "./zipWith_"
 
 export {
+  aperture_,
   append_,
   butLast_,
   chunk_,
@@ -97,6 +99,7 @@ export {
 }
 
 export default {
+  aperture_,
   append_,
   butLast_,
   chunk_,

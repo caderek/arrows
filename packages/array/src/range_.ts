@@ -14,22 +14,25 @@ const range_: Range_ = (from, to, step = 1) => {
   }
 
   if (step <= 0) {
-    throw new Error("Step must be greater than zero..")
+    throw new Error("Step must be greater than zero.")
   }
 
-  const arr = []
+  const arr = new Array(Math.floor(Math.abs(to - from) / step))
 
   let i = from
+  let j = 0
 
   if (from > to) {
     while (i > to) {
-      arr.push(i)
+      arr[j] = i
       i -= step
+      j++
     }
   } else {
     while (i < to) {
-      arr.push(i)
+      arr[j] = i
       i += step
+      j++
     }
   }
 

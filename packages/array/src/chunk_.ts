@@ -9,10 +9,10 @@ const _chunk_: _Chunk_ = (chunkSize, arr) => {
     throw new Error("Chunk size has to be greater than 0.")
   }
 
-  const chunks = []
+  const chunks = new Array(Math.ceil(arr.length / chunkSize))
 
-  for (let i = 0; i < arr.length; i = i + chunkSize) {
-    chunks.push(arr.slice(i, i + chunkSize))
+  for (let i = 0, j = 0; i < arr.length; i = i + chunkSize, j++) {
+    chunks[j] = arr.slice(i, i + chunkSize)
   }
 
   return chunks

@@ -53,11 +53,10 @@ type ZipWith_ = CurriedZipWith_ & {
 
 const _zipAllWith_: _ZipAllWith_ = (zippingFn, otherArr, arr) => {
   const length = Math.max(arr.length, otherArr.length)
-  const newArr = []
+  const newArr = new Array(length)
 
   for (let i = 0; i < length; i++) {
-    const value = zippingFn(otherArr[i], arr[i])
-    newArr.push(value)
+    newArr[i] = zippingFn(otherArr[i], arr[i])
   }
 
   return newArr
@@ -67,11 +66,10 @@ const zipAllWith_: ZipAllWith_ = curry(_zipAllWith_)
 
 const _zipWith_: _ZipWith_ = (zippingFn, otherArr, arr) => {
   const length = Math.min(arr.length, otherArr.length)
-  const newArr = []
+  const newArr = new Array(length)
 
   for (let i = 0; i < length; i++) {
-    const value = zippingFn(otherArr[i], arr[i])
-    newArr.push(value)
+    newArr[i] = zippingFn(otherArr[i], arr[i])
   }
 
   return newArr

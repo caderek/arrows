@@ -9,10 +9,11 @@ const _aperture_: _Aperture_ = (chunkSize, arr) => {
     throw new Error("Chunk size has to be greater than 0.")
   }
 
-  const chunks = []
+  const len = arr.length - chunkSize
+  const chunks = new Array(len < 0 ? 0 : len)
 
   for (let i = 0; i <= arr.length - chunkSize; i++) {
-    chunks.push(arr.slice(i, i + chunkSize))
+    chunks[i] = arr.slice(i, i + chunkSize)
   }
 
   return chunks

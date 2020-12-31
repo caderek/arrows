@@ -7,11 +7,10 @@ type ZipAll_ = _ZipAll_ & _ZipAll2_
 
 const _zipAll_: _ZipAll_ = (otherArr, arr) => {
   const length = Math.max(arr.length, otherArr.length)
-  const newArr = []
+  const newArr = new Array(length)
 
   for (let i = 0; i < length; i++) {
-    const item = [arr[i], otherArr[i]] as [any, any]
-    newArr.push(item)
+    newArr[i] = [arr[i], otherArr[i]] as [any, any]
   }
 
   return newArr
@@ -29,11 +28,10 @@ type Zip_ = CurriedZip_ & {
 
 const _zip_: _Zip_ = (otherArr, arr) => {
   const length = Math.min(arr.length, otherArr.length)
-  const newArr = []
+  const newArr = new Array(length)
 
   for (let i = 0; i < length; i++) {
-    const item = [arr[i], otherArr[i]] as [any, any]
-    newArr.push(item)
+    newArr[i] = [arr[i], otherArr[i]] as [any, any]
   }
 
   return newArr

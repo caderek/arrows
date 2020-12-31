@@ -1,5 +1,4 @@
 import curry from "@arrows/composition/curry"
-import { cursorTo } from "readline"
 
 type CompareFn<T> = (a: T, b: T) => number
 
@@ -18,7 +17,7 @@ type Sort = CurriedSort & {
 
 const _sort: _Sort = (fn, arr) => [...arr].sort(fn)
 
-const curriesSort: CurriedSort = curry(_sort)
+const curriedSort: CurriedSort = curry(_sort)
 
 /**
  * Creates a new, sorted array.
@@ -35,35 +34,35 @@ const curriesSort: CurriedSort = curry(_sort)
  * @method locale Sorts string arrays in an ascending order using localeCompare
  * @method localeDesc Sorts string arrays in a descending order  using localeCompare
  */
-const sort: Sort = Object.assign(curriesSort, {
+const sort: Sort = Object.assign(curriedSort, {
   /**
    * Sorts numerical arrays in an ascending order
    *
    * @param arr Initial array
    * @returns New array
    */
-  num: curriesSort((a: number, b: number) => a - b),
+  num: curriedSort((a: number, b: number) => a - b),
   /**
    * Sorts numerical arrays in a descending order
    *
    * @param arr Initial array
    * @returns New array
    */
-  numDesc: curriesSort((a: number, b: number) => b - a),
+  numDesc: curriedSort((a: number, b: number) => b - a),
   /**
    * Sorts string arrays in an ascending order using comparison operators.
    *
    * @param arr Initial array
    * @returns New array
    */
-  str: curriesSort((a: string, b: string) => (a === b ? 0 : a > b ? 1 : -1)),
+  str: curriedSort((a: string, b: string) => (a === b ? 0 : a > b ? 1 : -1)),
   /**
    * Sorts string arrays in a descending order using comparison operators.
    *
    * @param arr Initial array
    * @returns New array
    */
-  strDesc: curriesSort((a: string, b: string) =>
+  strDesc: curriedSort((a: string, b: string) =>
     a === b ? 0 : a > b ? -1 : 1,
   ),
   /**
@@ -74,14 +73,14 @@ const sort: Sort = Object.assign(curriesSort, {
    * @param arr Initial array
    * @returns New array
    */
-  locale: curriesSort((a: string, b: string) => a.localeCompare(b)),
+  locale: curriedSort((a: string, b: string) => a.localeCompare(b)),
   /**
    * Sorts string arrays in a descending order using `String.prototype.localeCompare`.
    *
    * @param arr Initial array
    * @returns New array
    */
-  localeDesc: curriesSort((a: string, b: string) => b.localeCompare(a)),
+  localeDesc: curriedSort((a: string, b: string) => b.localeCompare(a)),
 })
 
 export { sort }

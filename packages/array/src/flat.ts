@@ -1,6 +1,6 @@
 import curry from "@arrows/composition/curry"
 
-type FlatOne = <T>(arr: T[]) => T[]
+type FlatOne = <T>(arr: T[][]) => T[]
 type _Flat = <T>(depth: number, arr: T[]) => unknown[]
 type _Flat2 = <T>(depth: number) => (arr: T[]) => unknown[]
 type CurriedFlat = _Flat & _Flat2
@@ -26,7 +26,7 @@ const flatOne: FlatOne = (arr) => arr.flat()
  *
  * @method one Version with default depth (1)
  */
-const flat = Object.assign(curriedFlat, {
+const flat: Flat = Object.assign(curriedFlat, {
   /**
    * Version with default depth (1).
    *

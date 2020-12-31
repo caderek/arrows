@@ -7,7 +7,7 @@ type SetSize_ = _SetSize_ & _SetSize2_
 const _setSize_: _SetSize_ = (size, arr) => {
   return size <= arr.length
     ? arr.slice(0, size)
-    : arr.slice(0).concat(Array.from({ length: size - arr.length }))
+    : arr.slice(0).concat(new Array(size - arr.length).fill(undefined))
 }
 
 /**

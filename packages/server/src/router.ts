@@ -80,9 +80,12 @@ const go = router(
   }),
 
   sub("/boo", boo),
+
+  // @ts-ignore
+  method("404"),
 )
 
-go({ method: "GET", url: "/info" }) // ?
-go({ method: "GET", url: "/elo" }) // ?
-go({ method: "POST", url: "/elo" }) // ?
-go({ method: "GET", url: "/boo/hoo" }) // ?
+console.log(go({ method: "GET", url: "/info" })) // ?
+console.log(go({ method: "GET", url: "/elo" })) // ?
+console.log(go({ method: "POST", url: "/elo" })) // ?
+console.log(go({ method: "GET", url: "/boo" })) // ?

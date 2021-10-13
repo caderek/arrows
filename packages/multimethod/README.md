@@ -345,8 +345,9 @@ class HTML {}
  * Function with case values as constructors wrapped in an array - a special case.
  *
  * If the case value is an array, the matching algorithm will check if the array
- * contains constructors. If that's the case, then these constructors will be
- * matched using the constructor algorithm, other values of the array
+ * contains special cases (constructors, regular expressions, placeholders).
+ * If that's the case, these values will be matched according
+ * to their specific rules, other values of the array
  * will be matched using a deep strict equal algorithm.
  *
  * The algorithm, by design, checks for constructors only the first-level array.
@@ -393,7 +394,7 @@ sendMessage('breadcrumbs') // -> "bread"
 const {multi, method, __} = require('@arrows/multimethod')
 /**
  * Function with case values as the placeholder.
- * Always resolves to true.
+ * These values always resolve to true.
  *
  * @param {RegExp} pattern
  * @returns {string} type

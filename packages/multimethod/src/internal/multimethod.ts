@@ -76,10 +76,8 @@ const findTarget: FindTarget = (
       case 'mixed':
         return dispatchEntry.values
           .map((item: MixedCaseTypes, index: number) => {
-            console.log('item:', item)
             switch (item.type) {
               case 'skip':
-                console.log('SKIP!!!!!!!!!')
                 return true
               case 'constructor':
                 return (

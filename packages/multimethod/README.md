@@ -270,7 +270,8 @@ Case value can be either:
 1. an ordinary function
 2. a constructor / class
 3. regular expression
-4. any other value
+4. Placeholder value (`__`)
+5. any other value
 
 If the case value is neither a function, regular expression, nor a constructor, it will be matched against the result of the dispatch function using the deep strict equal algorithm.
 
@@ -279,6 +280,8 @@ it will be matched against the result of the dispatch function by strict equalit
 and if that fails — by the `instanceof` operator.
 
 If the case value is a regular expression it will be matched against the result of the dispatch function by the `RegExp.prototype.test()` method.
+
+If the case value is the placeholder value `__` it always resolves to true, matches any input. It is useful to skip checks for some arguments.
 
 If the case value is an ordinary function, the dispatch function will be ignored,
 and the case value function will be executed with all provided arguments. Case value function should return a boolean value (or at least the output will be treated as such).
@@ -384,6 +387,29 @@ productCategory('blue cheese') // -> "cheese"
 productCategory('red wine') // -> "wine"
 productCategory('white wine from Germany') // -> "wine"
 sendMessage('breadcrumbs') // -> "bread"
+```
+
+```js
+const {multi, method, __} = require('@arrows/multimethod')
+/**
+ * Function with case values as the placeholder.
+ * Always resolves to true.
+ *
+ * @param {RegExp} pattern
+ * @returns {string} type
+ */
+const checkArgs = multi(
+  (...args) => args.map(arg => typeof arg)
+  // Skipping check on the first argument
+  method([__, 'function', 'function'], () => {throw new Error('To many functions')}),
+  // Skipping check on the second argument
+  method(['object', __, 'function'], () => {throw new Error('Wrong combination')}),
+  method((a, b, c) => 'ok'),
+)
+
+checkArgs(1, () => 2, () => 3) // -> Error: To many functions
+checkArgs({ id: 1 }, 2, () => 3) // -> Error: Wrong combination
+checkArgs(1, { id: 2 }, () => 3) // -> "ok"
 ```
 
 ```js

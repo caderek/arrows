@@ -10,6 +10,9 @@ export type MethodEntries = MethodEntry[]
 
 export type DefaultMethod = ((arg0: any, arg1?: any) => any) | null
 
+export type SkipCaseEntry = {
+  type: 'skip'
+}
 export type ValueCaseEntry = {
   type: 'value'
   value: any
@@ -26,11 +29,17 @@ export type FunctionCaseEntry = {
   type: 'function'
   value: (...args: any[]) => boolean
 }
+export type MixedCaseTypes =
+  | ConstructorCaseEntry
+  | ValueCaseEntry
+  | RegExpCaseEntry
+  | SkipCaseEntry
 export type MixedCaseEntry = {
   type: 'mixed'
-  values: Array<ConstructorCaseEntry | ValueCaseEntry>
+  values: Array<MixedCaseTypes>
 }
 export type CaseEntry =
+  | SkipCaseEntry
   | ValueCaseEntry
   | ConstructorCaseEntry
   | RegExpCaseEntry

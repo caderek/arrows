@@ -7,14 +7,13 @@ import {
   NotMethodError,
 } from '../errors'
 import {
-  ConstructorCaseEntry,
   DefaultMethod,
   Dispatch,
   MethodEntries,
   MethodFn,
   MultiFn,
-  ValueCaseEntry,
   Multimethod,
+  MixedCaseTypes,
 } from './types'
 
 const multimethodKey = Symbol('multimethod')
@@ -61,6 +60,8 @@ const findTarget: FindTarget = (
 ) => {
   const entry = methodEntries.find(([dispatchEntry]) => {
     switch (dispatchEntry.type) {
+      case 'skip':
+        return true
       case 'value':
         return equal(dispatchEntry.value, currentDispatchValue)
       case 'function':
@@ -74,11 +75,23 @@ const findTarget: FindTarget = (
         return dispatchEntry.value.test(currentDispatchValue)
       case 'mixed':
         return dispatchEntry.values
-          .map((item: ConstructorCaseEntry | ValueCaseEntry, index: number) =>
-            item.type === 'constructor'
-              ? currentDispatchValue[index] instanceof item.value
-              : equal(currentDispatchValue[index], item.value),
-          )
+          .map((item: MixedCaseTypes, index: number) => {
+            console.log('item:', item)
+            switch (item.type) {
+              case 'skip':
+                console.log('SKIP!!!!!!!!!')
+                return true
+              case 'constructor':
+                return (
+                  currentDispatchValue[index] === item.value ||
+                  currentDispatchValue[index] instanceof item.value
+                )
+              case 'value':
+                return equal(item.value, currentDispatchValue[index])
+              case 'regexp':
+                return item.value.test(currentDispatchValue[index])
+            }
+          })
           .every((matching: boolean) => matching === true)
     }
   })

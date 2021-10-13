@@ -1,9 +1,14 @@
 import isConstructor from './isConstructor'
 import { CaseEntry } from './types'
+import __ from '../__'
 
 type CreateCaseEntry = (caseValue: any) => CaseEntry
 
 const createCaseEntry: CreateCaseEntry = (caseValue) => {
+  if (caseValue === __) {
+    return { type: 'skip' }
+  }
+
   if (isConstructor(caseValue)) {
     return { type: 'constructor', value: caseValue }
   }
@@ -24,7 +29,13 @@ const createCaseEntry: CreateCaseEntry = (caseValue) => {
       type: 'mixed',
       values: caseValue.map((item) => {
         return {
-          type: isConstructor(item) ? 'constructor' : 'value',
+          type: isConstructor(item)
+            ? 'constructor'
+            : item === __
+            ? 'skip'
+            : item instanceof RegExp
+            ? 'regexp'
+            : 'value',
           value: item,
         }
       }),

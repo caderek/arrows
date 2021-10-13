@@ -6,9 +6,7 @@ import {
   NotMethodError,
   NotMultimethodError,
 } from './errors'
-import fromMulti from './fromMulti'
-import method from './method'
-import multi from './multi'
+import { multi, method, fromMulti, __ } from './index'
 
 describe('multi', () => {
   describe('executed without any arguments', () => {
@@ -287,6 +285,30 @@ describe('multimethod', () => {
     })
   })
 
+  describe('when case is a skip __ symbol and dispatch is not chunked', () => {
+    it('matches any value', () => {
+      const multimethod = multi(method(__, 'ok'), method('default'))
+
+      expect(multimethod(__)).toEqual('ok')
+      expect(multimethod('hello')).toEqual('ok')
+      expect(multimethod(/abc/)).toEqual('ok')
+    })
+  })
+
+  describe('when case is a skip __ symbol and dispatch is chunked', () => {
+    it('matches any value', () => {
+      const multimethod = multi(
+        () => () => (val) => val,
+        method(__, 'ok'),
+        method('default'),
+      )
+
+      expect(multimethod()()(__)).toEqual('ok')
+      expect(multimethod()()('hello')).toEqual('ok')
+      expect(multimethod()()(/abc/)).toEqual('ok')
+    })
+  })
+
   describe('when case is a constructor and dispatch is not chunked', () => {
     it('matches the dispatch value with instanceof operator', () => {
       class Cat {}
@@ -370,7 +392,7 @@ describe('multimethod', () => {
     })
   })
 
-  describe('when case is an array of constructor | value and dispatch is not chunked', () => {
+  describe('when case is an array of mixed cases and dispatch is not chunked', () => {
     it('matches the dispatch value with instanceof operator', () => {
       class Cat {}
       class Dog {}
@@ -381,6 +403,8 @@ describe('multimethod', () => {
         method([Cat, Mouse, 'eat'], 'The cat ate the mouse!'),
         method([Dog, Mouse, 'eat'], 'The dog did not eat the mouse.'),
         method([Dog, Cat, 'eat'], 'The dog did not eat the cat.'),
+        method([Dog, Cat, /play/], 'Having fun.'),
+        method([Dog, Cat, __], 'They just stare.'),
       )
 
       expect(fn(new Cat(), new Mouse(), 'eat')).toEqual(
@@ -392,10 +416,14 @@ describe('multimethod', () => {
       expect(fn(new Dog(), new Cat(), 'eat')).toEqual(
         'The dog did not eat the cat.',
       )
+      expect(fn(new Dog(), new Cat(), 'play with the ball')).toEqual(
+        'Having fun.',
+      )
+      expect(fn(new Dog(), new Cat(), 'read')).toEqual('They just stare.')
     })
   })
 
-  describe('when case is an array of constructor | value and default dispatch', () => {
+  describe('when case is an array of mixed cases and default dispatch', () => {
     it('matches the dispatch value with instanceof operator', () => {
       class Cat {}
       class Dog {}
@@ -405,6 +433,8 @@ describe('multimethod', () => {
         method([Cat, Mouse, 'eat'], 'The cat ate the mouse!'),
         method([Dog, Mouse, 'eat'], 'The dog did not eat the mouse.'),
         method([Dog, Cat, 'eat'], 'The dog did not eat the cat.'),
+        method([Dog, Cat, /play/], 'Having fun.'),
+        method([Dog, Cat, __], 'They just stare.'),
       )
 
       expect(fn(new Cat(), new Mouse(), 'eat')).toEqual(
@@ -416,10 +446,14 @@ describe('multimethod', () => {
       expect(fn(new Dog(), new Cat(), 'eat')).toEqual(
         'The dog did not eat the cat.',
       )
+      expect(fn(new Dog(), new Cat(), 'play with the ball')).toEqual(
+        'Having fun.',
+      )
+      expect(fn(new Dog(), new Cat(), 'read')).toEqual('They just stare.')
     })
   })
 
-  describe('when case is an array of constructor | value and dispatch is chunked', () => {
+  describe('when case is an array of mixed cases and dispatch is chunked', () => {
     it('matches the dispatch value with instanceof operator', () => {
       class Cat {}
       class Dog {}
@@ -430,6 +464,8 @@ describe('multimethod', () => {
         method([Cat, Mouse, 'eat'], 'The cat ate the mouse!'),
         method([Dog, Mouse, 'eat'], 'The dog did not eat the mouse.'),
         method([Dog, Cat, 'eat'], 'The dog did not eat the cat.'),
+        method([Dog, Cat, /play/], 'Having fun.'),
+        method([Dog, Cat, __], 'They just stare.'),
       )
 
       expect(fn(new Cat())(new Mouse())('eat')).toEqual(
@@ -441,6 +477,10 @@ describe('multimethod', () => {
       expect(fn(new Dog())(new Cat())('eat')).toEqual(
         'The dog did not eat the cat.',
       )
+      expect(fn(new Dog())(new Cat())('play with the ball')).toEqual(
+        'Having fun.',
+      )
+      expect(fn(new Dog())(new Cat())('read')).toEqual('They just stare.')
     })
   })
 

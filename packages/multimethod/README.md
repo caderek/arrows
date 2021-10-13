@@ -633,7 +633,7 @@ Multimethods support automatic currying and manual currying/chunking, based on d
 
 #### Automatic currying
 
-Multimethods work with all generic `curry` functions. Currying is based on the length of the dispatch function, so you should provide an explicit dispatch (default dispatch is a variadic function, so it's length is `0`).
+Multimethods work with all generic `curry` functions. Currying is based on the length of the dispatch function, so you should provide an explicit dispatch (default dispatch is a variadic function, so its length is `0`).
 
 Example:
 

@@ -34,7 +34,8 @@
    - [multi](#multi)
    - [method](#method)
    - [fromMulti](#fromMulti)
-5. [License](#license)
+5. [Articles](#articles)
+6. [License](#license)
 
 ## Introduction
 
@@ -1165,6 +1166,10 @@ extendedAdd(2n, 3n) // -> 5n
 extendedAdd(5, 5n) // -> 10n
 extendedAdd(9n, 2) // -> 11n
 ```
+
+## Articles
+
+- _Polymorphism without objects via multimethods_ by Yehonathan Sharvit - [link](https://blog.klipse.tech/javascript/2021/10/03/multimethod.html)
 
 ## License
 

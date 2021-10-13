@@ -36,3 +36,7 @@ First stable release.
 - Added regexp case value,
 - Fixed `multi` executed with single method
 - Improved documentation
+
+## 1.3.0
+
+- Added placeholder \_\_ caseValue (works with mixed case values and single case values)

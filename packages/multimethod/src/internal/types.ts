@@ -18,6 +18,10 @@ export type ConstructorCaseEntry = {
   type: 'constructor'
   value: new (...args: any[]) => Class<any>
 }
+export type RegExpCaseEntry = {
+  type: 'regexp'
+  value: RegExp
+}
 export type FunctionCaseEntry = {
   type: 'function'
   value: (...args: any[]) => boolean
@@ -29,6 +33,7 @@ export type MixedCaseEntry = {
 export type CaseEntry =
   | ValueCaseEntry
   | ConstructorCaseEntry
+  | RegExpCaseEntry
   | FunctionCaseEntry
   | MixedCaseEntry
 

@@ -269,13 +269,16 @@ Case value can be either:
 
 1. an ordinary function
 2. a constructor / class
-3. any other value
+3. regular expression
+4. any other value
 
-If the case value is neither a function nor a constructor, it will be matched against the result of the dispatch function using the deep strict equal algorithm.
+If the case value is neither a function, regular expression, nor a constructor, it will be matched against the result of the dispatch function using the deep strict equal algorithm.
 
 If the case value is a constructor (can be inside an array, more in the examples),
 it will be matched against the result of the dispatch function by strict equality (`===`) operator,
 and if that fails — by the `instanceof` operator.
+
+If the case value is a regular expression it will be matched against the result of the dispatch function by the `RegExp.prototype.test()` method.
 
 If the case value is an ordinary function, the dispatch function will be ignored,
 and the case value function will be executed with all provided arguments. Case value function should return a boolean value (or at least the output will be treated as such).
@@ -361,6 +364,26 @@ const embed = multi(
 
 embed(new Article(), new PDF()) // -> "Embedding article inside PDF"
 embed(new Recipe(), new HTML()) // -> "Embedding recipe inside HTML"
+```
+
+```js
+/**
+ * Function with case values as regular expressions.
+ * Matched by RegExp.prototype.test() method
+ *
+ * @param {RegExp} pattern
+ * @returns {string} type
+ */
+const productCategory = multi(
+  method(/wine/, 'wine'),
+  method(/cheese/, 'cheese'),
+  method(/milk/, 'milk'),
+)
+
+productCategory('blue cheese') // -> "cheese"
+productCategory('red wine') // -> "wine"
+productCategory('white wine from Germany') // -> "wine"
+sendMessage('breadcrumbs') // -> "bread"
 ```
 
 ```js
@@ -743,48 +766,48 @@ import { method, multi, Multi } from '@arrows/multimethod'
  * Extending `Multi` type guarantees that the multimethod will
  * be recognized correctly when extended by `fromMulti` function.
  */
-interface IMultiply extends Multi {
-  (times: number, x: number): number
-  (times: number, x: string): string
+interface Add extends Multi {
+  (x: number, y: number): number
+  (x: string, y: string): string
 }
 
-const multiply: IMultiply = multi(
-  (times: number, x: any): string => typeof x,
-  method('number', (times: number, x: number): number => x * times),
-  method('string', (times: number, x: string): string => x.repeat(times)),
+const add: Add = multi(
+  <T>(x: T, x: T): T => [x, y],
+  method([Number, Number], (x: number, y: number): number => x + y),
+  method([String, String], (x: string, y: string): string => `${x}${y}`),
 )
 
 /*
-multiply(3, 3) // -> 9
-multiply(3, 'foo') // -> "foofoofoo"
-multiply(3, [1, 2, 3]) // compiler error
+add(3, 3) // -> 6
+add('foo', 'bar') // -> "foobar"
+add(5, [1, 2]) // compiler error
 */
 
-export { IMultiply }
-export default multiply
+export { Add }
+export default add
 ```
 
 Creating a new multimethod from an existing one:
 
 ```ts
 import { fromMulti, method } from '@arrows/multimethod'
-import baseMultiply, { IMultiply as IBaseMultiply } from './multiply'
+import baseAdd, { Add as BaseAdd } from './add'
 
 /**
  * Multimethod type defined by extending existing interface.
  */
-interface IMultiply extends IBaseMultiply {
-  (times: number, x: bigint): bigint
+interface Add extends BaseAdd {
+  (x: bigint, y: bigint): bigint
 }
 
-const multiply: IMultiply = fromMulti(
-  method('bigint', (times: number, x: bigint) => x * BigInt(times)),
-)(baseMultiply)
+const add: Add = fromMulti(
+  method([BigInt, BigInt], (x: bigint, y: bigint) => x + y),
+)(baseAdd)
 
-multiply(3, 3) // -> 9
-multiply(3, 'foo') // -> "foofoofoo"
-multiply(3, 5n) // -> 15n
-multiply(3, [1, 2, 3]) // compiler error
+add(3, 3) // -> 6
+add('foo', 'bar') // -> "foobar"
+add(3n, 5n) // -> 8n
+add(3, [1, 2, 3]) // compiler error
 ```
 
 ### Adding types via type aliases and intersections
@@ -800,48 +823,48 @@ import { method, multi, Multi } from '@arrows/multimethod'
  * Using intersection with `Multi` type guarantees that the multimethod
  * will be recognized correctly when extended by `fromMulti` function.
  */
-type Multiply = Multi & {
-  (times: number, x: number): number
-  (times: number, x: string): string
+type Add = Multi & {
+  (x: number, y: number): number
+  (x: string, y: string): string
 }
 
-const multiply: Multiply = multi(
-  (times: number, x: any): string => typeof x,
-  method('number', (times: number, x: number): number => x * times),
-  method('string', (times: number, x: string): string => x.repeat(times)),
+const add: Add = multi(
+  <T>(x: T, x: T): T => [x, y],
+  method([Number, Number], (x: number, y: number): number => x + y),
+  method([String, String], (x: string, y: string): string => `${x}${y}`),
 )
 
 /*
-multiply(3, 3) // -> 9
-multiply(3, 'foo') // -> "foofoofoo"
-multiply(3, [1, 2, 3]) // compiler error
+add(3, 3) // -> 6
+add('foo', 'bar') // -> "foobar"
+add(5, [1, 2]) // compiler error
 */
 
-export { Multiply }
-export default multiply
+export { Add }
+export default add
 ```
 
 Creating a new multimethod from an existing one:
 
 ```ts
 import { fromMulti, method } from '@arrows/multimethod'
-import baseMultiply, { Multiply as BaseMultiply } from './multiply'
+import baseAdd, { Add as BaseAdd } from './add'
 
 /**
  * Multimethod type defined by intersection with existing type.
  */
-type Multiply = BaseMultiply & {
-  (times: number, x: bigint): bigint
+type Add = BaseAdd & {
+  (x: bigint, y: bigint): bigint
 }
 
-const multiply: Multiply = fromMulti(
-  method('bigint', (times: number, x: bigint) => x * BigInt(times)),
-)(baseMultiply)
+const add: Add = fromMulti(
+  method([BigInt, BigInt], (x: bigint, y: bigint) => x + y),
+)(baseAdd)
 
-multiply(3, 3) // -> 9
-multiply(3, 'foo') // -> "foofoofoo"
-multiply(3, 5n) // -> 15n
-multiply(3, [1, 2, 3]) // compiler error
+add(3, 3) // -> 6
+add('foo', 'bar') // -> "foobar"
+add(3n, 5n) // -> 8n
+add(3, [1, 2, 3]) // compiler error
 ```
 
 #### Adding types using existing types
@@ -857,11 +880,11 @@ import { method, multi, Multi } from '@arrows/multimethod'
 /**
  * Component functions with type aliases.
  */
-type MultiplyNumber = (times: number, x: number) => number
-const multiplyNumber: MultiplyNumber = (times, x) => x * times
+type AddNumbers = (x: number, y: number) => number
+const addNumbers: AddNumbers = (x, y) => x + y
 
-type MultiplyString = (times: number, x: string) => string
-const multiplyString: MultiplyString = (times, x) => x.repeat(times)
+type AddStrings = (x: string, y: string) => string
+const addStrings: AddStrings = (x, y) => `${x}${y}`
 
 /**
  * Multimethod type defined by intersection of existing types.
@@ -869,47 +892,47 @@ const multiplyString: MultiplyString = (times, x) => x.repeat(times)
  * Using intersection with `Multi` type guarantees that the multimethod
  * will be recognized correctly when extended by `fromMulti` function.
  */
-type Multiply = Multi & MultiplyNumber & MultiplyString
+type Add = Multi & AddNumbers & AddStrings
 
-const multiply: Multiply = multi(
-  (times: number, x: any): string => typeof x,
-  method('number', multiplyNumber),
-  method('string', multiplyString),
+const add: Add = multi(
+  <T>(x: T, y: T): T => [x, y],
+  method([Number, Number], addNumbers),
+  method([String, String], addStrings),
 )
 
 /*
-multiply(3, 3) // -> 9
-multiply(3, 'foo') // -> "foofoofoo"
-multiply(3, [1, 2, 3]) // compiler error
+add(3, 3) // -> 6
+add('foo', 'bar') // -> "foobar"
+add(3, [1, 2, 3]) // compiler error
 */
 
-export { multiplyNumber, multiplyString, Multiply }
-export default multiply
+export { addNumbers, addStrings, Add }
+export default add
 ```
 
 Creating a new multimethod from an existing one:
 
 ```ts
 import { fromMulti, method } from '@arrows/multimethod'
-import baseMultiply, { Multiply as BaseMultiply } from './multiply'
+import baseAdd, { Add as BaseAdd } from './add'
 
-type MultiplyBigInt = (times: number, x: bigint) => bigint
-const multiplyBigInt: MultiplyBigInt = (times, x) => x * BigInt(times)
+type AddBigInts = (x: bigint, y: bigint) => bigint
+const addBigInts: AddBigInts = (x, y) => x + y
 
 /**
  * Multimethod type defined by intersection of existing types.
  */
-type Multiply = BaseMultiply & MultiplyBigInt
+type Add = BaseAdd & AddBigInts
 
 // prettier-ignore
-const multiply: Multiply = fromMulti(
-  method('bigint', multiplyBigInt),
-)(baseMultiply)
+const add: Add = fromMulti(
+  method([BigInt, BigInt], addBigInts),
+)(baseAdd)
 
-multiply(3, 3) // -> 9
-multiply(3, 'foo') // -> "foofoofoo"
-multiply(3, 5n) // -> 15n
-multiply(3, [1, 2, 3]) // compiler error
+add(3, 3) // -> 6
+add('foo', 'bar') // -> "foobar"
+add(3n, 5n) // -> 8n
+add(3, [1, 2, 3]) // compiler error
 ```
 
 ## API reference

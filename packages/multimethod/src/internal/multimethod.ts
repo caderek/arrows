@@ -1,11 +1,11 @@
-import compose from "@arrows/composition/compose"
-import * as equal from "fast-deep-equal"
+import compose from '@arrows/composition/compose'
+import * as equal from 'fast-deep-equal'
 import {
   FirstArgumentError,
   NoArgumentsError,
   NoMethodError,
   NotMethodError,
-} from "../errors"
+} from '../errors'
 import {
   ConstructorCaseEntry,
   DefaultMethod,
@@ -15,10 +15,10 @@ import {
   MultiFn,
   ValueCaseEntry,
   Multimethod,
-} from "./types"
+} from './types'
 
-const multimethodKey = Symbol("multimethod")
-const methodKey = Symbol("method")
+const multimethodKey = Symbol('multimethod')
+const methodKey = Symbol('method')
 
 type ImplicitDispatch = (...args: any[]) => any | any[]
 
@@ -32,9 +32,9 @@ const countSegments: CountSegments = (dispatch) => {
   let current = dispatch
 
   try {
-    while (typeof current === "function") {
+    while (typeof current === 'function') {
       const next = current()
-      if (typeof next === "function") {
+      if (typeof next === 'function') {
         count++
         current = next
       } else {
@@ -61,19 +61,21 @@ const findTarget: FindTarget = (
 ) => {
   const entry = methodEntries.find(([dispatchEntry]) => {
     switch (dispatchEntry.type) {
-      case "value":
+      case 'value':
         return equal(dispatchEntry.value, currentDispatchValue)
-      case "function":
+      case 'function':
         return dispatchEntry.value(...args)
-      case "constructor":
+      case 'constructor':
         return (
           currentDispatchValue === dispatchEntry.value ||
           currentDispatchValue instanceof dispatchEntry.value
         )
-      case "mixed":
+      case 'regexp':
+        return dispatchEntry.value.test(currentDispatchValue)
+      case 'mixed':
         return dispatchEntry.values
           .map((item: ConstructorCaseEntry | ValueCaseEntry, index: number) =>
-            item.type === "constructor"
+            item.type === 'constructor'
               ? currentDispatchValue[index] instanceof item.value
               : equal(currentDispatchValue[index], item.value),
           )
@@ -111,14 +113,14 @@ const createSimpleTarget: CreateSimpleTarget = (
       defaultMethod,
     )
 
-    if (typeof target !== "function") {
+    if (typeof target !== 'function') {
       return target
     }
 
     return target(...args)
   }
 
-  Object.defineProperty(fn, "length", { value: dispatch.length })
+  Object.defineProperty(fn, 'length', { value: dispatch.length })
 
   return fn
 }
@@ -160,7 +162,7 @@ const createSegmentedTarget: CreateSegmentedTarget = (
           defaultMethod,
         )
 
-        if (typeof target !== "function") {
+        if (typeof target !== 'function') {
           return target
         }
 
@@ -178,7 +180,7 @@ const createSegmentedTarget: CreateSegmentedTarget = (
       return recur(counter - 1, [...previousSegmentsArgs, args])
     }
 
-    Object.defineProperty(fn, "length", { value: dispatch.length })
+    Object.defineProperty(fn, 'length', { value: dispatch.length })
 
     return fn
   }
@@ -188,18 +190,18 @@ const createSegmentedTarget: CreateSegmentedTarget = (
 
 const areMethodsValid = (args: any[]) => {
   return args.every(
-    (item) => typeof item === "function" && item[methodKey] === true,
+    (item) => typeof item === 'function' && item[methodKey] === true,
   )
 }
 
-type GetFirstArgumentType = (arg: any) => "method" | "dispatch"
+type GetFirstArgumentType = (arg: any) => 'method' | 'dispatch'
 
 const getFirstArgumentType: GetFirstArgumentType = (arg) => {
-  if (typeof arg !== "function") {
+  if (typeof arg !== 'function') {
     throw new FirstArgumentError()
   }
 
-  return arg[methodKey] ? "method" : "dispatch"
+  return arg[methodKey] ? 'method' : 'dispatch'
 }
 
 type CreateMultimethod = (
@@ -215,17 +217,17 @@ const createMultimethod: CreateMultimethod = (methodEntries = []) => (
 
   if (methods.length > 0 && !areMethodsValid(methods)) {
     throw new NotMethodError(
-      "Second or further argument of multi must be a partially applied method.",
+      'Second or further argument of multi must be a partially applied method.',
     )
   }
 
   const firstArgumentType = getFirstArgumentType(arg0)
 
-  const allMethods = (firstArgumentType !== "method"
+  const allMethods = (firstArgumentType !== 'method'
     ? methods
     : [arg0, ...methods]) as MethodFn[]
 
-  const dispatch = (firstArgumentType === "dispatch"
+  const dispatch = (firstArgumentType === 'dispatch'
     ? arg0
     : implicitDispatch) as Dispatch
 
@@ -248,7 +250,7 @@ const createMultimethod: CreateMultimethod = (methodEntries = []) => (
     methodEntries,
   }
 
-  if (methods.length !== 0) {
+  if (allMethods.length !== 0) {
     return compose(...allMethods)(multimethod) as Multimethod
   }
 

@@ -8,6 +8,10 @@ const createCaseEntry: CreateCaseEntry = (caseValue) => {
     return { type: 'constructor', value: caseValue }
   }
 
+  if (caseValue instanceof RegExp) {
+    return { type: 'regexp', value: caseValue }
+  }
+
   if (typeof caseValue === 'function') {
     return { type: 'function', value: caseValue }
   }

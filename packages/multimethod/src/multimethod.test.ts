@@ -93,6 +93,15 @@ describe('multi', () => {
 
         expect(results).toEqual(expected)
       })
+
+      it('that works like identity function for single argument - default only', () => {
+        const sayHello = multi(method((x) => 'hello'))
+
+        const result = sayHello('foo')
+        const expected = 'hello'
+
+        expect(result).toEqual(expected)
+      })
     })
   })
 
@@ -116,7 +125,10 @@ describe('multi', () => {
 describe('method', () => {
   describe('when run separately', () => {
     it('creates new multimethod based on supplied one (with new method)', () => {
-      const greet = multi((user) => user.lang, method('en', () => 'Hello!'))
+      const greet = multi(
+        (user) => user.lang,
+        method('en', () => 'Hello!'),
+      )
       const polyGreet = method('pl', () => 'Cześć!')(greet)
 
       const result = polyGreet({ name: 'Maciej', lang: 'pl' })
@@ -157,7 +169,10 @@ describe('method', () => {
   })
 
   it('when only function is provided creates default method', () => {
-    const multimethod = multi((x) => x, method(() => 'default'))
+    const multimethod = multi(
+      (x) => x,
+      method(() => 'default'),
+    )
 
     const result = multimethod(1)
     const expected = 'default'
@@ -247,7 +262,7 @@ describe('multimethod', () => {
     expect(multimethod({ foo: 1, bar: 2 })).toEqual('second')
   })
 
-  describe('when case value is a function and dispatch is not chunked', () => {
+  describe('when case is a function and dispatch is not chunked', () => {
     it('executes that function with initial arguments', () => {
       const multimethod = multi(
         method((a, b) => b === 1, 'one'),
@@ -259,7 +274,7 @@ describe('multimethod', () => {
     })
   })
 
-  describe('when case value is a function and dispatch is chunked', () => {
+  describe('when case is a function and dispatch is chunked', () => {
     it('executes that function with all arguments that would be otherwise passed to dispatch (dechunked)', () => {
       const multimethod = multi(
         (a) => (b) => {}, // tslint:disable-line
@@ -272,7 +287,7 @@ describe('multimethod', () => {
     })
   })
 
-  describe('when case value is a constructor and dispatch is not chunked', () => {
+  describe('when case is a constructor and dispatch is not chunked', () => {
     it('matches the dispatch value with instanceof operator', () => {
       class Cat {}
       class Dog {}
@@ -284,7 +299,7 @@ describe('multimethod', () => {
     })
   })
 
-  describe('when case value is a constructor and dispatch is chunked', () => {
+  describe('when case is a constructor and dispatch is chunked', () => {
     it('matches the dispatch value with instanceof operator', () => {
       class Cat {}
       class Dog {}
@@ -300,7 +315,62 @@ describe('multimethod', () => {
     })
   })
 
-  describe('when case value is an array of constructor | value and dispatch is not chunked', () => {
+  describe('when case is a regex and dispatch is not chunked', () => {
+    it('matches the dispatch value with RegExp.test() ', () => {
+      const multimethod = multi(
+        method(/cat/, 'cat'),
+        method(/dog/, 'dog'),
+        method('default'),
+      )
+
+      expect(multimethod("I'm a cat")).toEqual('cat')
+      expect(multimethod('Woof - dog barked')).toEqual('dog')
+      expect(multimethod(new RegExp('dog'))).toEqual('dog')
+      expect(multimethod(/cat/)).toEqual('cat')
+      expect(multimethod(123)).toEqual('default')
+      expect(multimethod(/cow/)).toEqual('default')
+      expect(multimethod(new RegExp('horse'))).toEqual('default')
+      expect(multimethod('bird')).toEqual('default')
+    })
+  })
+
+  describe('when case is a regex and dispatch is chunked', () => {
+    it('matches the dispatch value with RegExp.test() ', () => {
+      const multimethod = multi(
+        () => () => (val) => val,
+        method(/cat/, 'cat'),
+        method(/dog/, 'dog'),
+        method('default'),
+      )
+
+      expect(multimethod()()("I'm a cat")).toEqual('cat')
+      expect(multimethod()()('Woof - dog barked')).toEqual('dog')
+      expect(multimethod()()(new RegExp('dog'))).toEqual('dog')
+      expect(multimethod()()(/cat/)).toEqual('cat')
+      expect(multimethod()()(123)).toEqual('default')
+      expect(multimethod()()(/cow/)).toEqual('default')
+      expect(multimethod()()(new RegExp('horse'))).toEqual('default')
+      expect(multimethod()()('bird')).toEqual('default')
+    })
+  })
+
+  describe('when case is a constructor and dispatch is chunked', () => {
+    it('matches the dispatch value with instanceof operator', () => {
+      class Cat {}
+      class Dog {}
+
+      const multimethod = multi(
+        () => () => (animal) => animal,
+        method(Cat, 'cat'),
+        method(Dog, 'dog'),
+      )
+
+      expect(multimethod()()(new Cat())).toEqual('cat')
+      expect(multimethod()()(new Dog())).toEqual('dog')
+    })
+  })
+
+  describe('when case is an array of constructor | value and dispatch is not chunked', () => {
     it('matches the dispatch value with instanceof operator', () => {
       class Cat {}
       class Dog {}
@@ -325,7 +395,7 @@ describe('multimethod', () => {
     })
   })
 
-  describe('when case value is an array of constructor | value and default dispatch', () => {
+  describe('when case is an array of constructor | value and default dispatch', () => {
     it('matches the dispatch value with instanceof operator', () => {
       class Cat {}
       class Dog {}
@@ -349,7 +419,7 @@ describe('multimethod', () => {
     })
   })
 
-  describe('when case value is an array of constructor | value and dispatch is chunked', () => {
+  describe('when case is an array of constructor | value and dispatch is chunked', () => {
     it('matches the dispatch value with instanceof operator', () => {
       class Cat {}
       class Dog {}

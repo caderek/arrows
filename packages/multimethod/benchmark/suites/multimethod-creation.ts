@@ -10,10 +10,6 @@ const { version } = require('../../package.json')
 export default suite(
   'Multimethod creation',
 
-  add('Create multimethod without args', () => {
-    multi()
-  }),
-
   add('Create multimethod with custom dispatch - one chunk', () => {
     multi((a) => a)
   }),
@@ -99,4 +95,5 @@ export default suite(
   cycle(),
   complete(),
   save({ file: `${version}-multimethod-creation`, version }),
+  save({ file: `${version}-multimethod-creation`, format: 'chart.html' }),
 )

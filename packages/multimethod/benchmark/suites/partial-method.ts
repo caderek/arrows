@@ -1,4 +1,4 @@
-import { add, complete, cycle, save, suite } from 'benny'
+import { add, complete, configure, cycle, save, suite } from 'benny'
 import { method, multi } from '../../src'
 
 const { version } = require('../../package.json')
@@ -19,7 +19,10 @@ export default suite(
   }),
 
   add('Create partial method - (fn, fn)', () => {
-    method(() => null, () => null)
+    method(
+      () => null,
+      () => null,
+    )
   }),
 
   add('Create partial method - (fn, val)', () => {
@@ -30,7 +33,10 @@ export default suite(
     method('foo', () => null)
   }),
 
+  configure({ cases: { maxTime: 15 } }),
+
   cycle(),
   complete(),
   save({ file: `${version}-partial-method`, version }),
+  save({ file: `${version}-partial-method`, format: 'chart.html' }),
 )

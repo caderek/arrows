@@ -177,4 +177,5 @@ export default suite(
   cycle(),
   complete(),
   save({ file: `${version}-multimethod-execution`, version }),
+  save({ file: `${version}-multimethod-execution`, format: 'chart.html' }),
 )

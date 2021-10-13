@@ -30,3 +30,9 @@ First stable release.
 
 - Updated dependencies.
 - Improved typings.
+
+## 1.2.0
+
+- Added regexp case value,
+- Fixed `multi` executed with single method
+- Improved documentation

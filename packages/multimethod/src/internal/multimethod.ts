@@ -62,6 +62,12 @@ const findTarget: FindTarget = (
     switch (dispatchEntry.type) {
       case 'skip':
         return true
+      case 'not':
+        return dispatchEntry.value !== currentDispatchValue
+      case 'in':
+        return dispatchEntry.value.includes(currentDispatchValue)
+      case 'notIn':
+        return !dispatchEntry.value.includes(currentDispatchValue)
       case 'value':
         return equal(dispatchEntry.value, currentDispatchValue)
       case 'function':
@@ -74,11 +80,17 @@ const findTarget: FindTarget = (
       case 'regexp':
         return dispatchEntry.value.test(currentDispatchValue)
       case 'mixed':
-        return dispatchEntry.values
-          .map((item: MixedCaseTypes, index: number) => {
+        return dispatchEntry.values.every(
+          (item: MixedCaseTypes, index: number) => {
             switch (item.type) {
               case 'skip':
                 return true
+              case 'not':
+                return item.value !== currentDispatchValue[index]
+              case 'in':
+                return item.value.includes(currentDispatchValue[index])
+              case 'notIn':
+                return !item.value.includes(currentDispatchValue[index])
               case 'constructor':
                 return (
                   currentDispatchValue[index] === item.value ||
@@ -89,8 +101,8 @@ const findTarget: FindTarget = (
               case 'regexp':
                 return item.value.test(currentDispatchValue[index])
             }
-          })
-          .every((matching: boolean) => matching === true)
+          },
+        )
     }
   })
 

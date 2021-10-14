@@ -1,12 +1,25 @@
 import isConstructor from './isConstructor'
 import { CaseEntry, MixedCaseEntry } from './types'
-import __ from '../__'
+import __, { _in, _not, _notIn, _skip } from '../__'
+import { notDeepEqual } from 'assert'
 
 type CreateCaseEntry = (caseValue: any) => CaseEntry
 
 const createCaseEntry: CreateCaseEntry = (caseValue) => {
-  if (caseValue === __) {
+  if (caseValue.type === _skip) {
     return { type: 'skip' }
+  }
+
+  if (caseValue.type === _not) {
+    return { type: 'not', value: caseValue.value }
+  }
+
+  if (caseValue.type === _in) {
+    return { type: 'in', value: caseValue.values }
+  }
+
+  if (caseValue.type === _notIn) {
+    return { type: 'notIn', value: caseValue.values }
   }
 
   if (isConstructor(caseValue)) {
@@ -30,8 +43,14 @@ const createCaseEntry: CreateCaseEntry = (caseValue) => {
     return {
       type: 'mixed',
       values: caseValue.map((item) => {
-        return item === __
+        return item.type === _skip
           ? { type: 'skip' }
+          : item.type === _not
+          ? { type: 'not', value: item.value }
+          : item.type === _in
+          ? { type: 'in', value: item.values }
+          : item.type === _notIn
+          ? { type: 'notIn', value: item.values }
           : {
               type: isConstructor(item)
                 ? 'constructor'

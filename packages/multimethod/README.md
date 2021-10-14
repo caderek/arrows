@@ -368,13 +368,13 @@ Example:
 const productCategory = multi(
   method(/wine/, 'wine'),
   method(/cheese/, 'cheese'),
-  method(/milk/, 'milk'),
+  method(/bread/, 'bread'),
 )
 
 productCategory('blue cheese') // -> "cheese"
 productCategory('red wine') // -> "wine"
 productCategory('white wine from Germany') // -> "wine"
-sendMessage('breadcrumbs') // -> "bread"
+productCategory('breadcrumbs') // -> "bread"
 ```
 
 ---
@@ -393,7 +393,7 @@ Wildcards are especially useful when we need to check the correctness of the arg
 Examples:
 
 ```js
-const {multi, method, __} = require('@arrows/multimethod')
+const { multi, method, __ } = require('@arrows/multimethod')
 /**
  * Function with case values containing wildcards.
  * These values always resolve to true.
@@ -402,46 +402,56 @@ const {multi, method, __} = require('@arrows/multimethod')
  * @returns {string} type
  */
 const checkArgs = multi(
-  (...args) => args.map(arg => typeof arg)
+  (...args) => args.map((arg) => typeof arg),
+
   // Skipping check on the first argument
   method([__, 'function', 'function'], () => {
     throw new Error('To many functions')
   }),
+
   // Skipping check on the second argument
   method(['object', __, 'function'], () => {
     throw new Error('Wrong combination')
   }),
+
   method((a, b, c) => 'ok'),
 )
 
-checkArgs(1, () => 2, () => 3) // -> Error: To many functions
+checkArgs(
+  1,
+  () => 2,
+  () => 3,
+) // -> Error: To many functions
 checkArgs({ id: 1 }, 2, () => 3) // -> Error: Wrong combination
 checkArgs(1, { id: 2 }, () => 3) // -> "ok"
 ```
 
 ```js
-const {multi, method, __} = require('@arrows/multimethod')
+const { multi, method, __ } = require('@arrows/multimethod')
 /**
  * Function with case values containing wildcard methods.
  *
  * @param {RegExp} pattern
  * @returns {string} type
  */
-const checkArgs = multi(
-  (...args) => args.map(arg => typeof arg)
+const checkArgs2 = multi(
+  (a, b, c) => [typeof a, typeof b],
+
   method([__.not('number'), __], () => {
     throw new Error('First argument should be a number')
   }),
+
   method([__, __.notIn('string', 'number')], () => {
     throw new Error('Second argument should be a number or a string')
   }),
+
   method((a, b, c) => 'ok'),
 )
 
-checkArgs('a', 1) // -> Error: First argument should be a number
-checkArgs(1, [2, 3]) // -> Error: Second argument should be a number or a string
-checkArgs(1, 2) // -> "ok"
-checkArgs(5, 'b') // -> "ok"
+checkArgs2('a', 1) // -> Error: First argument should be a number
+checkArgs2(1, [2, 3]) // -> Error: Second argument should be a number or a string
+checkArgs2(1, 2) // -> "ok"
+checkArgs2(5, 'b') // -> "ok"
 ```
 
 ---

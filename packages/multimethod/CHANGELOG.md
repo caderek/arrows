@@ -39,4 +39,8 @@ First stable release.
 
 ## 1.3.0
 
-- Added placeholder \_\_ caseValue (works with mixed case values and single case values)
+- Added wildcard \_\_ caseValue
+
+## 1.4.0
+
+- Added wildcard methods: [docs](https://github.com/caderek/arrows/blob/master/packages/multimethod/README.md#wildcard-or-its-methods)

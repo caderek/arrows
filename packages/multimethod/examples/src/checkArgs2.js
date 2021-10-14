@@ -1,22 +1,31 @@
-const { multi, method, __ } = require('@arrows/multimethod')
+const { multi, method, _ } = require('@arrows/multimethod')
+
+/* Custom predicates */
+const not = (y) => (x) => x !== y
+const notIn = (...args) => (x) => !args.includes(x)
+
 /**
- * Function with case values containing wildcard methods.
+ * Function with case value ans an array
+ * that contains predicate functions.
  *
- * @param {RegExp} pattern
- * @returns {string} type
+ * Very powerful when paired with wildcards.
+ *
+ * @param {any} a
+ * @param {any} b
+ * @returns {string}
  */
 const checkArgs2 = multi(
-  (a, b, c) => [typeof a, typeof b],
+  (a, b) => [typeof a, typeof b],
 
-  method([__.not('number'), __], () => {
+  method([not('number'), _], () => {
     throw new Error('First argument should be a number')
   }),
 
-  method([__, __.notIn('string', 'number')], () => {
+  method([_, notIn('string', 'number')], () => {
     throw new Error('Second argument should be a number or a string')
   }),
 
-  method((a, b, c) => 'ok'),
+  method((a, b) => 'ok'),
 )
 
 console.log(

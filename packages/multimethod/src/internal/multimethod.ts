@@ -62,44 +62,46 @@ const findTarget: FindTarget = (
     switch (dispatchEntry.type) {
       case 'skip':
         return true
-      case 'not':
-        return dispatchEntry.value !== currentDispatchValue
-      case 'in':
-        return dispatchEntry.value.includes(currentDispatchValue)
-      case 'notIn':
-        return !dispatchEntry.value.includes(currentDispatchValue)
       case 'value':
         return equal(dispatchEntry.value, currentDispatchValue)
       case 'function':
-        return dispatchEntry.value(...args)
+        return (
+          currentDispatchValue === dispatchEntry.value ||
+          dispatchEntry.value(...args)
+        )
       case 'constructor':
         return (
           currentDispatchValue === dispatchEntry.value ||
           currentDispatchValue instanceof dispatchEntry.value
         )
       case 'regexp':
-        return dispatchEntry.value.test(currentDispatchValue)
+        return (
+          currentDispatchValue === dispatchEntry.value ||
+          dispatchEntry.value.test(currentDispatchValue)
+        )
       case 'mixed':
         return dispatchEntry.values.every(
           (item: MixedCaseTypes, index: number) => {
             switch (item.type) {
               case 'skip':
                 return true
-              case 'not':
-                return item.value !== currentDispatchValue[index]
-              case 'in':
-                return item.value.includes(currentDispatchValue[index])
-              case 'notIn':
-                return !item.value.includes(currentDispatchValue[index])
+              case 'value':
+                return equal(item.value, currentDispatchValue[index])
+              case 'function':
+                return (
+                  currentDispatchValue[index] === item.value ||
+                  item.value(currentDispatchValue[index])
+                )
               case 'constructor':
                 return (
                   currentDispatchValue[index] === item.value ||
                   currentDispatchValue[index] instanceof item.value
                 )
-              case 'value':
-                return equal(item.value, currentDispatchValue[index])
               case 'regexp':
-                return item.value.test(currentDispatchValue[index])
+                return (
+                  currentDispatchValue[index] === item.value ||
+                  item.value.test(currentDispatchValue[index])
+                )
             }
           },
         )

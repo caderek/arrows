@@ -5,6 +5,6 @@
   "license": "ISC",
   "dependencies": {
     "@arrows/composition": "^1.0.0",
-    "@arrows/multimethod": "^1.4.0"
+    "@arrows/multimethod": "^2.0.0"
   }
 }

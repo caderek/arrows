@@ -263,23 +263,165 @@ handleAction({ type: 'TOGGLE_TODO', id: 0 }, store) // -> "todo toggled"
 
 The case value is the first argument of the two-argument `method` (if you provide only one argument to the `method`, it will be treated as a default case).
 
-Case value can be either:
+Case value can be anything:
 
-1. an ordinary function
-2. a constructor / class
-3. regular expression
-4. wildcard (`__`) or its methods
-5. any other value
-6. array containing any of the cases above
+- an ordinary value
+- a constructor / class
+- a regular expression
+- a wildcard (`_`)
+- a predicate function
+- an array containing any of the cases above
 
 You can mix all case value types in one multimethod.
 
 ---
 
-##### Ordinary function
+##### Ordinary value
 
-If the case value is an ordinary function, the dispatch function will be ignored,
-and the case value function will be executed with all provided arguments. Case value function should return a boolean value (or at least the output will be treated as such).
+If the case value is neither a predicate function, regular expression, constructor nor a wildcard, it will be matched against the result of the dispatch function using the deep strict equal algorithm.
+
+Examples:
+
+```js
+/**
+ * Function with case values as ordinary values.
+ * Values can be any JSON-compatible, arbitrary nested structure, or primitive.
+ * Matched by the deep strict equal algorithm.
+ *
+ * @param {Object} player
+ * @returns {string} greeting
+ */
+const greet = multi(
+  method({ name: 'John', age: '30' }, 'Hello John!'),
+  method({ name: 'Jane', age: '25' }, 'Hi Jane!'),
+  method('Howdy stranger!'),
+)
+
+greet({ name: 'John', age: '30' }) // -> "Hello John!"
+greet({ name: 'Jane', age: '25' }) // -> "Hi Jane!"
+greet({ name: 'Jane', age: '40' }) // -> "Howdy stranger!"
+```
+
+---
+
+##### Constructor / class
+
+If the case value is a constructor, it will be matched against the result of the dispatch function by the strict equality (`===`) operator,
+and if that fails — by the `instanceof` operator.
+
+Example:
+
+```js
+class Email {}
+class SMS {}
+
+/**
+ * Function with case values as constructors.
+ * Matched by strict equality check, followed by instanceof check.
+ *
+ * @param {Object} message
+ * @returns {string} status
+ */
+const sendMessage = multi(
+  method(Email, 'Sending email...'),
+  method(SMS, 'Sending SMS...'),
+)
+
+sendMessage(new Email()) // -> "Sending email..."
+sendMessage(new SMS()) // -> "Sending SMS..."
+
+sendMessage(Email) // -> "Sending email..."
+sendMessage(SMS) // -> "Sending SMS..."
+```
+
+---
+
+##### Regular Expression
+
+If the case value is a regular expression it will be matched against the result of the dispatch function by the strict equality (`===`) operator,
+and if that fails — by the `RegExp.prototype.test()` method.
+
+Example:
+
+```js
+/**
+ * Function with case values as regular expressions.
+ * Matched by RegExp.prototype.test() method
+ *
+ * @param {RegExp} pattern
+ * @returns {string} type
+ */
+const productCategory = multi(
+  method(/wine/, 'wine'),
+  method(/cheese/, 'cheese'),
+  method(/bread/, 'bread'),
+)
+
+productCategory('blue cheese') // -> "cheese"
+productCategory('red wine') // -> "wine"
+productCategory('white wine from Germany') // -> "wine"
+productCategory('breadcrumbs') // -> "bread"
+```
+
+---
+
+##### Wildcard
+
+If the case value is the wildcard (`_`) it matches any value.
+
+Wildcards (especially paired with the predicate functions) are very useful when you need to check the correctness of the arguments, or shuffle them around (when multimethod has multiple valid signatures).
+
+Wildcard is functionally equivalent to the predicate function that always return true: `() => true`. It is a bit faster, because it does not execute unnecessary function.
+
+Example:
+
+```js
+const { multi, method, _ } = require('@arrows/multimethod')
+
+/**
+ * Function with case values containing wildcards.
+ * These values always resolve to true.
+ *
+ * @param {any} a
+ * @param {any} b
+ * @param {any} c
+ * @returns {string}
+ */
+const checkArgs = multi(
+  (...args) => args.map((arg) => typeof arg),
+
+  // Skipping check on the first argument
+  method([_, 'function', 'function'], () => {
+    throw new Error('To many functions')
+  }),
+
+  // Skipping check on the second argument
+  method(['object', _, 'function'], () => {
+    throw new Error('Wrong combination')
+  }),
+
+  method((a, b, c) => 'ok'),
+)
+
+checkArgs(
+  1,
+  () => 2,
+  () => 3,
+) // -> Error: To many functions
+checkArgs({ id: 1 }, 2, () => 3) // -> Error: Wrong combination
+checkArgs(1, { id: 2 }, () => 3) // -> "ok"
+```
+
+---
+
+##### Predicate function
+
+If the case value is a function it will be matched against the result of the dispatch function by the strict equality (`===`) operator,
+and if that fails — , and if that fails, the original dispatch function will be ignored,
+and the case value function will be executed with all provided arguments.
+
+Case value function should return a boolean value (or at least the output will be treated as such).
+
 If the return value is truthy, then we have a match.
 
 Example:
@@ -317,135 +459,43 @@ router({ method: 'POST', url: '/' }) // -> "Oops!"
 router({ method: 'GET', url: '/users' }) // -> [{ id: 1, name: "John" }]
 ```
 
----
+##### Predicate functions inside an array
 
-##### Constructor / class
+Predicate functions inside an array have slightly different behavior, they receive as an argument the value supplied by the dispatch function at the current position. They do not receive all arguments, and do not override dispatch function.
 
-If the case value is a constructor, it will be matched against the result of the dispatch function by strict equality (`===`) operator,
-and if that fails — by the `instanceof` operator.
-
-Example:
-
-```js
-class Email {}
-class SMS {}
-
-/**
- * Function with case values as constructors.
- * Matched by strict equality check, followed by instanceof check.
- *
- * @param {Object} message
- * @returns {string} status
- */
-const sendMessage = multi(
-  method(Email, 'Sending email...'),
-  method(SMS, 'Sending SMS...'),
-)
-
-sendMessage(new Email()) // -> "Sending email..."
-sendMessage(new SMS()) // -> "Sending SMS..."
-
-sendMessage(Email) // -> "Sending email..."
-sendMessage(SMS) // -> "Sending SMS..."
-```
-
----
-
-##### Regular Expression
-
-If the case value is a regular expression it will be matched against the result of the dispatch function by the `RegExp.prototype.test()` method.
+That way you can fine-tune checks for every argument, going beyond simple equality check.
 
 Example:
 
 ```js
+const { multi, method, _ } = require('@arrows/multimethod')
+
+/* Custom predicates */
+const not = (y) => (x) => x !== y
+const notIn = (...args) => (x) => !args.includes(x)
+
 /**
- * Function with case values as regular expressions.
- * Matched by RegExp.prototype.test() method
+ * Function with case value ans an array
+ * that contains predicate functions.
  *
- * @param {RegExp} pattern
- * @returns {string} type
- */
-const productCategory = multi(
-  method(/wine/, 'wine'),
-  method(/cheese/, 'cheese'),
-  method(/bread/, 'bread'),
-)
-
-productCategory('blue cheese') // -> "cheese"
-productCategory('red wine') // -> "wine"
-productCategory('white wine from Germany') // -> "wine"
-productCategory('breadcrumbs') // -> "bread"
-```
-
----
-
-##### Wildcard or its methods
-
-If the case value is the wildcard (`__`) or its methods:
-
-- `__` - matches any value (effectively skipping that check)
-- `__.not(val)` - matches if the value is not the specified one
-- `__.in(val1, val2, ..., valN)` - matches if the value is included in the list
-- `__.notIn(val1, val2, ..., valN)` - matches if the value is not included in the list
-
-Wildcards are especially useful when we need to check the correctness of the arguments, or shuffle them around (multiple valid signatures).
-
-Examples:
-
-```js
-const { multi, method, __ } = require('@arrows/multimethod')
-/**
- * Function with case values containing wildcards.
- * These values always resolve to true.
+ * Very powerful when paired with wildcards.
  *
- * @param {RegExp} pattern
- * @returns {string} type
- */
-const checkArgs = multi(
-  (...args) => args.map((arg) => typeof arg),
-
-  // Skipping check on the first argument
-  method([__, 'function', 'function'], () => {
-    throw new Error('To many functions')
-  }),
-
-  // Skipping check on the second argument
-  method(['object', __, 'function'], () => {
-    throw new Error('Wrong combination')
-  }),
-
-  method((a, b, c) => 'ok'),
-)
-
-checkArgs(
-  1,
-  () => 2,
-  () => 3,
-) // -> Error: To many functions
-checkArgs({ id: 1 }, 2, () => 3) // -> Error: Wrong combination
-checkArgs(1, { id: 2 }, () => 3) // -> "ok"
-```
-
-```js
-const { multi, method, __ } = require('@arrows/multimethod')
-/**
- * Function with case values containing wildcard methods.
- *
- * @param {RegExp} pattern
- * @returns {string} type
+ * @param {any} a
+ * @param {any} b
+ * @returns {string}
  */
 const checkArgs2 = multi(
-  (a, b, c) => [typeof a, typeof b],
+  (a, b) => [typeof a, typeof b],
 
-  method([__.not('number'), __], () => {
+  method([not('number'), _], () => {
     throw new Error('First argument should be a number')
   }),
 
-  method([__, __.notIn('string', 'number')], () => {
+  method([_, notIn('string', 'number')], () => {
     throw new Error('Second argument should be a number or a string')
   }),
 
-  method((a, b, c) => 'ok'),
+  method((a, b) => 'ok'),
 )
 
 checkArgs2('a', 1) // -> Error: First argument should be a number
@@ -456,41 +506,14 @@ checkArgs2(5, 'b') // -> "ok"
 
 ---
 
-#### Ordinary value
-
-If the case value is neither a function, regular expression, constructor nor a wildcard, it will be matched against the result of the dispatch function using the deep strict equal algorithm.
-
-Examples:
-
-```js
-/**
- * Function with case values as ordinary values.
- * Values can be any JSON-compatible, arbitrary nested structure, or primitive.
- * Matched by the deep strict equal algorithm.
- *
- * @param {Object} player
- * @returns {string} greeting
- */
-const greet = multi(
-  method({ name: 'John', age: '30' }, 'Hello John!'),
-  method({ name: 'Jane', age: '25' }, 'Hi Jane!'),
-  method('Howdy stranger!'),
-)
-
-greet({ name: 'John', age: '30' }) // -> "Hello John!"
-greet({ name: 'Jane', age: '25' }) // -> "Hi Jane!"
-greet({ name: 'Jane', age: '40' }) // -> "Howdy stranger!"
-```
-
----
-
 ##### Array with special cases
 
 If the case value is an array that contains any of those:
 
 - a constructor / class
 - regular expression
-- wildcard (`__`) or its methods
+- wildcard (`_`)
+- predicate function
 
 then these values will be matched according to their specific algorithms (but only if they are at the first level of the array).
 
@@ -528,7 +551,7 @@ embed(new Article(), new PDF()) // -> "Embedding article inside PDF"
 embed(new Recipe(), new HTML()) // -> "Embedding recipe inside HTML"
 ```
 
-You may also notice that I already used this method in wildcard usage examples!
+You may also noticed that I already used this method in the wildcard and the predicate function examples!
 
 ---
 

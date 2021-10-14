@@ -6,7 +6,7 @@ import {
   NotMethodError,
   NotMultimethodError,
 } from './errors'
-import { multi, method, fromMulti, __ } from './index'
+import { multi, method, fromMulti, _ } from './index'
 
 describe('multi', () => {
   describe('executed without any arguments', () => {
@@ -285,36 +285,36 @@ describe('multimethod', () => {
     })
   })
 
-  describe('when case is a wildcard __ and dispatch is not chunked', () => {
+  describe('when case is a wildcard _ and dispatch is not chunked', () => {
     it('matches any value', () => {
-      const multimethod = multi(method(__, 'ok'), method('default'))
+      const multimethod = multi(method(_, 'ok'), method('default'))
 
-      expect(multimethod(__)).toEqual('ok')
+      expect(multimethod(_)).toEqual('ok')
       expect(multimethod('hello')).toEqual('ok')
       expect(multimethod(/abc/)).toEqual('ok')
     })
   })
 
-  describe('when case is a wildcard __ and dispatch is chunked', () => {
+  describe('when case is a wildcard _ and dispatch is chunked', () => {
     it('matches any value', () => {
       const multimethod = multi(
         () => () => (val) => val,
-        method(__, 'ok'),
+        method(_, 'ok'),
         method('default'),
       )
 
-      expect(multimethod()()(__)).toEqual('ok')
+      expect(multimethod()()(_)).toEqual('ok')
       expect(multimethod()()('hello')).toEqual('ok')
       expect(multimethod()()(/abc/)).toEqual('ok')
     })
   })
 
-  describe('when case is a wildcard __ inside mixed case value', () => {
+  describe('when case is a wildcard _ inside mixed case value', () => {
     it('matches only if value is not the specified one', () => {
       const multimethod = multi(
         (a, b) => [a, b],
-        method([1, __], '1'),
-        method([__, 2], '2'),
+        method([1, _], '1'),
+        method([_, 2], '2'),
         method('default'),
       )
 
@@ -324,34 +324,14 @@ describe('multimethod', () => {
     })
   })
 
-  describe('when case is a __.not() helper and dispatch is not chunked', () => {
-    it('matches only if value is not the specified one', () => {
-      const multimethod = multi(method(__.not(1), 'ok'), method('default'))
+  describe('when case is a predicate inside mixed case value', () => {
+    it('matches only if value fulfills the predicate', () => {
+      const not = (x) => (y) => x !== y
 
-      expect(multimethod(1)).toEqual('default')
-      expect(multimethod(2)).toEqual('ok')
-    })
-  })
-
-  describe('when case is a __.not() helper and dispatch is chunked', () => {
-    it('matches only if value is not the specified one', () => {
-      const multimethod = multi(
-        () => () => (val) => val,
-        method(__.not(1), 'ok'),
-        method('default'),
-      )
-
-      expect(multimethod()()(1)).toEqual('default')
-      expect(multimethod()()(2)).toEqual('ok')
-    })
-  })
-
-  describe('when case is a __.not() helper inside mixed case value', () => {
-    it('matches only if value is not the specified one', () => {
       const multimethod = multi(
         (a, b) => [a, b],
-        method([__.not(1), __], 'not 1'),
-        method([__, __.not(2)], 'not 2'),
+        method([not(1), _], 'not 1'),
+        method([_, not(2)], 'not 2'),
         method('default'),
       )
 
@@ -362,90 +342,21 @@ describe('multimethod', () => {
     })
   })
 
-  describe('when case is an __.in() helper and dispatch is not chunked', () => {
-    it('matches only if value is included in specified values', () => {
-      const multimethod = multi(method(__.in(1, 2, 3), 'ok'), method('default'))
+  describe('when case is a predicate inside mixed case value - chunked', () => {
+    it('matches only if value fulfills the predicate', () => {
+      const not = (x) => (y) => x !== y
 
-      expect(multimethod(1)).toEqual('ok')
-      expect(multimethod(3)).toEqual('ok')
-      expect(multimethod(5)).toEqual('default')
-    })
-  })
-
-  describe('when case is an __.in() helper and dispatch is chunked', () => {
-    it('matches only if value is included in specified values', () => {
       const multimethod = multi(
-        () => () => (val) => val,
-        method(__.in(1, 2, 3), 'ok'),
+        () => (a) => (b) => [a, b],
+        method([not(1), _], 'not 1'),
+        method([_, not(2)], 'not 2'),
         method('default'),
       )
 
-      expect(multimethod()()(1)).toEqual('ok')
-      expect(multimethod()()(3)).toEqual('ok')
-      expect(multimethod()()(5)).toEqual('default')
-    })
-  })
-
-  describe('when case is an __.in() helper inside mixed case value', () => {
-    it('matches only if value is included in specified values', () => {
-      const multimethod = multi(
-        (a, b) => [a, b],
-        method([__.in(1, 2, 3), __], 'in [1, 2, 3]'),
-        method([__, __.in(4, 5, 6)], 'in [4, 5, 6]'),
-        method('default'),
-      )
-
-      expect(multimethod(1, 2)).toEqual('in [1, 2, 3]')
-      expect(multimethod(2, 4)).toEqual('in [1, 2, 3]')
-      expect(multimethod(4, 4)).toEqual('in [4, 5, 6]')
-      expect(multimethod(8, 5)).toEqual('in [4, 5, 6]')
-      expect(multimethod(4, 3)).toEqual('default')
-      expect(multimethod(9, 9)).toEqual('default')
-    })
-  })
-
-  describe('when case is a __.notIn() helper and dispatch is not chunked', () => {
-    it('matches only if value is not included in specified values', () => {
-      const multimethod = multi(
-        method(__.notIn(1, 2, 3), 'ok'),
-        method('default'),
-      )
-
-      expect(multimethod(1)).toEqual('default')
-      expect(multimethod(3)).toEqual('default')
-      expect(multimethod(5)).toEqual('ok')
-    })
-  })
-
-  describe('when case is a __.notIn() helper and dispatch is chunked', () => {
-    it('matches only if value is not included in specified values', () => {
-      const multimethod = multi(
-        () => () => (val) => val,
-        method(__.notIn(1, 2, 3), 'ok'),
-        method('default'),
-      )
-
-      expect(multimethod()()(1)).toEqual('default')
-      expect(multimethod()()(3)).toEqual('default')
-      expect(multimethod()()(5)).toEqual('ok')
-    })
-  })
-
-  describe('when case is a __.notIn() helper inside mixed case value', () => {
-    it('matches only if value is not included in specified values', () => {
-      const multimethod = multi(
-        (a, b) => [a, b],
-        method([__.notIn(1, 2, 3), __], 'not in [1, 2, 3]'),
-        method([__, __.notIn(4, 5, 6)], 'not in [4, 5, 6]'),
-        method('default'),
-      )
-
-      expect(multimethod(5, 2)).toEqual('not in [1, 2, 3]')
-      expect(multimethod(5, 4)).toEqual('not in [1, 2, 3]')
-      expect(multimethod(1, 1)).toEqual('not in [4, 5, 6]')
-      expect(multimethod(2, 7)).toEqual('not in [4, 5, 6]')
-      expect(multimethod(1, 4)).toEqual('default')
-      expect(multimethod(3, 6)).toEqual('default')
+      expect(multimethod()(1)(2)).toEqual('default')
+      expect(multimethod()(2)(1)).toEqual('not 1')
+      expect(multimethod()(1)(3)).toEqual('not 2')
+      expect(multimethod()(2)(2)).toEqual('not 1')
     })
   })
 
@@ -544,7 +455,7 @@ describe('multimethod', () => {
         method([Dog, Mouse, 'eat'], 'The dog did not eat the mouse.'),
         method([Dog, Cat, 'eat'], 'The dog did not eat the cat.'),
         method([Dog, Cat, /play/], 'Having fun.'),
-        method([Dog, Cat, __], 'They just stare.'),
+        method([Dog, Cat, _], 'They just stare.'),
       )
 
       expect(fn(new Cat(), new Mouse(), 'eat')).toEqual(
@@ -574,7 +485,7 @@ describe('multimethod', () => {
         method([Dog, Mouse, 'eat'], 'The dog did not eat the mouse.'),
         method([Dog, Cat, 'eat'], 'The dog did not eat the cat.'),
         method([Dog, Cat, /play/], 'Having fun.'),
-        method([Dog, Cat, __], 'They just stare.'),
+        method([Dog, Cat, _], 'They just stare.'),
       )
 
       expect(fn(new Cat(), new Mouse(), 'eat')).toEqual(
@@ -605,7 +516,7 @@ describe('multimethod', () => {
         method([Dog, Mouse, 'eat'], 'The dog did not eat the mouse.'),
         method([Dog, Cat, 'eat'], 'The dog did not eat the cat.'),
         method([Dog, Cat, /play/], 'Having fun.'),
-        method([Dog, Cat, __], 'They just stare.'),
+        method([Dog, Cat, _], 'They just stare.'),
       )
 
       expect(fn(new Cat())(new Mouse())('eat')).toEqual(

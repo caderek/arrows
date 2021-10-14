@@ -54,9 +54,7 @@ export type MixedCaseTypes =
   | ValueCaseEntry
   | RegExpCaseEntry
   | SkipCaseEntry
-  | NotCaseEntry
-  | InCaseEntry
-  | NotInCaseEntry
+  | FunctionCaseEntry
 
 export type MixedCaseEntry = {
   type: 'mixed'
@@ -70,9 +68,6 @@ export type CaseEntry =
   | FunctionCaseEntry
   | MixedCaseEntry
   | SkipCaseEntry
-  | NotCaseEntry
-  | InCaseEntry
-  | NotInCaseEntry
 
 export type Internals = {
   methodEntries: MethodEntries

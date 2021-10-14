@@ -2,13 +2,13 @@ import fromMulti from './fromMulti'
 import { Multi } from './internal/types'
 import method from './method'
 import multi from './multi'
-import __ from './__'
+import _ from './_'
 
-export { fromMulti, method, multi, __, Multi }
+export { fromMulti, method, multi, _, Multi }
 
 export default {
   fromMulti,
   method,
   multi,
-  __,
+  _,
 }

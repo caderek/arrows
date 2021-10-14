@@ -44,3 +44,7 @@ First stable release.
 ## 1.4.0
 
 - Added wildcard methods: [docs](https://github.com/caderek/arrows/blob/master/packages/multimethod/README.md#wildcard-or-its-methods)
+
+## 2.0.0
+
+- Removed wildcard methods in favor of the more flexible custom predicate functions inside the `caseValue` as an array: [docs](https://github.com/caderek/arrows/blob/master/packages/multimethod/README.md#predicate-functions-inside-an-array)

@@ -4,7 +4,7 @@ import _ from '../_'
 
 const createCaseEntry = (caseValue: any): CaseEntry => {
   if (caseValue === _) {
-    return { type: 'skip' }
+    return { type: 'wildcard' }
   }
 
   if (isConstructor(caseValue)) {
@@ -16,7 +16,7 @@ const createCaseEntry = (caseValue: any): CaseEntry => {
   }
 
   if (typeof caseValue === 'function') {
-    return { type: 'function', value: caseValue }
+    return { type: 'predicate', value: caseValue }
   }
 
   if (
@@ -33,7 +33,7 @@ const createCaseEntry = (caseValue: any): CaseEntry => {
       type: 'mixed',
       values: caseValue.map((value) => {
         if (value === _) {
-          return { type: 'skip' }
+          return { type: 'wildcard' }
         }
 
         if (isConstructor(value)) {
@@ -45,7 +45,7 @@ const createCaseEntry = (caseValue: any): CaseEntry => {
         }
 
         if (typeof value === 'function') {
-          return { type: 'function', value }
+          return { type: 'predicate', value }
         }
 
         return { type: 'value', value }

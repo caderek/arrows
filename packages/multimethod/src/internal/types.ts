@@ -10,23 +10,8 @@ export type MethodEntries = MethodEntry[]
 
 export type DefaultMethod = ((arg0: any, arg1?: any) => any) | null
 
-export type SkipCaseEntry = {
-  type: 'skip'
-}
-
-export type NotCaseEntry = {
-  type: 'not'
-  value: any
-}
-
-export type InCaseEntry = {
-  type: 'in'
-  value: any[]
-}
-
-export type NotInCaseEntry = {
-  type: 'notIn'
-  value: any[]
+export type WildcardCaseEntry = {
+  type: 'wildcard'
 }
 
 export type ValueCaseEntry = {
@@ -44,8 +29,8 @@ export type RegExpCaseEntry = {
   value: RegExp
 }
 
-export type FunctionCaseEntry = {
-  type: 'function'
+export type PredicateCaseEntry = {
+  type: 'predicate'
   value: (...args: any[]) => boolean
 }
 
@@ -53,8 +38,8 @@ export type MixedCaseTypes =
   | ConstructorCaseEntry
   | ValueCaseEntry
   | RegExpCaseEntry
-  | SkipCaseEntry
-  | FunctionCaseEntry
+  | WildcardCaseEntry
+  | PredicateCaseEntry
 
 export type MixedCaseEntry = {
   type: 'mixed'
@@ -65,9 +50,9 @@ export type CaseEntry =
   | ValueCaseEntry
   | ConstructorCaseEntry
   | RegExpCaseEntry
-  | FunctionCaseEntry
+  | PredicateCaseEntry
   | MixedCaseEntry
-  | SkipCaseEntry
+  | WildcardCaseEntry
 
 export type Internals = {
   methodEntries: MethodEntries

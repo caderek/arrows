@@ -1,5 +1,5 @@
 import compose from '@arrows/composition/compose'
-import * as equal from 'fast-deep-equal'
+import * as equal from 'fast-deep-equal/es6'
 import {
   FirstArgumentError,
   NoArgumentsError,
@@ -64,7 +64,7 @@ const findTarget: FindTarget = (
         return true
       case 'value':
         return equal(dispatchEntry.value, currentDispatchValue)
-      case 'function':
+      case 'predicate':
         return (
           currentDispatchValue === dispatchEntry.value ||
           dispatchEntry.value(...args)
@@ -83,11 +83,11 @@ const findTarget: FindTarget = (
         return dispatchEntry.values.every(
           (item: MixedCaseTypes, index: number) => {
             switch (item.type) {
-              case 'skip':
+              case 'wildcard':
                 return true
               case 'value':
                 return equal(item.value, currentDispatchValue[index])
-              case 'function':
+              case 'predicate':
                 return (
                   currentDispatchValue[index] === item.value ||
                   item.value(currentDispatchValue[index])

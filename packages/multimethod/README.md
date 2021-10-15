@@ -32,7 +32,9 @@
 4. [API reference](#api-reference)
    - [multi](#multi)
    - [method](#method)
-   - [fromMulti](#fromMulti)
+   - [fromMulti](#frommulti)
+   - [inspect](#inspect)
+   - [wildcard](#wildcard)
 5. [Articles](#articles)
 6. [License](#license)
 
@@ -155,9 +157,9 @@ const myFunction = multi(
 
 Dispatch function produces values, by which multimethod should be dispatched. The return value of the dispatch function is compared with the case values of registered methods.
 
-The matching algorithm uses deep strict equality to find the match. There are two exceptions to this rule, they are described in the [case value](#case-value) section.
+The matching algorithm uses deep strict equality to find the match. There are several exceptions to this rule, they are described in the [case value](#case-value) section.
 
-_Note: The current implementation of the deep strict equal algorithms guarantees the correct results for JSON compatible types, it may be later extended to also handle other types like `Map`, `Set`, etc._
+_Note: The current implementation of the deep strict equal algorithms guarantees the correct results for JSON compatible types, `Map`, `Set`, and `TypedArray`_
 
 If you do not provide a dispatch function, the default one will be used. Default dispatch function returns all arguments as an array, or in case of single argument - as a standalone value.
 
@@ -285,7 +287,8 @@ Examples:
 ```js
 /**
  * Function with case values as ordinary values.
- * Values can be any JSON-compatible, arbitrary nested structure, or primitive.
+ * Values can be any arbitrary nested structure, or a primitive.
+ *
  * Matched by the deep strict equal algorithm.
  *
  * @param {Object} player
@@ -1135,6 +1138,8 @@ multiply(3, 'Beetlejuice! ') // -> 'Beetlejuice! Beetlejuice! Beetlejuice! ' (do
 multiply(2, [1, 2, 3]) // -> throws an Error (no match and no default method for these arguments)
 ```
 
+---
+
 ### method
 
 Adds a method to a multimethod
@@ -1261,6 +1266,8 @@ extendedSend(new Email()) // -> 'Sending email...'
 extendedSend(new SMS()) // -> 'Sending SMS...'
 ```
 
+---
+
 ### fromMulti
 
 Creates a new multimethods from the existing ones, convenient for adding multiple methods.
@@ -1302,6 +1309,101 @@ extendedAdd('foo', 'bar') // -> 'foobar'
 extendedAdd(2n, 3n) // -> 5n
 extendedAdd(5, 5n) // -> 10n
 extendedAdd(9n, 2) // -> 11n
+```
+
+---
+
+### inspect
+
+Retrieves the object with building blocks of the multimethod.
+
+_Note: You should not mutate any of its values._
+
+#### Parameters
+
+- `multimethod` - Multimethod which you want to inspect
+
+#### Returns
+
+- Inspection object with the following getter:
+  - `dispatch` - shows the dispatch function
+  - `entries` - shows all `[caseValue, correspondingValue]` entries
+  - `cases` - shows all `caseValue` items
+  - `values` - shows all `correspondingValue` items
+
+#### Interface
+
+```
+(multimethod) => inspection_object
+```
+
+#### Example
+
+```javascript
+const { multi, method, inspect, _ } = require('@arrows/multimethod')
+
+const mixColors = multi(
+  method(['yellow', 'red'], 'orange'),
+  method(['black', _], 'black'),
+  method(['red', 'blue'], 'purple'),
+  method('no idea'),
+)
+
+const inspectionObject = inspect(mixColors)
+
+console.dir(inspectionObject.entries, { depth: null })
+
+/* Result:
+
+[
+  [ { type: 'data', value: [ 'yellow', 'red' ] }, 'orange' ],
+  [
+    {
+      type: 'mixed',
+      values: [ { type: 'data', value: 'black' }, { type: 'wildcard' } ]
+    },
+    'black'
+  ],
+  [ { type: 'data', value: [ 'red', 'blue' ] }, 'purple' ],
+  [ { type: 'default' }, 'no idea' ]
+]
+
+*/
+
+console.dir(inspectionObject.dispatch, { depth: null })
+
+/* Result:
+
+[Function: implicitDispatch]
+
+*/
+```
+
+---
+
+### wildcard
+
+Special placeholder that matches any value.
+
+#### Example
+
+```javascript
+const { multi, method, _ } = require('@arrows/multimethod')
+
+const hasCallback = multi(
+  (a, b) => [typeof a, typeof b],
+  method(['function', __], true),
+  method([__, 'function'], true),
+  method(false),
+)
+
+hasCallback(() => {}, 'a') // -> true
+hasCallback('b', () => {}) // -> true
+hasCallback(
+  () => {},
+  () => {},
+) // -> true
+hasCallback(3, 4) // -> false
 ```
 
 ## Articles

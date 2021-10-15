@@ -60,9 +60,9 @@ const findTarget: FindTarget = (
 ) => {
   const entry = methodEntries.find(([dispatchEntry]) => {
     switch (dispatchEntry.type) {
-      case 'skip':
+      case 'wildcard':
         return true
-      case 'value':
+      case 'data':
         return equal(dispatchEntry.value, currentDispatchValue)
       case 'predicate':
         return (
@@ -85,7 +85,7 @@ const findTarget: FindTarget = (
             switch (item.type) {
               case 'wildcard':
                 return true
-              case 'value':
+              case 'data':
                 return equal(item.value, currentDispatchValue[index])
               case 'predicate':
                 return (

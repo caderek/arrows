@@ -14,8 +14,8 @@ export type WildcardCaseEntry = {
   type: 'wildcard'
 }
 
-export type ValueCaseEntry = {
-  type: 'value'
+export type DataCaseEntry = {
+  type: 'data'
   value: any
 }
 
@@ -36,7 +36,7 @@ export type PredicateCaseEntry = {
 
 export type MixedCaseTypes =
   | ConstructorCaseEntry
-  | ValueCaseEntry
+  | DataCaseEntry
   | RegExpCaseEntry
   | WildcardCaseEntry
   | PredicateCaseEntry
@@ -47,7 +47,7 @@ export type MixedCaseEntry = {
 }
 
 export type CaseEntry =
-  | ValueCaseEntry
+  | DataCaseEntry
   | ConstructorCaseEntry
   | RegExpCaseEntry
   | PredicateCaseEntry

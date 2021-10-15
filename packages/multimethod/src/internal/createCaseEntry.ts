@@ -48,13 +48,13 @@ const createCaseEntry = (caseValue: any): CaseEntry => {
           return { type: 'predicate', value }
         }
 
-        return { type: 'value', value }
+        return { type: 'data', value }
       }),
     }
   }
 
   return {
-    type: 'value',
+    type: 'data',
     value: caseValue,
   }
 }

@@ -2,7 +2,8 @@ const { multi, method } = require('@arrows/multimethod')
 
 /**
  * Function with case values as ordinary values.
- * Values can be any JSON-compatible, arbitrary nested structure, or primitive.
+ * Values can be any arbitrary nested structure, or a primitive.
+ *
  * Matched by the deep strict equal algorithm.
  *
  * @param {Object} player

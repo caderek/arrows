@@ -1,15 +1,24 @@
 import { multimethodKey } from './internal/multimethod'
-import { MethodEntries, Multimethod } from './internal/types'
+import { Multimethod } from './internal/types'
+import { NoArgumentsError, NotMultimethodError } from './errors'
 
 /**
  * Retrieves the object with building blocks of the multimethod.
  *
- * You should not mutate any values.
+ * You should not mutate any of its values.
  *
  * @param multimethod
- * @returns
+ * @returns Inspection object
  */
 const inspect = (multimethod: Multimethod) => {
+  if (multimethod === undefined) {
+    throw new NoArgumentsError()
+  }
+
+  if (multimethod[multimethodKey] === undefined) {
+    throw new NotMultimethodError()
+  }
+
   const internals = multimethod[multimethodKey]
 
   const entries = [

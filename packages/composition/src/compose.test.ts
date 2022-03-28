@@ -1,4 +1,4 @@
-import { compose } from './compose'
+import { compose } from './index'
 
 describe('compose', () => {
   describe('when partially applied', () => {

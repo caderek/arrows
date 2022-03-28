@@ -1,10 +1,10 @@
-import { compose } from './index'
+import { compose } from './compose'
 
 describe('compose', () => {
   describe('when partially applied', () => {
     it('returns new function that is a composition of supplied functions', () => {
       const fn = compose(
-        (x) => x + 1,
+        (x: number) => x + 1,
         (x: number) => x * 2,
       )
 
@@ -13,7 +13,7 @@ describe('compose', () => {
 
     it('returned function has the arity of one', () => {
       const fn = compose(
-        (x) => x + 1,
+        (x: number) => x + 1,
         (x: number) => x * 2,
       )
 
